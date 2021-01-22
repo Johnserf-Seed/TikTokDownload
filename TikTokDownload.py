@@ -69,6 +69,20 @@ def download(video_url,music_url,video_title,music_title,headers,musicarg):
         input('下载完成，按任意键退出。。。')
         return
 
+def get_info():
+    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=MS4wLjABAAAA5sofqwkCjeZqwtTMs00E5HAg8udRR-warVgfPykwwgk&count=%d' % int(input('输入抓取视频个数，不输入默认抓取全部'))
+    i = 0
+    result = []
+    while result == []:
+        i = i + 1
+        print('---正在第 {} 次尝试...\r'.format(str(i)))
+        response = requests.get(api_post_url)
+        html = json.loads(response.content.decode())
+        if html['aweme_list'] != []:
+            result = html['aweme_list']
+            print('---抓获数据成功...\r')
+    return result
+
 if __name__=="__main__":
     urlarg,musicarg=main()
     headers = {
