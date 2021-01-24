@@ -8,7 +8,7 @@
 @License    :(C)Copyright 2017-2020, Liugroup-NLPR-CASIA
 @Mail       :johnserfseed@gmail.com
 '''
-import requests,re,json,sys,getopt
+import requests,re,json,sys,getopt,time,configparser
 
 def printUsage():
 	print ('''
@@ -69,19 +69,24 @@ def download(video_url,music_url,video_title,music_title,headers,musicarg):
         input('下载完成，按任意键退出。。。')
         return
 
-def get_info():
-    #返回个人主页api数据
-    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=MS4wLjABAAAA5sofqwkCjeZqwtTMs00E5HAg8udRR-warVgfPykwwgk&count=%d' % int(input('输入抓取视频个数，不输入默认抓取全部:'))
+def get_info(count,choose,uid):
+    #获取解码后原地址
+    r = requests.get(url = Find(uid)[0])
+    #获取用户sec_uid
+    key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
+
+    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%d' % (choose,key,count)
     i = 0
     result = []
     while result == []:
         i = i + 1
-        print('---正在第 %d 次尝试...\r' % i)
+        print('---正在进行第 %d 次尝试...\r' % i)
+        time.sleep(0.3)
         response = requests.get(api_post_url)
         html = json.loads(response.content.decode())
         if html['aweme_list'] != []:
             result = html['aweme_list']
-            print('---抓获数据成功...\r')
+            print('---抓获数据成功---\r')
     return result
 
 if __name__=="__main__":
