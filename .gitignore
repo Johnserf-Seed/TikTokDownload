@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#¹ıÂË
+/Download/
+readconf.py
