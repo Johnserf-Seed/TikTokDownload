@@ -1,8 +1,13 @@
-import requests,json,os,time
+import requests,json,os,time,configparser,re
 
 #返回个人主页api数据
-def get_info(count,choose):
-    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=MS4wLjABAAAA5sofqwkCjeZqwtTMs00E5HAg8udRR-warVgfPykwwgk&count=%d' % (choose,count)
+def get_info(count,choose,uid):
+    #获取解码后原地址
+    r = requests.get(url = Find(uid)[0])
+    #获取用户sec_uid
+    key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
+
+    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%d' % (choose,key,count)
     i = 0
     result = []
     while result == []:
@@ -41,6 +46,11 @@ def video_info(count,result):
             pass
     return author_list,video_list,aweme_id,nickname,dynamic_cover
 
+def Find(string): 
+    # findall() 查找匹配正则表达式的字符串
+    url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
+    return url 
+
 #下载作品封面、原声、视频
 def download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,choose):
     for i in range(count):
@@ -60,17 +70,27 @@ def download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,ch
     return
 
 if __name__ == "__main__":
-    count = int(input('输入抓取视频个数：'))
+    #读取用户配置
+    cf = configparser.ConfigParser()
+    cf.read("conf.ini")
+
+    #读取下载视频个数
+    count = int(cf.get("count","count"))
+
     print('''
 抓取用户作品输入1
 抓取用户喜欢作品输入2
     ''')
+
     choose = int(input('请输入：'))
     if choose == 1:
         choose = 'post'
     else:
         choose = 'like'
-    result = get_info(count,choose)
+
+    #uid = cf.get("url","url")
+
+    result = get_info(count,choose,cf.get("url","uid"))
 
     author_list,video_list,aweme_id,nickname,dynamic_cover = video_info(count,result)
 
