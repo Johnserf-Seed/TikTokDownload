@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Description:       
+@Date       :2021/01/23 17:35:42
+@Author     :JohnserfSeed
+@version    :1.0
+@License    :(C)Copyright 2017-2020, Liugroup-NLPR-CASIA
+@Mail       :johnserfseed@gmail.com
+'''
 import requests,json,os,time,configparser,re
 
 #返回个人主页api数据
@@ -53,19 +63,23 @@ def Find(string):
 
 #下载作品封面、原声、视频
 def download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,choose):
+    cf = configparser.ConfigParser()
+    cf.read("conf.ini")
+    save = cf.get("save","url")
     for i in range(count):
         try:
             video = requests.get(video_list[i])
             try:
-                os.makedirs(".\\Download\\" + choose + "\\" + nickname[i])
+                os.makedirs(save + choose + "\\" + nickname[i])
             except:
                 pass
-            with open(".\\Download\\" + choose + "\\" + nickname[i] + '\\' + author_list[i] + '.mp4','wb') as f:
+            with open(save + choose + "\\" + nickname[i] + '\\' + author_list[i] + '.mp4','wb') as f:
                 f.write(video.content)
             dynamic = requests.get(dynamic_cover[i])
-            with open('.\Download\\" + choose + "\\'+ nickname[i] + '\\' + author_list[i] + '.webp','wb') as f:
+            with open(save + choose + '\\'+ nickname[i] + '\\' + author_list[i] + '.webp','wb') as f:
                 f.write(dynamic.content)
         except:
+                         
             pass
     return
 
