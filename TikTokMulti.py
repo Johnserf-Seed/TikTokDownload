@@ -16,7 +16,9 @@ def get_info(count,choose,uid):
     r = requests.get(url = Find(uid)[0])
     #获取用户sec_uid
     key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
-
+    if key == '':
+        key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
+    print(key)
     api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%d' % (choose,key,count)
     i = 0
     result = []
