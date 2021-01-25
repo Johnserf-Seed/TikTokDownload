@@ -9,6 +9,7 @@
 @Mail       :johnserfseed@gmail.com
 '''
 import requests,re,json,sys,getopt,time,configparser
+from retrying import retry
 
 def printUsage():
 	print ('''
@@ -49,32 +50,40 @@ def main():
         elif opt in ("-m","--music"):
             musicarg=arg
     return urlarg,musicarg
-    
+
+@retry(stop_max_attempt_number=3)
 def download(video_url,music_url,video_title,music_title,headers,musicarg):
     #视频下载
-    r=requests.get(url=video_url,headers=headers)
-    if video_title == '':
-        video_title = '此视频没有文案_%s' % music_title
-    with open(f'{video_title}.mp4','wb') as f:
-        f.write(r.content)
-    
-    #原声下载
-    if musicarg != 'yes':
-        input('下载完成，按任意键退出。。。')
+    if video_url == '':
+        print('该视频可能无法下载哦~')
         return
     else:
-        r=requests.get(url=music_url,headers=headers)
-        with open(f'{music_title}.mp3','wb') as f:
+        r=requests.get(url=video_url,headers=headers)
+        if video_title == '':
+            video_title = '此视频没有文案_%s' % music_title
+        with open(f'{video_title}.mp4','wb') as f:
             f.write(r.content)
-        input('下载完成，按任意键退出。。。')
+
+    if music_url == '':
+        input('下载出错，按任意键退出。。。')
         return
+    else:
+        #原声下载
+        if musicarg != 'yes':
+            input('下载完成，按任意键退出。。。')
+            return
+        else:
+            r=requests.get(url=music_url,headers=headers)
+            with open(f'{music_title}.mp3','wb') as f:
+                f.write(r.content)
+            input('下载完成，按任意键退出。。。')
+            return
 
 def get_info(count,choose,uid):
     #获取解码后原地址
     r = requests.get(url = Find(uid)[0])
     #获取用户sec_uid
     key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
-
     api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%d' % (choose,key,count)
     i = 0
     result = []
@@ -98,10 +107,24 @@ if __name__=="__main__":
     key = re.findall('video/(\d+)/',str(r.url))[0]
     jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'    #官方接口
     js = json.loads(requests.get(url = jx_url,headers=headers).text)
-    video_url = str(js['item_list'][0]['video']['play_addr']['url_list'][0]).replace('playwm','play')   #去水印后链接
-    music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
-    video_title = str(js['item_list'][0]['desc'])
-    music_title = str(js['item_list'][0]['music']['author'])
+
+    try:
+        video_url = str(js['item_list'][0]['video']['play_addr']['url_list'][0]).replace('playwm','play')   #去水印后链接
+    except:
+        print('视频链接获取失败')
+        video_url = ''
+    try:
+        music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
+    except:
+        print('该音频目前不可用')
+        music_url = ''
+    try:
+        video_title = str(js['item_list'][0]['desc'])
+        music_title = str(js['item_list'][0]['music']['author'])
+    except:
+        print('标题获取失败')
+        video_title = '视频走丢啦~'
+        music_title = '音频走丢啦~'
 
     download(video_url,music_url,video_title,music_title,headers,musicarg)
 	
