@@ -51,6 +51,6 @@ Win10环境暂时没测，bug情况应该比Win7少
    
 3. 出现长时间的api抓取可能是姿势不对（抖音api比较奇怪）
 
-   <center>**END**</center>
+   **END**
 
    ![表情](https://tvax4.sinaimg.cn/large/006908GAly1gn1dxspeqeg302s02sdgf.gif)
