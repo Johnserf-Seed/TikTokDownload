@@ -79,32 +79,6 @@ def download(video_url,music_url,video_title,music_title,headers,musicarg):
             input('下载完成，按任意键退出。。。')
             return
 
-#返回个人主页api数据
-def get_info(count,choose,uid):
-    #获取解码后原地址
-    r = requests.get(url = Find(uid)[0])
-    #获取用户sec_uid
-    key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
-    if key == '':
-        key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
-        
-    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=0&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (choose,key,str(count))
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36'
-    }
-    i = 0
-    result = []
-    while result == []:
-        i = i + 1
-        print('---正在进行第 %d 次尝试...\r' % i)
-        time.sleep(0.3)
-        response = requests.get(url = api_post_url,headers=headers)
-        html = json.loads(response.content.decode())
-        if html['aweme_list'] != []:
-            result = html['aweme_list']
-            print('---抓获数据成功---\r')
-    return result
-
 if __name__=="__main__":
     urlarg,musicarg=main()
     headers = {
