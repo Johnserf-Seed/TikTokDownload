@@ -9,17 +9,18 @@
 @Mail       :johnserfseed@gmail.com
 '''
 import requests,json,os,time,configparser,re
-
+import sys
+sys.path.append('../')
 #返回个人主页api数据
-def get_info(count,choose,uid):
+def get_info(count,mode,uid):
     #获取解码后原地址
     r = requests.get(url = Find(uid)[0])
     #获取用户sec_uid
     key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
     if key == '':
         key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
-    print(key)
-    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=0&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (choose,key,str(count))
+        
+    api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=0&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (mode,key,str(count))
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36'
     }
@@ -48,7 +49,6 @@ def video_info(count,result):
     nickname = []
     #封面大图
     dynamic_cover = []
-
     for i in range(count):
         try:
             author_list.append(str(result[i]['desc']))
@@ -67,50 +67,61 @@ def Find(string):
     return url 
 
 #下载作品封面、原声、视频
-def download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,choose):
-    cf = configparser.ConfigParser()
-    cf.read("conf.ini")
-    save = cf.get("save","url")
+def download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,mode,save):    
     for i in range(count):
         try:
             video = requests.get(video_list[i])
             try:
-                os.makedirs(save + choose + "\\" + nickname[i])
+                #创建并检测下载目录是否存在
+                os.makedirs(save + mode + "\\" + nickname[i])
             except:
                 pass
-            with open(save + choose + "\\" + nickname[i] + '\\' + author_list[i] + '.mp4','wb') as f:
+            #保存视频
+            with open(save + mode + "\\" + nickname[i] + '\\' + author_list[i] + '.mp4','wb') as f:
                 f.write(video.content)
+            #保存视频动态封面
             dynamic = requests.get(dynamic_cover[i])
-            with open(save + choose + '\\'+ nickname[i] + '\\' + author_list[i] + '.webp','wb') as f:
+            with open(save + mode + '\\'+ nickname[i] + '\\' + author_list[i] + '.webp','wb') as f:
                 f.write(dynamic.content)
-        except:
-                         
+        except:    
             pass
     return
 
-if __name__ == "__main__":
-    #读取用户配置
+def read_conf():
+    #实例化读取配置文件
     cf = configparser.ConfigParser()
-    cf.read("conf.ini")
-
+    #用utf-8防止出错
+    cf.read("conf.ini", encoding="utf-8")
+    #读取保存路径
+    save = cf.get("save","url")
     #读取下载视频个数
     count = int(cf.get("count","count"))
-
-    print('''
-抓取用户作品输入1
-抓取用户喜欢作品输入2
-    ''')
-
-    choose = int(input('请输入：'))
-    if choose == 1:
-        choose = 'post'
-    else:
-        choose = 'like'
-
+    #读取用户主页地址
     uid = cf.get("url","uid")
+    #读取下载模式
+    mode = cf.get("mode","mode")
+    print('读取配置完成....\r')
+    return uid,count,save,mode
 
-    result = get_info(count,choose,uid)
+#主模块执行
+if __name__ == "__main__":
 
+#    print('''
+#抓取用户作品输入1
+#抓取用户喜欢作品输入2
+#    ''')
+    #下载模式选择
+    #mode = int(input('请输入：'))
+    #if mode == 1:
+    #    mode = 'post'
+    #else:
+    #    mode = 'like'
+
+    #读取配置
+    uid,count,save,mode = read_conf()   
+    #返回个人主页api数据
+    result = get_info(count,mode,uid)
+    #处理视频api数据
     author_list,video_list,aweme_id,nickname,dynamic_cover = video_info(count,result)
-
-    download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,choose)
+    #下载全部资源
+    download_all(count,author_list,video_list,aweme_id,nickname,dynamic_cover,mode,save)
