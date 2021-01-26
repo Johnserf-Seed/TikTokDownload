@@ -169,6 +169,29 @@ class TikTok():
         return
 
     def read_conf(self):
+        if os.path.isfile("conf.ini") == True:
+            pass
+        else:
+            print('....没有检测到配置文件，生成中....\r')
+            try:
+                cf = configparser.ConfigParser()
+                # 往配置文件写入内容
+                cf.add_section("url")
+                cf.set("url", "uid", "https://v.douyin.com/J7ECkmp/")
+                cf.add_section("music")
+                cf.set("music", "musicarg", "yes")
+                cf.add_section("count")
+                cf.set("count", "count", "10")
+                cf.add_section("save")
+                cf.set("save", "url", ".\\Download\\")
+                cf.add_section("mode")
+                cf.set("mode", "mode", "post")
+                with open("conf.ini","a+") as f:
+                    cf.write(f)
+                print('....生成成功....')
+            except:
+                input('....生成失败,请前往GItHub下载配置文件....')
+                sys.exit()
         #实例化读取配置文件
         cf = configparser.ConfigParser()
         #用utf-8防止出错
