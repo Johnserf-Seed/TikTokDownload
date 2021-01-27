@@ -81,9 +81,9 @@ class TikTok():
             self.single_down(r.url)
 
         #获取用户sec_uid
-        key = re.findall('&sec_uid=(.*?)&u_code=',str(r.url))[0]
-        if key == '':
-            key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
+        key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
+        #if key == '':
+        #    key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
         api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=0&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (mode,key,str(count))
         header = {
             'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36'
