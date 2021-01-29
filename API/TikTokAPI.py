@@ -12,6 +12,7 @@
 import requests,json,re,os
 from TikTokMulti import TikTok
 
+
 class TikTokAPI():
 
     def __init__(self) -> None:
