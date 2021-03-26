@@ -12,8 +12,10 @@ Win10环境暂时没测，bug情况应该比Win7少
 2. 批量下载可直接修改配置文件，单一视频下载请直接打开粘贴视频链接即可
 
    ![使用界面](https://tva1.sinaimg.cn/large/006908GAly1gn1di75oroj30oi0ca74r.jpg)
+   
+   ![资源文件夹1](https://tvax2.sinaimg.cn/large/006908GAly1goxcsyvyfuj30sd0fbgtq.jpg)
 
-   ![资源文件夹](https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg)
+   ![资源文件夹2](https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg)
 
 3. 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
 
