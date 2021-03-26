@@ -13,7 +13,7 @@ Win10环境暂时没测，bug情况应该比Win7少
 
    ![使用界面](https://tva1.sinaimg.cn/large/006908GAly1gn1di75oroj30oi0ca74r.jpg)
    
-   ![资源文件夹1](https://tvax2.sinaimg.cn/large/006908GAly1goxcsyvyfuj30sd0fbgtq.jpg)
+   ![资源文件夹1](https://tvax3.sinaimg.cn/large/006908GAly1goxcvuln2yj30sd0fbgtq.jpg)
 
    ![资源文件夹2](https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg)
 
