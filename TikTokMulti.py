@@ -178,6 +178,7 @@ class TikTok():
                 print('---抓获数据成功---\r')
             if html['max_cursor'] ==0:
                 break
+        # print(result)
         return result
 
     #获取用户主页信息
@@ -192,7 +193,7 @@ class TikTok():
         nickname = []
         #封面大图
         dynamic_cover = []
-        for i2 in range(count):
+        for i2 in range(len(result)):
             try:
                 author_list.append(str(result[i2]['desc']))
                 video_list.append(str(result[i2]['video']['play_addr']['url_list'][0]))
@@ -212,7 +213,8 @@ class TikTok():
 
     #下载作品封面、原声、视频
     def download_all(self,count,author_list,video_list,aweme_id,nickname,dynamic_cover,mode,save,fileType):
-        for i in range(count):
+        logText = ""
+        for i in range(len(aweme_id)):
             try:
                 #创建并检测下载目录是否存在
                 os.makedirs(save + mode + "/" + nickname[i])
@@ -230,7 +232,9 @@ class TikTok():
                     music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
                     music_title = str(js['item_list'][0]['music']['author'])
                     r=requests.get(music_url)
-                    print('音频 ',music_title,'    下载中\r')
+                    logStr = '音频 ' + music_title + '    下载中\n'
+                    logText = logText + logStr
+                    print(logStr)
                     with open(save + mode + "/" + nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '.mp3','wb') as f:
                         f.write(r.content)
                 except:
@@ -244,7 +248,9 @@ class TikTok():
                     video = requests.get(video_list[i])
                     if (fileType == 0 or fileType == 1):
                         #保存视频
-                        print('视频 ',author_list[i],'    下载中\r')
+                        logStr = '视频 '+ author_list[i] + creat_time + '    下载中\n'
+                        logText = logText + logStr
+                        print(logStr)
                         with open(save + mode + "/" + nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.mp4','wb') as f:
                             f.write(video.content)
                     if (fileType == 0 or fileType == 3):
@@ -254,6 +260,10 @@ class TikTok():
                             f.write(dynamic.content)
                 except:    
                     pass
+
+        log_file_name = save + mode + "/" + nickname[i] + '/' + self.fabu_time(int(time.time())) + '.txt'
+        with open(log_file_name, 'w+') as f:
+                f.write(logText)
         sys.exit(input('....下载完成，按任意键退出....'))
         return
 
