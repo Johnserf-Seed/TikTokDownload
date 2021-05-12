@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Description:TikTokMulti
+@Description:TikTokMulti.py
 @Date       :2021/05/12 19:42:23
 @Author     :JohnserfSeed
 @version    :1.2
@@ -138,6 +138,7 @@ class TikTok():
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
                 print('---抓获数据成功---\r')
+
                 #处理第一页视频信息
                 self.video_info(result,max_cursor)
             else:
@@ -150,6 +151,7 @@ class TikTok():
 
         #获取解码后原地址
         r = requests.get(url = self.Find(self.uid)[0])
+
         #获取用户sec_uid
         key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
 
@@ -170,6 +172,7 @@ class TikTok():
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
                 print('---',max_cursor,'页抓获数据成功---\r')
+
                 #处理下一页视频信息
                 self.video_info(result,max_cursor)
             else:
@@ -178,14 +181,19 @@ class TikTok():
 
     #处理视频信息
     def video_info(self,result,max_cursor):
+
         #作者信息
         author_list = []
+
         #无水印视频链接
         video_list = []
+
         #作品id
         aweme_id = []
+
         #作者id
         nickname = []
+
         #封面大图
         dynamic_cover = []
         for i2 in range(self.count):
@@ -225,15 +233,17 @@ class TikTok():
                     pass
             try:
                 video = requests.get(video_list[i])
+
                 #保存视频
                 print('视频 ',author_list[i],'    下载中\r')
                 with open(self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4','wb') as f:
                     f.write(video.content)
+
                 #保存视频动态封面
                 dynamic = requests.get(dynamic_cover[i])
                 with open(self.save + self.mode + '\\'+ nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.webp','wb') as f:
                     f.write(dynamic.content)
-            except:    
+            except:
                 pass
         self.next_data(max_cursor)
 
