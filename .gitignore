@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+RE_TikTokDownload.py
+TikTokPyPi
+
 # C extensions
 *.so
 
@@ -131,3 +134,4 @@ dmypy.json
 #¹ýÂË
 /Download/
 readconf.py
+.vscode
