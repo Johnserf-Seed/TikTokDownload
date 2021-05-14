@@ -53,7 +53,9 @@
 
 5. 完全保留单一下载模式 Tik TokDownload，批量与单一TikTokMulti（重新构造了代码）
 
-6. 后续可能会更新GUI界面，操作更简单
+6. 编译py文件可以用第三方库，如Pyinstaller等
+
+7. 后续可能会更新GUI界面，操作更简单
 
 
 
