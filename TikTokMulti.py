@@ -224,7 +224,7 @@ class TikTok():
                 music_title = str(js['item_list'][0]['music']['author'])
                 r=requests.get(music_url)
                 print('音频 ',music_title,'    下载中\r')
-                with open(self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '.mp3','wb') as f:
+                with open(self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title, author_list[i]) + '.mp3','wb') as f:
                     f.write(r.content)
             except:
                 if music_url == '':
@@ -240,9 +240,9 @@ class TikTok():
                     f.write(video.content)
 
                 #保存视频动态封面
-                dynamic = requests.get(dynamic_cover[i])
-                with open(self.save + self.mode + '\\'+ nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.webp','wb') as f:
-                    f.write(dynamic.content)
+                #dynamic = requests.get(dynamic_cover[i])
+                #with open(self.save + self.mode + '\\'+ nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.webp','wb') as f:
+                #    f.write(dynamic.content)
             except:
                 pass
         self.next_data(max_cursor)
