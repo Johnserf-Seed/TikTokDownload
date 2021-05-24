@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @Description:TikTokMulti.py
-@Date       :2021/05/12 19:42:23
+@Date       :2021/05/25 00:14:28
 @Author     :JohnserfSeed
 @version    :1.2
 @License    :(C)Copyright 2019-2021, Liugroup-NLPR-CASIA
@@ -116,7 +116,6 @@ class TikTok():
         #构造第一次访问链接
         api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (self.mode,key,str(self.count),max_cursor)
         self.get_data(api_post_url,max_cursor)
-
         return api_post_url,max_cursor,key
 
     #获取第一次api数据
@@ -203,10 +202,11 @@ class TikTok():
                 aweme_id.append(str(result[i2]['aweme_id']))
                 nickname.append(str(result[i2]['author']['nickname']))
                 dynamic_cover.append(str(result[i2]['video']['dynamic_cover']['url_list'][0]))
-                self.videos_download(author_list,video_list,aweme_id,nickname,dynamic_cover)
-            except:
-                print('视频信息处理失败...')
+            except Exception as error:
                 pass
+                #print(error)
+                #input('视频信息处理失败...')
+                #sys.exit()
         self.videos_download(author_list,video_list,aweme_id,nickname,dynamic_cover,max_cursor)      
         return self,author_list,video_list,aweme_id,nickname,dynamic_cover,max_cursor
 
@@ -216,35 +216,44 @@ class TikTok():
                 #创建并检测下载目录是否存在
                 os.makedirs(self.save + self.mode + "\\" + nickname[i])
             except:
+                #有目录不再创建
                 pass
             try:
                 jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={aweme_id[i]}'    #官方接口
                 js = json.loads(requests.get(url = jx_url,headers=self.headers).text)
                 music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
                 music_title = str(js['item_list'][0]['music']['author'])
-                r=requests.get(music_url)
-                print('音频 ',music_title,'    下载中\r')
-                with open(self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title, author_list[i]) + '.mp3','wb') as f:
-                    f.write(r.content)
-            except:
+
+                #保留音频
+                music=requests.get(music_url)
+                print('音频 ',music_title,'-',author_list[i],'    下载中\r')
+                m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                #print(m_url)
+                with open(m_url,'wb') as f:
+                    f.write(music.content)
+            except Exception as error:
+                #print(error)
                 if music_url == '':
                     print('该音频目前不可用\r')
                 else:
                     pass
             try:
                 video = requests.get(video_list[i])
-
                 #保存视频
                 print('视频 ',author_list[i],'    下载中\r')
-                with open(self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4','wb') as f:
+                v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                with open(v_url,'wb') as f:
                     f.write(video.content)
 
                 #保存视频动态封面
                 #dynamic = requests.get(dynamic_cover[i])
                 #with open(self.save + self.mode + '\\'+ nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.webp','wb') as f:
                 #    f.write(dynamic.content)
-            except:
+            except Exception as error:
                 pass
+                #print(error)
+                #input('缓存失败，请检查！')
+                #sys.exit()
         self.next_data(max_cursor)
 
 #主模块执行
