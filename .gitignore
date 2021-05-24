@@ -5,6 +5,7 @@ __pycache__/
 
 RE_TikTokDownload.py
 TikTokPyPi
+upx.exe
 
 # C extensions
 *.so
