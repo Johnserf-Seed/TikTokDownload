@@ -102,13 +102,13 @@ class TikTok():
         #判断输入的是不是用户主页
         if r.url[:37] == multi_url:
             print('....为您下载多个视频....\r')
-            pass
+            #获取用户sec_uid
+            key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
         else:
             print('....为您下载单个视频....\r')
-            TikTokDownload.main()
-
-        #获取用户sec_uid
-        key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
+            urlarg,musicarg = TikTokDownload.main()
+            TikTokDownload.video_download(urlarg,musicarg)
+            return
 
         #第一次访问页码
         max_cursor = 0
