@@ -217,7 +217,10 @@ class TikTok():
         for i in range(len(aweme_id)):
             try:
                 #创建并检测下载目录是否存在
-                os.makedirs(save + mode + "/" + nickname[i])
+                if mode == "post":
+                    os.makedirs(save + mode + "/" + nickname[i])
+                else:
+                    os.makedirs(save + mode)
             except:
                 pass
             jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={aweme_id[i]}'    #官方接口
@@ -235,8 +238,12 @@ class TikTok():
                     logStr = '音频 ' + music_title + '    下载中\n'
                     logText = logText + logStr
                     print(logStr)
-                    with open(save + mode + "/" + nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '.mp3','wb') as f:
-                        f.write(r.content)
+                    if mode == "post": 
+                        with open(save + mode + "/" + nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '.mp3','wb') as f:
+                            f.write(r.content)
+                    else:
+                        with open(save + mode + "/" + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '.mp3','wb') as f:
+                            f.write(r.content)
                 except:
                     if music_url == '':
                         print('该音频目前不可用\r')
@@ -251,17 +258,29 @@ class TikTok():
                         logStr = '视频 '+ author_list[i] + creat_time + '    下载中\n'
                         logText = logText + logStr
                         print(logStr)
-                        with open(save + mode + "/" + nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.mp4','wb') as f:
-                            f.write(video.content)
+                        if mode == "post": 
+                            with open(save + mode + "/" + nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.mp4','wb') as f:
+                                f.write(video.content)
+                        else:
+                            with open(save + mode + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.mp4','wb') as f:
+                                f.write(video.content)
                     if (fileType == 0 or fileType == 3):
                         #保存视频动态封面
                         dynamic = requests.get(dynamic_cover[i])
-                        with open(save + mode + '/'+ nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.webp','wb') as f:
-                            f.write(dynamic.content)
+                        if mode == "post":  
+                            with open(save + mode + '/'+ nickname[i] + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.webp','wb') as f:
+                                f.write(dynamic.content)
+                        else:
+                            with open(save + mode + '/' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + creat_time + '.webp','wb') as f:
+                                f.write(dynamic.content)
                 except:    
                     pass
 
-        log_file_name = save + mode + "/" + nickname[i] + '/' + self.fabu_time(int(time.time())) + '.txt'
+        if mode == "post": 
+            log_file_name = save + mode + "/" + nickname[i] + '/' + self.fabu_time(int(time.time())) + '.txt'
+        else:
+            log_file_name = save + mode + "/" + self.fabu_time(int(time.time())) + '.txt'
+        
         with open(log_file_name, 'w+') as f:
                 f.write(logText)
         sys.exit(input('....下载完成，按任意键退出....'))
