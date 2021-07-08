@@ -75,6 +75,8 @@ class TikTok():
         #读取下载视频个数
         self.count = int(self.cf.get("count","count"))
 
+        self.musicarg = self.cf.get("music","musicarg")
+
         #读取用户主页地址
         self.uid = input('批量下载直接回车，单一视频下载直接粘贴视频链接：')
         if self.uid == '':
@@ -223,14 +225,14 @@ class TikTok():
                 js = json.loads(requests.get(url = jx_url,headers=self.headers).text)
                 music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
                 music_title = str(js['item_list'][0]['music']['author'])
-
-                #保留音频
-                music=requests.get(music_url)
-                print('音频 ',music_title,'-',author_list[i],'    下载中\r')
-                m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
-                #print(m_url)
-                with open(m_url,'wb') as f:
-                    f.write(music.content)
+                if self.musicarg == "yes":
+                    #保留音频
+                    music=requests.get(music_url)
+                    print('音频 ',music_title,'-',author_list[i],'    下载中\r')
+                    m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                    #print(m_url)
+                    with open(m_url,'wb') as f:
+                        f.write(music.content)
             except Exception as error:
                 #print(error)
                 if music_url == '':
