@@ -233,12 +233,13 @@ class TikTok():
                     #print(m_url)
                     with open(m_url,'wb') as f:
                         f.write(music.content)
+                
             except Exception as error:
                 #print(error)
-                if music_url == '':
-                    print('该音频目前不可用\r')
-                else:
-                    pass
+                #if music_url == '':
+                print('该音频目前不可用\r')
+                #else:
+                #    pass
             try:
                 video = requests.get(video_list[i])
                 #保存视频
