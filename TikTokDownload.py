@@ -37,6 +37,7 @@ def main():
         sys.exit(-1)
     try:    
         if opts == []:
+            printUsage()
             urlarg = str(input("请输入抖音链接:"))
             return urlarg,musicarg
     except:
@@ -84,7 +85,7 @@ def video_download(urlarg,musicarg):
             'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
         }
         r = requests.get(url = Find(urlarg)[0])
-        key = re.findall('video/(\d+)/',str(r.url))[0]
+        key = re.findall('video/(\d+)?',str(r.url))[0]
         jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'    #官方接口
         js = json.loads(requests.get(url = jx_url,headers=headers).text)
 
