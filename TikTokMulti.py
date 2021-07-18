@@ -109,7 +109,7 @@ class TikTok():
             #获取用户sec_uid
             #key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
             #key = re.findall('/user/(.*?)?',str(r.url))[0]
-            key  = r.url[28:83.]
+            key  = r.url[28:83]
             print(key)
         else:
             print('....为您下载单个视频....\r')
