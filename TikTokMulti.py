@@ -135,7 +135,7 @@ class TikTok():
         #存储api数据
         result = []
         while result == []:
-            index += 
+            index += 1
             print('---正在进行第 %d 次尝试---\r' % index)
             time.sleep(0.3)
             response = requests.get(url = api_post_url,headers=self.headers)
