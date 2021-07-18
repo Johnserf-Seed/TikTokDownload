@@ -74,7 +74,8 @@ class TikTok():
 
         #读取下载视频个数
         self.count = int(self.cf.get("count","count"))
-
+    
+        #读取下载是否下载音频
         self.musicarg = self.cf.get("music","musicarg")
 
         #读取用户主页地址
@@ -110,7 +111,7 @@ class TikTok():
             #key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
             #key = re.findall('/user/(.*?)?',str(r.url))[0]
             key  = r.url[28:83]
-            print(key)
+            #print(key)
         else:
             print('....为您下载单个视频....\r')
             print(r.url)
@@ -134,13 +135,13 @@ class TikTok():
         #存储api数据
         result = []
         while result == []:
-            index += 1
+            index += 
             print('---正在进行第 %d 次尝试---\r' % index)
             time.sleep(0.3)
             response = requests.get(url = api_post_url,headers=self.headers)
-            print(api_post_url)
+            #print(api_post_url)
             html = json.loads(response.content.decode())
-            print(html)
+            #print(html)
             if html['aweme_list'] != []:
                 #下一页值
                 max_cursor = html['max_cursor']
