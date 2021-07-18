@@ -99,19 +99,21 @@ class TikTok():
     def judge_link(self):
         #获取解码后原地址
         r = requests.get(url = self.Find(self.uid)[0])
-        multi_url = 'https://www.iesdouyin.com/share/user/'
+        multi_url = 'https://www.douyin.com/user/'
+        #multi_url = 'https://www.iesdouyin.com/share/user/'
 
         #判断输入的是不是用户主页
-        if r.url[:37] == multi_url:
+        #if r.url[:27] == multi_url:
+        if r.url[:28] == multi_url:
             print('....为您下载多个视频....\r')
             #获取用户sec_uid
             #key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
             #key = re.findall('/user/(.*?)?',str(r.url))[0]
             key  = r.url[28:83.]
             print(key)
-            key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
         else:
             print('....为您下载单个视频....\r')
+            print(r.url)
             urlarg,musicarg = TikTokDownload.main()
             TikTokDownload.video_download(urlarg,musicarg)
             return
@@ -120,7 +122,7 @@ class TikTok():
         max_cursor = 0
 
         #构造第一次访问链接
-        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (self.mode,key,str(self.count),max_cursor)
+        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (self.mode,key,str(self.count),max_cursor)
         self.get_data(api_post_url,max_cursor)
         return api_post_url,max_cursor,key
 
@@ -136,8 +138,9 @@ class TikTok():
             print('---正在进行第 %d 次尝试---\r' % index)
             time.sleep(0.3)
             response = requests.get(url = api_post_url,headers=self.headers)
+            print(api_post_url)
             html = json.loads(response.content.decode())
-
+            print(html)
             if html['aweme_list'] != []:
                 #下一页值
                 max_cursor = html['max_cursor']
