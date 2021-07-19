@@ -254,7 +254,7 @@ class TikTok():
                         if music.status_code == 200: #判断是否响应成功
                             print('[  音频  ]'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
                             m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
-                            with open(v_url,'wb') as file: #显示进度条
+                            with open(m_url,'wb') as file: #显示进度条
                                 for data in music.iter_content(chunk_size = chunk_size):
                                     file.write(data)
                                     size +=len(data)
