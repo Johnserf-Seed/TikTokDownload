@@ -23,7 +23,7 @@ class TikTok():
         print("#" * 110)
         print( 
     """
-                                                TikTokDownload V1.2
+                                                TikTokDownload V1.2.2
     使用说明：
             1、运行软件前先打开目录下 conf.ini 文件按照要求进行配置
             2、批量下载可直接修改配置文件，单一视频下载请直接打开粘贴视频链接即可
@@ -39,7 +39,7 @@ class TikTok():
         if os.path.isfile("conf.ini") == True:
             pass
         else:
-            print('....没有检测到配置文件，生成中....\r')
+            print('----没有检测到配置文件，生成中----\r')
             try:
                 self.cf = configparser.ConfigParser()
                 # 往配置文件写入内容
@@ -55,9 +55,9 @@ class TikTok():
                 self.cf.set("mode", "mode", "post")
                 with open("conf.ini","a+") as f:
                     self.cf.write(f)
-                print('....生成成功....')
+                print('----生成成功----')
             except:
-                input('....生成失败,正在为您下载配置文件....')
+                input('----生成失败,正在为您下载配置文件----')
                 r =requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.ini')
                 with open("conf.ini", "a+") as conf:
                     conf.write(r.content)
@@ -87,7 +87,11 @@ class TikTok():
 
         #读取下载模式
         self.mode = self.cf.get("mode","mode")
-        print('....读取配置完成....\r')
+
+        #保存用户名
+        self.nickname = ""
+
+        print('----读取配置完成----\r')
         self.judge_link()
 
     #匹配粘贴的url地址
@@ -106,14 +110,15 @@ class TikTok():
         #判断输入的是不是用户主页
         #if r.url[:27] == multi_url:
         if r.url[:28] == multi_url:
-            print('....为您下载多个视频....\r')
+            print('----为您下载多个视频----\r')
             #获取用户sec_uid
             #key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
-            #key = re.findall('/user/(.*?)?',str(r.url))[0]
-            key  = r.url[28:83]
-            #print(key)
+            key = re.findall('/user/(.*?)?',str(r.url))[0]
+            if not key:
+                key  = r.url[28:83]
+            print('----'+'用户的sec_id='+key+'----')
         else:
-            print('....为您下载单个视频....\r')
+            print('----为您下载单个视频----\r')
             print(r.url)
             urlarg,musicarg = TikTokDownload.main()
             TikTokDownload.video_download(urlarg,musicarg)
@@ -136,7 +141,7 @@ class TikTok():
         result = []
         while result == []:
             index += 1
-            print('---正在进行第 %d 次尝试---\r' % index)
+            print('----正在进行第 %d 次尝试----\r' % index)
             time.sleep(0.3)
             response = requests.get(url = api_post_url,headers=self.headers)
             #print(api_post_url)
@@ -144,14 +149,16 @@ class TikTok():
             #print(html)
             if html['aweme_list'] != []:
                 #下一页值
+                self.nickname = html['aweme_list'][0]['author']['nickname']
+                print('[  用户  ]:'+str(self.nickname)+'\r')
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
-                print('---抓获数据成功---\r')
+                print('----抓获数据成功----\r')
 
                 #处理第一页视频信息
                 self.video_info(result,max_cursor)
             else:
-                print('---抓获数据失败---\r')
+                print('----抓获数据失败----\r')
 
         return result,max_cursor
 
@@ -162,7 +169,9 @@ class TikTok():
         r = requests.get(url = self.Find(self.uid)[0])
 
         #获取用户sec_uid
-        key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
+        key = re.findall('/user/(.*?)?',str(r.url))[0]
+        if not key:
+            key  = r.url[28:83]
 
         #构造下一次访问链接
         api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (self.mode,key,str(self.count),max_cursor)
@@ -171,7 +180,7 @@ class TikTok():
         result = []
         while result == []:
             index += 1
-            print('---正在对',max_cursor,'页进行第 %d 次尝试---\r' % index)
+            print('----正在对',max_cursor,'页进行第 %d 次尝试----\r' % index)
             time.sleep(0.3)
             response = requests.get(url = api_naxt_post_url,headers=self.headers)
             html = json.loads(response.content.decode())
@@ -180,12 +189,12 @@ class TikTok():
                 #下一页值
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
-                print('---',max_cursor,'页抓获数据成功---\r')
+                print('----',max_cursor,'页抓获数据成功----\r')
 
                 #处理下一页视频信息
                 self.video_info(result,max_cursor)
             else:
-                print('---',max_cursor,'页抓获数据失败---\r')
+                print('----',max_cursor,'页抓获数据失败----\r')
                 sys.exit()
 
     #处理视频信息
@@ -236,34 +245,70 @@ class TikTok():
                 if self.musicarg == "yes":
                     #保留音频
                     music=requests.get(music_url)
-                    print('音频 ',music_title,'-',author_list[i],'    下载中\r')
-                    m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                    #保存视频
+                    start = time.time() #下载开始时间
+                    size = 0            #初始化已下载大小
+                    chunk_size = 1024   #每次下载的数据大小
+                    content_size = int(music.headers['content-length']) # 下载文件总大小
+                    try:
+                        if music.status_code == 200: #判断是否响应成功
+                            print('[  音频  ]'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
+                            m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                            with open(v_url,'wb') as file: #显示进度条
+                                for data in music.iter_content(chunk_size = chunk_size):
+                                    file.write(data)
+                                    size +=len(data)
+                                    print('\r'+'[下载进度]:%s%.2f%%' % ('>'*int(size*50/ content_size), float(size / content_size * 100)) ,end=' ')
+                                end = time.time() #下载结束时间
+                                print('\n' + '[下载完成]:耗时: %.2f秒\n' % (end - start)) #输出下载用时时间
+                    except:
+                        input('下载音频出错!')
+                    #print('音频 ',music_title,'-',author_list[i],'    下载中\r')
+                    #m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
                     #print(m_url)
-                    with open(m_url,'wb') as f:
-                        f.write(music.content)
-                
+                    #with open(m_url,'wb') as f:
+                    #    f.write(music.content)
             except Exception as error:
                 #print(error)
                 #if music_url == '':
-                print('该音频目前不可用\r')
+                print('该页视频没有'+str(self.count)+'个,已为您跳过')
+                break
+                #print('该音频目前不可用\r')
                 #else:
                 #    pass
             try:
                 video = requests.get(video_list[i])
                 #保存视频
-                print('视频 ',author_list[i],'    下载中\r')
-                v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
-                with open(v_url,'wb') as f:
-                    f.write(video.content)
+                start = time.time() #下载开始时间
+                size = 0            #初始化已下载大小
+                chunk_size = 1024   #每次下载的数据大小
+                content_size = int(video.headers['content-length']) # 下载文件总大小
+                try:
+                    if video.status_code == 200:        #判断是否响应成功
+                        print('[  视频  ]'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
+                        v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                        with open(v_url,'wb') as file: #显示进度条
+                            for data in video.iter_content(chunk_size = chunk_size):
+                                file.write(data)
+                                size +=len(data)
+                                print('\r'+'[下载进度]:%s%.2f%%' % ('>'*int(size*50/ content_size), float(size / content_size * 100)) ,end=' ')
+                            end = time.time()           #下载结束时间
+                            print('\n' + '[下载完成]:耗时: %.2f秒\n' % (end - start)) #输出下载用时时间
+                except:
+                    input('下载视频出错!')
+                #print('视频 ',author_list[i],'    下载中\r')
+                #v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                #with open(v_url,'wb') as f:
+                #    f.write(video.content)
 
                 #保存视频动态封面
                 #dynamic = requests.get(dynamic_cover[i])
                 #with open(self.save + self.mode + '\\'+ nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.webp','wb') as f:
                 #    f.write(dynamic.content)
             except Exception as error:
-                pass
-                #print(error)
-                #input('缓存失败，请检查！')
+                #pass
+                print(error)
+                input('缓存失败，请检查！')
                 #sys.exit()
         self.next_data(max_cursor)
 
