@@ -1,4 +1,4 @@
-# TikTokDownload V1.2
+# TikTokDownload V1.2.2
 **抖音去水印视频下载，使用抖音官方接口**
 
 ![mit](https://img.shields.io/badge/license-MIT-blue)![python: v3.8.5 (shields.io](https://img.shields.io/badge/python-v3.8.5-green)<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/></a>
@@ -11,7 +11,7 @@
 2. ![配置截图](https://tvax1.sinaimg.cn/large/006908GAly1gqg5b6fbvsj30ng09iwes.jpg)
 
 
-1. 本项目制作了pip包，可以输入 ``` pip install TikTokDownload==1.2.3 ```安装
+3. 本项目制作了pip包，可以输入 ``` pip install TikTokDownload==1.2.3 ```安装
 
    ![pypi发布](https://tvax3.sinaimg.cn/large/006908GAly1gqg4j7ppuij30w60nnmxz.jpg)
 
@@ -35,9 +35,9 @@
 
    
 
-2. 批量下载可直接修改配置文件，单一视频下载请直接打开粘贴视频链接即可
+4. 批量下载可直接修改配置文件，单一视频下载请直接打开粘贴视频链接即可
 
-3. ![使用界面](https://tvax1.sinaimg.cn/large/006908GAly1gqg4039ri4j30qo0or42x.jpg)
+5. ![使用界面](https://tva4.sinaimg.cn/large/006908GAly1gsmqp7ghzpj30lt0midoz.jpg)
 
    ![批量保存](https://tvax1.sinaimg.cn/large/006908GAly1gqg4d73rryg31bi0hdx6p.gif)
 
@@ -47,15 +47,15 @@
 
    ![文件夹大小](https://tva3.sinaimg.cn/large/006908GAly1gqg4dny34uj30b10dt0st.jpg)
 
-4. 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
+6. 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
 
    ![issues反馈](https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg)
 
-5. 完全保留单一下载模式 Tik TokDownload，批量与单一TikTokMulti（重新构造了代码）
+7. 完全保留单一下载模式 Tik TokDownload，批量与单一TikTokMulti（重新构造了代码）
 
-6. 编译py文件可以用第三方库，如Pyinstaller等
+8. 编译py文件可以用第三方库，如Pyinstaller等
 
-7. 后续可能会更新GUI界面，操作更简单
+9. 后续可能会更新GUI界面，操作更简单
 
 
 
