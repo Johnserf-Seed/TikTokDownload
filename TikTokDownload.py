@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Description:       
+@Description:懒得优化这一块
 @Date       :2020/12/28 13:14:29
 @Author     :JohnserfSeed
 @version    :1.0
 @License    :(C)Copyright 2017-2020, Liugroup-NLPR-CASIA
 @Mail       :johnserfseed@gmail.com
 '''
-import requests,re,json,sys,getopt,time,configparser
+import requests,re,json,sys,getopt
 from retrying import retry
 
 def printUsage():
@@ -37,6 +37,7 @@ def main():
         sys.exit(-1)
     try:    
         if opts == []:
+            printUsage()
             urlarg = str(input("请输入抖音链接:"))
             return urlarg,musicarg
     except:
@@ -65,47 +66,49 @@ def download(video_url,music_url,video_title,music_title,headers,musicarg):
             f.write(r.content)
 
     if music_url == '':
-        input('下载出错，按任意键退出。。。')
+        input('下载出错，按任意键退出...')
         return
     else:
         #原声下载
         if musicarg != 'yes':
-            input('下载完成，按任意键退出。。。')
+            input('下载完成，按任意键退出...')
             return
         else:
             r=requests.get(url=music_url,headers=headers)
             with open(f'{music_title}.mp3','wb') as f:
                 f.write(r.content)
-            input('下载完成，按任意键退出。。。')
+            input('下载完成，按任意键退出...')
             return
 
+def video_download(urlarg,musicarg):
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
+        }
+        r = requests.get(url = Find(urlarg)[0])
+        key = re.findall('video/(\d+)?',str(r.url))[0]
+        jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'    #官方接口
+        js = json.loads(requests.get(url = jx_url,headers=headers).text)
+
+        try:
+            video_url = str(js['item_list'][0]['video']['play_addr']['url_list'][0]).replace('playwm','play')   #去水印后链接
+        except:
+            print('视频链接获取失败')
+            video_url = ''
+        try:
+            music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
+        except:
+            print('该音频目前不可用')
+            music_url = ''
+        try:
+            video_title = str(js['item_list'][0]['desc'])
+            music_title = str(js['item_list'][0]['music']['author'])
+        except:
+            print('标题获取失败')
+            video_title = '视频走丢啦~'
+            music_title = '音频走丢啦~'
+        download(video_url,music_url,video_title,music_title,headers,musicarg)
+
 if __name__=="__main__":
-    urlarg,musicarg=main()
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
-    }
-    r = requests.get(url = Find(urlarg)[0])
-    key = re.findall('video/(\d+)/',str(r.url))[0]
-    jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'    #官方接口
-    js = json.loads(requests.get(url = jx_url,headers=headers).text)
-
-    try:
-        video_url = str(js['item_list'][0]['video']['play_addr']['url_list'][0]).replace('playwm','play')   #去水印后链接
-    except:
-        print('视频链接获取失败')
-        video_url = ''
-    try:
-        music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
-    except:
-        print('该音频目前不可用')
-        music_url = ''
-    try:
-        video_title = str(js['item_list'][0]['desc'])
-        music_title = str(js['item_list'][0]['music']['author'])
-    except:
-        print('标题获取失败')
-        video_title = '视频走丢啦~'
-        music_title = '音频走丢啦~'
-
-    download(video_url,music_url,video_title,music_title,headers,musicarg)
+    urlarg,musicarg = main()
+    video_download(urlarg,musicarg)
 	
