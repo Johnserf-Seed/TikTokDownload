@@ -113,7 +113,7 @@ class TikTok():
             print('----为您下载多个视频----\r')
             #获取用户sec_uid
             #key = re.findall('&sec_uid=(.*?)&',str(r.url))[0]
-            key = re.findall('/user/(.*?)?',str(r.url))[0]
+            key = re.findall('/user/(.*?)\?',str(r.url))[0]
             if not key:
                 key  = r.url[28:83]
             print('----'+'用户的sec_id='+key+'----')
@@ -169,7 +169,7 @@ class TikTok():
         r = requests.get(url = self.Find(self.uid)[0])
 
         #获取用户sec_uid
-        key = re.findall('/user/(.*?)?',str(r.url))[0]
+        key = re.findall('/user/(.*?)\?',str(r.url))[0]
         if not key:
             key  = r.url[28:83]
 
