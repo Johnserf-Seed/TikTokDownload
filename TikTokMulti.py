@@ -18,6 +18,9 @@ class TikTok():
         self.headers = {
             'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
             }
+        
+        #抓获所有视频
+        self.end = False
 
         #绘制布局
         print("#" * 110)
@@ -128,7 +131,7 @@ class TikTok():
         max_cursor = 0
 
         #构造第一次访问链接
-        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (self.mode,key,str(self.count),max_cursor)
+        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (self.mode,key,str(self.count),max_cursor)
         self.get_data(api_post_url,max_cursor)
         return api_post_url,max_cursor,key
 
@@ -147,7 +150,7 @@ class TikTok():
             #print(api_post_url)
             html = json.loads(response.content.decode())
             #print(html)
-            if html['aweme_list'] != []:
+            if self.end == False:
                 #下一页值
                 self.nickname = html['aweme_list'][0]['author']['nickname']
                 print('[  用户  ]:'+str(self.nickname)+'\r')
@@ -158,7 +161,11 @@ class TikTok():
                 #处理第一页视频信息
                 self.video_info(result,max_cursor)
             else:
-                print('----抓获数据失败----\r')
+                max_cursor = html['max_cursor']
+                self.next_data(max_cursor)
+                #self.end = True
+                print('----此页无数据，为您跳过----\r')
+                
 
         return result,max_cursor
 
@@ -184,18 +191,18 @@ class TikTok():
             time.sleep(0.3)
             response = requests.get(url = api_naxt_post_url,headers=self.headers)
             html = json.loads(response.content.decode())
-
-            if html['aweme_list'] != []:
+            if self.end == False:
                 #下一页值
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
                 print('----',max_cursor,'页抓获数据成功----\r')
-
                 #处理下一页视频信息
                 self.video_info(result,max_cursor)
             else:
+                self.end == True
                 print('----',max_cursor,'页抓获数据失败----\r')
-                sys.exit()
+                #print('----',max_cursor,'页抓获数据失败----\r')
+                #sys.exit()
 
     #处理视频信息
     def video_info(self,result,max_cursor):
@@ -252,7 +259,7 @@ class TikTok():
                     content_size = int(music.headers['content-length']) # 下载文件总大小
                     try:
                         if music.status_code == 200: #判断是否响应成功
-                            print('[  音频  ]'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
+                            print('[  音频  ]:'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
                             m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
                             with open(m_url,'wb') as file: #显示进度条
                                 for data in music.iter_content(chunk_size = chunk_size):
@@ -285,7 +292,7 @@ class TikTok():
                 content_size = int(video.headers['content-length']) # 下载文件总大小
                 try:
                     if video.status_code == 200:        #判断是否响应成功
-                        print('[  视频  ]'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
+                        print('[  视频  ]:'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
                         v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
                         with open(v_url,'wb') as file: #显示进度条
                             for data in video.iter_content(chunk_size = chunk_size):
@@ -315,3 +322,5 @@ class TikTok():
 #主模块执行
 if __name__ == "__main__":
     RTK = TikTok()
+    input('[  完成  ]:已完成批量下载，输入任意键后退出')
+    sys.exit()
