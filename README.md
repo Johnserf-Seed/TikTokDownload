@@ -1,15 +1,23 @@
 # TikTokDownload V1.2.3
 **抖音去水印视频下载，使用抖音官方接口**
 
+
 ![mit](https://img.shields.io/badge/license-MIT-blue)![python: v3.8.5 (shields.io](https://img.shields.io/badge/python-v3.8.5-green)<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/></a>
 
 ![Bannar](https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg)
 
+**uTools插件同步开发中...**
+
+![uTools插件1](https://tvax4.sinaimg.cn/large/006908GAly1gswo21zzp2j30ma02ygmo.jpg)
+
+![uTools插件2](https://tva2.sinaimg.cn/large/006908GAly1gswo3pvdysj30bm0geq8q.jpg)
+
+
 ### 使用教程
 
 1. 运行软件前先打开目录下 conf.ini 文件按照要求进行配置
-2. ![配置截图](https://tvax1.sinaimg.cn/large/006908GAly1gqg5b6fbvsj30ng09iwes.jpg)
 
+2. ![配置截图](https://tvax1.sinaimg.cn/large/006908GAly1gqg5b6fbvsj30ng09iwes.jpg)
 
 3. 本项目制作了pip包，可以输入 ``` pip install TikTokDownload==1.2.3 ```安装
 
@@ -58,7 +66,6 @@
 9. 后续可能会更新GUI界面，操作更简单
 
 
-
 **注意（常见错误）：**
 
 1. 单个视频链接与用户主页链接要分清，软件闪退可以通过终端运行查看报错信息（一般是链接弄错的问题）
@@ -69,22 +76,20 @@
 
    ![报错](https://tvax2.sinaimg.cn/large/006908GAly1gn1dpoiqhzj306d0193ya.jpg)
 
-   *链接一定要输入仔细哦~*
+   ***链接一定要输入仔细哦~***
 
 2. 配置文件一定要注意编码格式（推荐Notepad++）
 
-   正确：
+   **正确：**
 
-   ​	![utf-8正确](https://tva1.sinaimg.cn/large/006908GAly1gn1dl6jv3hj30ib09tq3k.jpg)
+   ![utf-8正确](https://tva1.sinaimg.cn/large/006908GAly1gn1dl6jv3hj30ib09tq3k.jpg)
 
-   错误：
+   **错误：**
 
-   ​	![utf-8错误](https://tva1.sinaimg.cn/large/006908GAly1gn1dmakebqj30qh03lmx8.jpg)
+   ![utf-8错误](https://tva1.sinaimg.cn/large/006908GAly1gn1dmakebqj30qh03lmx8.jpg)
 
    挺抽风的，另存为的UTF-8居然不可以会闪退，玄学
    
 3. 如果出现长时间的api抓取可能是姿势不对（抖音api比较奇怪）
 
-
 <center><img style="border-radius: 0.3125em;box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dxspeqeg302s02sdgf.gif"><br><div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">欢迎Star</div></center>
-
