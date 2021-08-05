@@ -231,13 +231,33 @@ class TikTok():
         self.videos_download(author_list,video_list,aweme_id,nickname,max_cursor)      
         return self,author_list,video_list,aweme_id,nickname,max_cursor
 
+    #检测视频是否已经下载过
+    def check_info(self,nickname):
+        v_info = os.listdir((self.save + self.mode + "\\" + nickname[0]))
+        return v_info
+
+    #音视频下载
     def videos_download(self,author_list,video_list,aweme_id,nickname,max_cursor):
+        #创建并检测下载目录是否存在
+        try:
+            os.makedirs(self.save + self.mode + "\\" + nickname[0])
+        except:
+            pass
+
+        v_info = self.check_info(nickname)
+
         for i in range(self.count):
+            #每次判断视频是否已经下载过
             try:
-                #创建并检测下载目录是否存在
-                os.makedirs(self.save + self.mode + "\\" + nickname[i])
+                if author_list[i] + '.mp4' in v_info:
+                    print('[  提示  ]:'+author_list[i]+'[文件已存在，为您跳过]',end = "") #开始下载，显示下载文件大小
+                    for i in range(20):
+                        print(">",end = '',flush = True)
+                        time.sleep(0.01)
+                    print('\r')
+                    continue
             except:
-                #有目录不再创建
+                #防止下标越界
                 pass
 
             try:
