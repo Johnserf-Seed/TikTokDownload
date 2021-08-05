@@ -233,7 +233,10 @@ class TikTok():
 
     #检测视频是否已经下载过
     def check_info(self,nickname):
-        v_info = os.listdir((self.save + self.mode + "\\" + nickname[0]))
+        if nickname == []:
+            return
+        else:
+            v_info = os.listdir((self.save + self.mode + "\\" + nickname[0]))
         return v_info
 
     #音视频下载
