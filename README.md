@@ -9,7 +9,11 @@
 
 **uTools插件同步开发中...**
 
-![uTools插件1](https://tvax4.sinaimg.cn/large/006908GAly1gswo21zzp2j30ma02ygmo.jpg)
+![1.0.1版本](https://tva4.sinaimg.cn/large/006908GAgy1gtbtg4t2n3j30ma02y40d.jpg)
+
+![1.0.1 error](https://tvax1.sinaimg.cn/large/006908GAgy1gtbtgut1njj30ma02ygmk.jpg)
+
+![插件市场](https://tva1.sinaimg.cn/large/006908GAgy1gtbtie2kuzj30pk0gqtd3.jpg)
 
 ![uTools插件2](https://tva2.sinaimg.cn/large/006908GAly1gswo3pvdysj30bm0geq8q.jpg)
 
