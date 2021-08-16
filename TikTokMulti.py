@@ -259,22 +259,25 @@ class TikTok():
         v_info = self.check_info(nickname)
 
         for i in range(self.count):
-            #每次判断视频是否已经下载过
-            try:
-                if author_list[i] + '.mp4' in v_info:
-                    print('[  提示  ]:'+author_list[i]+'[文件已存在，为您跳过]',end = "") #开始下载，显示下载文件大小
-                    for i in range(20):
-                        print(">",end = '',flush = True)
-                        time.sleep(0.01)
-                    print('\r')
-                    continue
-            except:
-                #防止下标越界
-                pass
 
             try:
                 jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={aweme_id[i]}'    #官方接口
                 js = json.loads(requests.get(url = jx_url,headers=self.headers).text)
+                creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(js['item_list'][0]['create_time']))
+
+                #每次判断视频是否已经下载过
+                try:
+                    if creat_time + author_list[i] + '.mp4' in v_info:
+                        print('[  提示  ]:'+author_list[i]+'[文件已存在，为您跳过]',end = "") #开始下载，显示下载文件大小
+                        for i in range(20):
+                            print(">",end = '',flush = True)
+                            time.sleep(0.01)
+                        print('\r')
+                        continue
+                except:
+                    #防止下标越界
+                    pass
+
                 music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
                 music_title = str(js['item_list'][0]['music']['author'])
                 if self.musicarg == "yes":                              #保留音频
@@ -285,8 +288,8 @@ class TikTok():
                     content_size = int(music.headers['content-length']) # 下载文件总大小
                     try:
                         if music.status_code == 200:                    #判断是否响应成功
-                            print('[  音频  ]:'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
-                            m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                            print('[  音频  ]:'+ creat_time + author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
+                            m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
                             with open(m_url,'wb') as file:              #显示进度条
                                 for data in music.iter_content(chunk_size = chunk_size):
                                     file.write(data)
@@ -298,7 +301,7 @@ class TikTok():
                         input('下载音频出错!\r')
             except Exception as error:
                 #print(error)
-                print('该页音频没有'+str(self.count)+'个,已为您跳过\r')
+                print('该页资源没有'+str(self.count)+'个,已为您跳过\r')
                 break
 
             try:
@@ -309,8 +312,8 @@ class TikTok():
                 content_size = int(video.headers['content-length']) # 下载文件总大小
                 try:
                     if video.status_code == 200:                    #判断是否响应成功
-                        print('[  视频  ]:'+author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
-                        v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                        print('[  视频  ]:'+ creat_time + author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
+                        v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time +re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
                         with open(v_url,'wb') as file:              #显示进度条
                             for data in video.iter_content(chunk_size = chunk_size):
                                 file.write(data)
@@ -322,7 +325,7 @@ class TikTok():
                     input('下载视频出错!\r')
             except Exception as error:
                 #print(error)
-                print('该页视频没有'+str(self.count)+'个,已为您跳过\r')
+                print('该页视频资源没有'+str(self.count)+'个,已为您跳过\r')
                 break
         self.next_data(max_cursor)
 
