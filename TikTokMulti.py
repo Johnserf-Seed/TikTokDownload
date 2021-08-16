@@ -289,7 +289,12 @@ class TikTok():
                     try:
                         if music.status_code == 200:                    #判断是否响应成功
                             print('[  音频  ]:'+ creat_time + author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
-                            m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                            
+                            if self.mode == 'post':
+                                m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                            else:
+                                m_url = self.save + self.mode + "\\" + self.nickname + '\\' + creat_time + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                            
                             with open(m_url,'wb') as file:              #显示进度条
                                 for data in music.iter_content(chunk_size = chunk_size):
                                     file.write(data)
@@ -313,7 +318,12 @@ class TikTok():
                 try:
                     if video.status_code == 200:                    #判断是否响应成功
                         print('[  视频  ]:'+ creat_time + author_list[i]+'[文件 大小]:{size:.2f} MB'.format(size = content_size / chunk_size /1024)) #开始下载，显示下载文件大小
-                        v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time +re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                        
+                        if self.mode == 'post':
+                            v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time +re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                        else:
+                            v_url = self.save + self.mode + "\\" + self.nickname + '\\' + creat_time +re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+
                         with open(v_url,'wb') as file:              #显示进度条
                             for data in video.iter_content(chunk_size = chunk_size):
                                 file.write(data)
@@ -321,7 +331,8 @@ class TikTok():
                                 print('\r'+'[下载进度]:%s%.2f%%' % ('>'*int(size*50/ content_size), float(size / content_size * 100)) ,end=' ')
                             end = time.time()                       #下载结束时间
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (end - start)) #输出下载用时时间
-                except:
+                except Exception as error:
+                    print(error)
                     input('下载视频出错!\r')
             except Exception as error:
                 #print(error)
