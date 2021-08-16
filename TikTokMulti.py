@@ -95,6 +95,8 @@ class TikTok():
         #保存用户名
         self.nickname = ""
 
+        self.like_counts = 0
+
         print('----读取配置完成----\r')
         self.judge_link()
 
@@ -141,6 +143,14 @@ class TikTok():
 
         #构造第一次访问链接
         api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (self.mode,key,str(self.count),max_cursor)
+        
+        api_like_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (key,str(self.count),max_cursor)
+        response = requests.get(url = api_like_url,headers = self.headers)
+        html = json.loads(response.content.decode())
+        self.nickname = html['aweme_list'][0]['author']['nickname']
+        if not os.path.exists(self.save + self.mode + "\\" + self.nickname):
+                os.makedirs(self.save + self.mode + "\\" + self.nickname)
+
         self.get_data(api_post_url,max_cursor)
         return api_post_url,max_cursor,key
 
@@ -158,7 +168,6 @@ class TikTok():
             html = json.loads(response.content.decode())
             if self.end == False:
                 #下一页值
-                self.nickname = html['aweme_list'][0]['author']['nickname']
                 print('[  用户  ]:'+str(self.nickname)+'\r')
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
@@ -256,9 +265,12 @@ class TikTok():
         except:
             pass
 
-        v_info = self.check_info(nickname)
+        v_info = self.check_info(nickname)      
 
         for i in range(self.count):
+
+            #点赞视频排序
+            self.like_counts += 1
 
             try:
                 jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={aweme_id[i]}'    #官方接口
@@ -293,7 +305,7 @@ class TikTok():
                             if self.mode == 'post':
                                 m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
                             else:
-                                m_url = self.save + self.mode + "\\" + self.nickname + '\\' + creat_time + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
+                                m_url = self.save + self.mode + "\\" + self.nickname + '\\' + str(self.like_counts)+ '、' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
                             
                             with open(m_url,'wb') as file:              #显示进度条
                                 for data in music.iter_content(chunk_size = chunk_size):
@@ -322,8 +334,8 @@ class TikTok():
                         if self.mode == 'post':
                             v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time +re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
                         else:
-                            v_url = self.save + self.mode + "\\" + self.nickname + '\\' + creat_time +re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
-
+                            v_url = self.save + self.mode + "\\" + self.nickname + '\\' + str(self.like_counts)+ '、' + re.sub(r'[\\/:*?"<>|\r\n]+', "_", author_list[i]) + '.mp4'
+                        
                         with open(v_url,'wb') as file:              #显示进度条
                             for data in video.iter_content(chunk_size = chunk_size):
                                 file.write(data)
