@@ -254,7 +254,7 @@ class TikTok():
         if nickname == []:
             return
         else:
-            v_info = os.listdir((self.save + self.mode + "\\" + nickname[0]))
+            v_info = os.listdir((self.save + self.mode + "\\" + nickname))
         return v_info
 
     #音视频下载
@@ -265,7 +265,7 @@ class TikTok():
         except:
             pass
 
-        v_info = self.check_info(nickname)      
+        v_info = self.check_info(self.nickname)      
 
         for i in range(self.count):
 
