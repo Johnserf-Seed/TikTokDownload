@@ -143,8 +143,7 @@ class TikTok():
         max_cursor = 0
 
         # 构造第一次访问链接
-        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/\
-            ?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % ( 
+        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % ( 
                 self.mode, key, str(self.count), max_cursor)
 
         response = requests.get(url = api_post_url, headers = self.headers)
@@ -169,8 +168,8 @@ class TikTok():
             response = requests.get(
                 url = api_post_url, headers = self.headers)
             html = json.loads(response.content.decode())
-            with open('r.json', 'wb')as f:
-                f.write(response.content)
+            # with open('r.json', 'wb')as f:
+            #     f.write(response.content)
             if self.Isend == False:
                 # 下一页值
                 print('[  用户  ]:'+str(self.nickname)+'\r')
@@ -199,8 +198,7 @@ class TikTok():
             key = r.url[28:83]
 
         # 构造下一次访问链接
-        api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/\
-        ?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
+        api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
             self.mode, key, str(self.count), max_cursor)
 
         index = 0
@@ -337,7 +335,7 @@ class TikTok():
                                 end - start))                           # 输出下载用时时间
 
             except:
-                input('下载音频出错!\r')
+                print('\r下载音频出错!\r')
 
             # 尝试下载视频
             try:
