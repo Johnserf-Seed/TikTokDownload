@@ -118,26 +118,23 @@ class TikTok():
 
     # 判断个人主页api链接
     def judge_link(self):
-        # 获取解码后原地址
-        r = requests.get(url = self.Find(self.uid)[0])
-        multi_url = 'https://www.douyin.com/user/'
-        # multi_url = 'https://www.iesdouyin.com/share/user/'    # 旧
-
-        # 判断输入的是不是用户主页
-        if r.url[:28] == multi_url:
+        # 判断长短链
+        if self.uid[20:] == 'https://v.douyin.com':
+            r = requests.get(url = self.Find(self.uid)[0])
             print('----为您下载多个视频----\r')
             # 获取用户sec_uid
-            # key = re.findall('&sec_uid=(.*?)&', str(r.url))[0]
-            key = re.findall('/user/(.*?)\?', str(r.url))[0]
-            if not key:
+            try:
+                key = re.findall('/user/(.*?)\?', str(r.url))[0]
+            except:
+                # 防止正则匹配失效
                 key  = r.url[28:83]
-            print('----' + '用户的sec_id=' + key + '----\r')
+            print('----' , '用户的sec_id=' , key , '----\r')
         else:
-            print('----为您下载单个视频----\r')
-            print(r.url)
-            urlarg,musicarg = TikTokDownload.main()
-            TikTokDownload.video_download(urlarg, musicarg)
-            return
+            r = requests.get(url = self.Find(self.uid)[0])
+            print('----为您下载多个视频----\r')
+            # 获取用户sec_uid
+            key  = r.url[28:83]
+            print('----' , '用户的sec_id=' , key , '----\r')
 
         # 第一次访问页码
         max_cursor = 0
