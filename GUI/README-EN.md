@@ -5,5 +5,5 @@
 
 [English](README-EN.md) [简体中文](README.md)
 
-![preview](preview.png)
+![preview](https://tvax1.sinaimg.cn/large/006908GAly1gytdof69rrj30p00godhe.jpg)
 
