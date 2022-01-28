@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="img">
+    <file>背景.svg</file>
+    <file>logo-horizontal.svg</file>
+  </qresource>
+</RCC>
