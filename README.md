@@ -7,6 +7,8 @@
 
 ![Bannar](https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg)
 
+![preview](gui/preview.png)
+
 **uTools插件同步开发中...**
 
 ![1.0.1版本](https://tva4.sinaimg.cn/large/006908GAgy1gtbtg4t2n3j30ma02y40d.jpg)
