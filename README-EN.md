@@ -8,6 +8,7 @@
 
 ![Bannar](https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg )
 
+*GUI version upcoming*
 ![preview](https://tvax1.sinaimg.cn/large/006908GAly1gytdof69rrj30p00godhe.jpg)
 
 **Utools plug-in synchronous development**
