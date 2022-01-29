@@ -10,8 +10,6 @@
 @Mail       :johnserfseed@gmail.com
 '''
 
-import requests,json,os,time,configparser,re,sys
-import TikTokDownload
 import requests,json,os,time,configparser,re,sys,argparse
 
 class TikTok():
@@ -75,34 +73,45 @@ class TikTok():
         # 用utf-8防止出错
         self.cf.read("conf.ini", encoding="utf-8")
 
-        # 读取保存路径
-        self.save = self.cf.get("save", "url")
-
-        # 读取下载视频个数
-        self.count = int(self.cf.get("count", "count"))
-
-        # 读取下载是否下载音频
-        self.musicarg = self.cf.get("music", "musicarg")
-
-        # 读取用户主页地址
-        self.uid = input('批量下载直接回车，单一视频下载直接粘贴视频链接：')
-        if self.uid == '':
-            self.uid = self.cf.get("url", "uid")
+    def setting(self,uid,music,count,dir,mode):
+        """
+        @description  : 设置命令行参数
+        ---------
+        @param  : uid 用户主页,music 下载音频,count 单页下载数,dir 目录,mode 模式
+        -------
+        @Returns  : None
+        -------
+        """
+        if uid != None:
+            if uid == None:
+                print('[  警告  ]:--user不能为空')
+                pass
+            else:
+                self.uid = uid;self.save = dir;self.count=count;self.musicarg=music;self.mode=mode
+                print('[  提示  ]:读取命令完成!\r')
+                self.judge_link()
+        # 没有接收到命令
         else:
-            pass
+            print('[  警告  ]:未检测到命令，将使用配置文件进行批量下载!')
 
-        # 读取下载模式
-        self.mode = self.cf.get("mode", "mode")
+            # 读取保存路径
+            self.save = self.cf.get("save", "url")
 
-        # 保存用户名
-        self.nickname = ""
+            # 读取下载视频个数
+            self.count = int(self.cf.get("count", "count"))
 
-        self.like_counts = 0
+            # 读取下载是否下载音频
+            self.musicarg = self.cf.get("music", "musicarg")
 
-        print('----读取配置完成----\r')
-        self.judge_link()
+            # 读取用户主页地址
+            self.uid = self.cf.get("url", "uid")
+
+            # 读取下载模式
+            self.mode = self.cf.get("mode", "mode")
+
             print('[  提示  ]:读取本地配置完成!\r')
             input('[  提示  ]:批量下载直接回车：')
+            self.judge_link()
 
     def out_Print(self):
         print(r'''
@@ -382,18 +391,27 @@ class TikTok():
 
 # 主模块执行
 if __name__ == "__main__":
-    RTK = TikTok()
-    input('[  完成  ]:已完成批量下载，输入任意键后退出:')
-    parser = argparse.ArgumentParser(description='TikTokMulti使用帮助')
-    parser.add_argument('--user', '-u', type=str, help='用户主页链接，非必要参数', required=True)
-    parser.add_argument('--dir','-d', type=str,help='视频保存目录，非必要参数， 默认./Download', default='./Download')
-    parser.add_argument('--single', '-s', type=str, help='单条视频链接，非必要参数，与--user参数冲突')
-    parser.add_argument('--music', '-m', type=str, help='视频音乐下载，非必要参数， 默认no可选yes', default='no')
-    parser.add_argument('--count', '-c', type=int, help='单页下载的数量，默认35，无须修改', default=35)
+    # 获取命令行函数
+    def get_args(user,dir,music,count,mode):
+        # 新建TK实例
+        TK = TikTok()
+        # 命令行传参
+        TK.setting(user,music,count,dir,mode)
+        input('[  完成  ]:已完成批量下载，输入任意键后退出:')
+        sys.exit(0)
 
     try:
-        args = parser.parse_args(args=[])
-    except:
-        print('未输入命令，自动退出')
+        parser = argparse.ArgumentParser(description='TikTokMulti V1.2.5 使用帮助')
+        parser.add_argument('--user', '-u', type=str, help='为用户主页链接，非必要参数', required=False)
+        parser.add_argument('--dir','-d', type=str,help='视频保存目录，非必要参数， 默认./Download', default='./Download/')
+        #parser.add_argument('--single', '-s', type=str, help='单条视频链接，非必要参数，与--user参数冲突')
+        parser.add_argument('--music', '-m', type=str, help='视频音乐下载，非必要参数， 默认no可选yes', default='no')
+        parser.add_argument('--count', '-c', type=int, help='单页下载的数量，默认参数 35 无须修改', default=35)
+        parser.add_argument('--mode', '-M', type=str, help='下载模式选择，默认post:发布的视频 可选like:点赞视频(需要开放权限)', default='post')
+        args = parser.parse_args()
+        # 获取命令行
+        get_args(args.user, args.dir, args.music, args.count, args.mode)
+    except Exception as e:
+        # print(e)
+        print('[  提示  ]:未输入命令，自动退出!')
         sys.exit(0)
-    sys.exit()
