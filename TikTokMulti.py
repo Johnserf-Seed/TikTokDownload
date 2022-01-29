@@ -44,6 +44,9 @@ class TikTok():
         print("#" * 120)
         print('\r')
 
+        # 用户主页      # 保存路径      # 单页下载数        # 下载音频      # 下载模式      # 保存用户名            # 点赞个数
+        self.uid = '';self.save = '';self.count = '';self.musicarg = '';self.mode = '';self.nickname = '';self.like_counts = 0
+
         # 检测配置文件
         if os.path.isfile("conf.ini") == True:
             pass
@@ -136,8 +139,8 @@ class TikTok():
 
     # 判断个人主页api链接
     def judge_link(self):
-        # 判断长短链
-        if self.uid[20:] == 'https://v.douyin.com':
+        # 判断长短链,考虑到http与https协议
+        if self.uid[20:] == 'https://v.douyin.com' or self.uid[19:] == 'http://v.douyin.com':
             r = requests.get(url = self.Find(self.uid)[0])
             print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
@@ -218,6 +221,7 @@ class TikTok():
 
         index = 0
         result = []
+
         while self.Isend == False:
             # 回到首页，则结束
             if max_cursor == 0:
@@ -242,28 +246,16 @@ class TikTok():
 
     # 处理视频信息
     def video_info(self, result, max_cursor):
-        # 作者信息
-        author_list = []
+        # 作者信息      # 无水印视频链接    # 作品id        # 作者id        # 封面大图
+        author_list = [];video_list = [];aweme_id = [];nickname = [];# dynamic_cover = []
 
-        # 无水印视频链接
-        video_list = []
-
-        # 作品id
-        aweme_id = []
-
-        # 作者id
-        nickname = []
-
-        # 封面大图
-        # dynamic_cover = []
-
-        for i2 in range(self.count):
+        for v in range(self.count):
             try:
-                author_list.append(str(result[i2]['desc']))
-                video_list.append(str(result[i2]['video']['play_addr']['url_list'][0]))
-                aweme_id.append(str(result[i2]['aweme_id']))
-                nickname.append(str(result[i2]['author']['nickname']))
-                # dynamic_cover.append(str(result[i2]['video']['dynamic_cover']['url_list'][0]))
+                author_list.append(str(result[v]['desc']))
+                video_list.append(str(result[v]['video']['play_addr']['url_list'][0]))
+                aweme_id.append(str(result[v]['aweme_id']))
+                nickname.append(str(result[v]['author']['nickname']))
+                # dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
             except Exception as error:
                 # print(error)
                 pass
