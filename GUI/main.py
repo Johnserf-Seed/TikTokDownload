@@ -18,8 +18,10 @@
 
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtGui import QMouseEvent
 import resource,sys
+import TikTokMulti
 
 class Ui_Dialog(QtWidgets.QMainWindow):
     def __init__(self):
@@ -156,6 +158,30 @@ class Ui_Dialog(QtWidgets.QMainWindow):
         self.checkBox_3.raise_()
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def mouseMoveEvent(self, e: QMouseEvent):  # 重写移动事件
+        try:
+            self._endPos = e.pos() - self._startPos
+            self.move(self.pos() + self._endPos)
+        except:
+            pass
+
+    def mousePressEvent(self, e: QMouseEvent):
+        try:
+            if e.button() == Qt.LeftButton:
+                self._isTracking = True
+                self._startPos = QPoint(e.x(), e.y())
+        except:
+            pass
+
+    def mouseReleaseEvent(self, e: QMouseEvent):
+        try:
+            if e.button() == Qt.LeftButton:
+                self._isTracking = False
+                self._startPos = None
+                self._endPos = None
+        except:
+            pass
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
