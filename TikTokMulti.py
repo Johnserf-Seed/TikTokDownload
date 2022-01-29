@@ -1,11 +1,12 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
 @Description:TikTokMulti.py
-@Date       :2021/05/25 00:14:28
+@Date       :2022/01/29 20:23:37
 @Author     :JohnserfSeed
-@version    :1.2.3
-@License    :(C)Copyright 2019-2021, Liugroup-NLPR-CASIA
+@version    :1.2.5
+@License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
+@Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
 '''
 
