@@ -1,11 +1,12 @@
-# TikTokDownload V1.2.3
-**抖音去水印视频下载，使用抖音官方接口**
+# TikTokDownload V1.2.5
+**抖音去水印视频下载，年前最后一次大大大更新**
 
-![mit](https://img.shields.io/badge/license-MIT-blue)![python: v3.8.5 (shields.io](https://img.shields.io/badge/python-v3.8.5-green)<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/></a>
+**bug统一年后修复**
+![mit](https://img.shields.io/badge/license-MIT-blue)![python: v3.8.5 (shields.io](https://img.shields.io/badge/python-v3.8.5-green)![pyqt](https://img.shields.io/badge/Qt5-v5.14.3-red)<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/></a>
 
 [English](README-EN.md) [简体中文](README.md)
 
-![Bannar](https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg)
+<a><div align=center>![Bannar](https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg)</div></a>
 
 *GUI版即将发布*
 ![preview](https://tvax1.sinaimg.cn/large/006908GAly1gytdof69rrj30p00godhe.jpg)
@@ -18,7 +19,8 @@
 
 ![插件市场](https://tva1.sinaimg.cn/large/006908GAgy1gtbtie2kuzj30pk0gqtd3.jpg)
 
-![uTools插件2](https://tva2.sinaimg.cn/large/006908GAly1gswo3pvdysj30bm0geq8q.jpg)
+**V1.2.5控制台界面版本**
+![V1.2.5控制台界面版本](https://tvax2.sinaimg.cn/large/006908GAly1gyuycwma5lj30ux0qstiz.jpg)
 
 
 ### 使用教程
@@ -51,10 +53,7 @@
 
    ***example.py需确保TikTokMulti.py与TikTokDownload.py两个文件都在相同目录中***
 
-4. 使用界面
-   ![使用界面](https://tva4.sinaimg.cn/large/006908GAly1gsmqp7ghzpj30lt0midoz.jpg)
-   
-	批量保存
+3. 批量保存
    ![批量保存](https://tvax1.sinaimg.cn/large/006908GAly1gqg4d73rryg31bi0hdx6p.gif)
    
 	跳过已下载
@@ -69,15 +68,15 @@
 	文件夹大小
    ![文件夹大小](https://tva3.sinaimg.cn/large/006908GAly1gqg4dny34uj30b10dt0st.jpg)
 
-5. 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
+4. 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
 
    ![issues反馈](https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg)
 
-6. 完全保留单一下载模式 Tik TokDownload，批量与单一TikTokMulti（重新构造了代码）
+5. 完全保留单一下载模式 Tik TokDownload，批量与单一TikTokMulti（重新构造了代码）
 
-7. 编译py文件可以用第三方库，如Pyinstaller等
+6. 编译py文件可以用第三方库，如Pyinstaller等
 
-8. 后续可能会更新GUI界面，操作更简单
+7. 后续可能会更新GUI界面，操作更简单
 
 
 **注意（常见错误）：**
