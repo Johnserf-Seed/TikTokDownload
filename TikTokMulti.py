@@ -11,6 +11,7 @@
 
 import requests,json,os,time,configparser,re,sys
 import TikTokDownload
+import requests,json,os,time,configparser,re,sys,argparse
 
 class TikTok():
     # 初始化
@@ -379,4 +380,16 @@ class TikTok():
 if __name__ == "__main__":
     RTK = TikTok()
     input('[  完成  ]:已完成批量下载，输入任意键后退出:')
+    parser = argparse.ArgumentParser(description='TikTokMulti使用帮助')
+    parser.add_argument('--user', '-u', type=str, help='用户主页链接，非必要参数', required=True)
+    parser.add_argument('--dir','-d', type=str,help='视频保存目录，非必要参数， 默认./Download', default='./Download')
+    parser.add_argument('--single', '-s', type=str, help='单条视频链接，非必要参数，与--user参数冲突')
+    parser.add_argument('--music', '-m', type=str, help='视频音乐下载，非必要参数， 默认no可选yes', default='no')
+    parser.add_argument('--count', '-c', type=int, help='单页下载的数量，默认35，无须修改', default=35)
+
+    try:
+        args = parser.parse_args(args=[])
+    except:
+        print('未输入命令，自动退出')
+        sys.exit(0)
     sys.exit()
