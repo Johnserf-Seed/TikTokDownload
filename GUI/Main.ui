@@ -209,34 +209,7 @@ qproperty-alignment:AlignHCenter;</string>
     <string>咻咻</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>0</y>
-     <width>670</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(199, 199, 199);
-border-top-right-radius: 25px;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QWidget" name="widget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>190</y>
-     <width>611</width>
-     <height>351</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="Check_All">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -287,7 +260,7 @@ background-color: rgb(22, 23, 34);</string>
     <string>关于</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_2">
+  <widget class="QCheckBox" name="Check_Cover">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -300,7 +273,7 @@ background-color: rgb(22, 23, 34);</string>
     <string>全部封面下载</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_3">
+  <widget class="QCheckBox" name="Check_Music">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -313,8 +286,25 @@ background-color: rgb(22, 23, 34);</string>
     <string>全部配乐下载</string>
    </property>
   </widget>
+  <widget class="QLabel" name="Label_Background">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>0</y>
+     <width>670</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(199, 199, 199);
+border-top-right-radius: 25px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>Label_Right</zorder>
-  <zorder>label</zorder>
+  <zorder>Label_Background</zorder>
   <zorder>Label_Left</zorder>
   <zorder>Label_Logo</zorder>
   <zorder>Label_Version</zorder>
@@ -323,12 +313,11 @@ background-color: rgb(22, 23, 34);</string>
   <zorder>Button_Min</zorder>
   <zorder>plainTextEdit</zorder>
   <zorder>Button_Go</zorder>
-  <zorder>widget</zorder>
-  <zorder>checkBox</zorder>
+  <zorder>Check_All</zorder>
   <zorder>pushButton</zorder>
   <zorder>pushButton_2</zorder>
-  <zorder>checkBox_2</zorder>
-  <zorder>checkBox_3</zorder>
+  <zorder>Check_Cover</zorder>
+  <zorder>Check_Music</zorder>
  </widget>
  <resources>
   <include location="Resource.qrc"/>
