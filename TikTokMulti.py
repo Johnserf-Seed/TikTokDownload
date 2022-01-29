@@ -44,7 +44,7 @@ class TikTok():
         if os.path.isfile("conf.ini") == True:
             pass
         else:
-            print('----没有检测到配置文件，生成中----\r')
+            print('[  提示  ]:没有检测到配置文件，生成中!\r')
             try:
                 self.cf = configparser.ConfigParser()
                 # 往配置文件写入内容
@@ -60,9 +60,9 @@ class TikTok():
                 self.cf.set("mode", "mode", "post")
                 with open("conf.ini", "a+") as f:
                     self.cf.write(f)
-                print('----生成成功----\r')
+                print('[  提示  ]:生成成功!\r')
             except:
-                input('----生成失败,正在为您下载配置文件----\r')
+                input('[  提示  ]:生成失败,正在为您下载配置文件!\r')
                 r =requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.ini')
                 with open("conf.ini", "a+") as conf:
                     conf.write(r.content)
@@ -100,6 +100,8 @@ class TikTok():
 
         print('----读取配置完成----\r')
         self.judge_link()
+            print('[  提示  ]:读取本地配置完成!\r')
+            input('[  提示  ]:批量下载直接回车：')
 
     def out_Print(self):
         print(r'''
@@ -122,20 +124,20 @@ class TikTok():
         # 判断长短链
         if self.uid[20:] == 'https://v.douyin.com':
             r = requests.get(url = self.Find(self.uid)[0])
-            print('----为您下载多个视频----\r')
+            print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
             try:
                 key = re.findall('/user/(.*?)\?', str(r.url))[0]
             except:
                 # 防止正则匹配失效
                 key  = r.url[28:83]
-            print('----' , '用户的sec_id=' , key , '----\r')
+            print('[  提示  ]:用户的sec_id=%s!\r' % key)
         else:
             r = requests.get(url = self.Find(self.uid)[0])
-            print('----为您下载多个视频----\r')
+            print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
             key  = r.url[28:83]
-            print('----' , '用户的sec_id=' , key , '----\r')
+            print('[  提示  ]:用户的sec_id=%s!\r' % key)
 
         # 第一次访问页码
         max_cursor = 0
@@ -161,7 +163,7 @@ class TikTok():
         result = []
         while result == []:
             index += 1
-            print('----正在进行第 %d 次尝试----\r' % index)
+            print('[  提示  ]:正在进行第 %d 次尝试\r' % index)
             time.sleep(0.3)
             response = requests.get(
                 url = api_post_url, headers = self.headers)
@@ -170,10 +172,10 @@ class TikTok():
             #     f.write(response.content)
             if self.Isend == False:
                 # 下一页值
-                print('[  用户  ]:'+str(self.nickname)+'\r')
+                print('[  用户  ]:',str(self.nickname),'\r')
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
-                print('----抓获数据成功----\r')
+                print('[  提示  ]:抓获数据成功!\r')
 
                 # 处理第一页视频信息
                 self.video_info(result, max_cursor)
@@ -181,7 +183,7 @@ class TikTok():
                 max_cursor = html['max_cursor']
                 self.next_data(max_cursor)
                 # self.Isend = True
-                print('----此页无数据，为您跳过----\r')
+                print('[  提示  ]:此页无数据，为您跳过......\r')
 
         return result,max_cursor
 
@@ -207,7 +209,7 @@ class TikTok():
                 self.Isend = True
                 return
             index += 1
-            print('----正在对', max_cursor, '页进行第 %d 次尝试----\r' % index)
+            print('[  提示  ]:正在对', max_cursor, '页进行第 %d 次尝试！\r' % index)
             time.sleep(0.3)
             response = requests.get(url = api_naxt_post_url, headers = self.headers)
             html = json.loads(response.content.decode())
@@ -215,12 +217,12 @@ class TikTok():
                 # 下一页值
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
-                print('----', max_cursor, '页抓获数据成功----\r')
+                print('[  提示  ]:%d页抓获数据成功!\r' % max_cursor)
                 # 处理下一页视频信息
                 self.video_info(result, max_cursor)
             else:
                 self.Isend == True
-                print('----', max_cursor, '页抓获数据失败----\r')
+                print('[  提示  ]:%d页抓获数据失败!\r' % max_cursor)
                 # sys.exit()
 
     # 处理视频信息
@@ -290,7 +292,7 @@ class TikTok():
             # 每次判断视频是否已经下载过
             try:
                 if creat_time + author_list[i] + '.mp4' in v_info:
-                    print('[  提示  ]:' + author_list[i] + '[文件已存在，为您跳过]', end = "") # 开始下载，显示下载文件大小
+                    print('[  提示  ]:', author_list[i], '[文件已存在，为您跳过]', end = "") # 开始下载，显示下载文件大小
                     for i in range(20):
                         print(">",end = '', flush = True)
                         time.sleep(0.01)
@@ -333,7 +335,7 @@ class TikTok():
                                 end - start))                           # 输出下载用时时间
 
             except:
-                print('\r下载音频出错!\r')
+                print('\r[  警告  ]:下载音频出错!\r')
 
             # 尝试下载视频
             try:
@@ -366,12 +368,13 @@ class TikTok():
                                 end - start))                           # 输出下载用时时间
 
                 except Exception as error:
-                    print(error)
-                    input('下载视频出错!\r')
+                    # print(error)
+                    print('[  警告  ]:下载视频出错!')
+                    print('[  警告  ]:', error, '\r')
 
             except Exception as error:
                 # print(error)
-                print('该页视频资源没有' + str(self.count) + '个,已为您跳过\r')
+                print('[  提示  ]:该页视频资源没有', self.count, '个,已为您跳过！\r')
                 break
         # 获取下一页信息
         self.next_data(max_cursor)
