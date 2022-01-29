@@ -26,14 +26,19 @@ class TikTok():
         print("#" * 120)
         print(
     """
-                                                TikTokDownload V1.2.3
+                                                TikTokDownload V1.2.5
         使用说明：
-                1、运行软件前先打开目录下 conf.ini 文件按照要求进行配置
-                2、批量下载可直接修改配置文件，单一视频下载请直接打开粘贴视频链接即可
-                3、如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
-                4、后续可能会更新GUI界面，操作更简单
+                1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
+                2、命令行操作方法：1）将本程序路径添加到环境变量
+                                2）控制台输入 TikTokMulti -u https://v.douyin.com/JtcjTwo/
 
-        注意：  单个视频链接与用户主页链接要分清，软件闪退可以通过终端运行查看报错信息（一般是链接弄错的问题）
+                3、配置文件操作方法：1）运行软件前先打开目录下 conf.ini 文件按照要求进行配置
+                                2）按照控制台输出信息操作
+
+                4、如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
+                5、GUI预览版本现已发布，操作更简单 https://github.com/Johnserf-Seed/TikTokDownload/tags 下载
+
+        注意：  目前已经支持app内分享短链和web端长链识别。
     """
         )
         print("#" * 120)
