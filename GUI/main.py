@@ -21,7 +21,6 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QMouseEvent
 import resource,sys
-import TikTokMulti
 
 class Ui_Dialog(QtWidgets.QMainWindow):
     def __init__(self):
