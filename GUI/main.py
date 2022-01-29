@@ -156,6 +156,8 @@ class Ui_Dialog(QtWidgets.QMainWindow):
         self.pushButton_2.raise_()
         self.checkBox_2.raise_()
         self.checkBox_3.raise_()
+        self.setMinimumHeight(600)
+        self.setMinimumWidth(900)
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
