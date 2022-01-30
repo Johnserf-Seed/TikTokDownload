@@ -139,23 +139,24 @@ class TikTok():
 
     # 判断个人主页api链接
     def judge_link(self):
-        # 判断长短链,考虑到http与https协议
-        if self.uid[20:] == 'https://v.douyin.com' or self.uid[19:] == 'http://v.douyin.com':
+        # 判断长短链
+        if self.uid[20:] == 'https://v.douyin.com':
             r = requests.get(url = self.Find(self.uid)[0])
             print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
             try:
                 key = re.findall('/user/(.*?)\?', str(r.url))[0]
-            except:
+            except Exception as e:
+                #print(e)
                 # 防止正则匹配失效
-                key  = r.url[28:83]
-            print('[  提示  ]:用户的sec_id=%s!\r' % key)
+                key  = r.url[28:150]
+            print('[  提示  ]:用户的sec_id=%s\r' % key)
         else:
             r = requests.get(url = self.Find(self.uid)[0])
             print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
-            key  = r.url[28:83]
-            print('[  提示  ]:用户的sec_id=%s!\r' % key)
+            key  = r.url[28:150]
+            print('[  提示  ]:用户的sec_id=%s\r' % key)
 
         # 第一次访问页码
         max_cursor = 0
