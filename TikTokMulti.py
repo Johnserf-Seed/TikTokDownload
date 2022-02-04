@@ -144,18 +144,16 @@ class TikTok():
             r = requests.get(url = self.Find(self.uid)[0])
             print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
-            try:
-                key = re.findall('/user/(.*?)\?', str(r.url))[0]
-            except Exception as e:
-                #print(e)
-                # 防止正则匹配失效
-                key  = r.url[28:150]
+            for one in re.finditer(r'user/([\d\D]*?)\?',str(r.url)):
+                key = one.group(1)
+            # key = re.findall('/user/(.*?)\?', str(r.url))[0]
             print('[  提示  ]:用户的sec_id=%s\r' % key)
         else:
             r = requests.get(url = self.Find(self.uid)[0])
             print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
-            key  = r.url[28:150]
+            for one in re.finditer(r'user/([\d\D]*?)\?',str(r.url)):
+                    key = one.group(1)
             print('[  提示  ]:用户的sec_id=%s\r' % key)
 
         # 第一次访问页码
