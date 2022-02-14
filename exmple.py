@@ -6,5 +6,5 @@ MTK.TikTok()
 #单视频下载
 import TikTokDownload as TK
 
-TK.video_download(TK.main())
+TK.video_download(*TK.main())
 
