@@ -48,7 +48,7 @@
    #单视频下载
    import TikTokDownload as TK
    
-   TK.video_download(*TK.main())
+   TK.video_download(TK.main())
    ```
 
    ***example.py需确保TikTokMulti.py与TikTokDownload.py两个文件都在相同目录中***
