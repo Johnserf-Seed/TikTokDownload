@@ -51,7 +51,7 @@ MTK.TikTok()
 
 #Single video download
 import TikTokDownload as TK
-TK.video_download(TK.main())
+TK.video_download(*TK.main())
 ```
 
 ***example.py need to ensure TikTokMulti.py and TikTokDownload.py both files are in the same directory***
