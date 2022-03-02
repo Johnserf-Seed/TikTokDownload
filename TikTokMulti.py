@@ -154,13 +154,14 @@ class TikTok():
             print('[  提示  ]:为您下载多个视频!\r')
             # 获取用户sec_uid
             # 因为某些情况链接中会有?previous_page=app_code_link参数，为了不影响key结果做二次过滤
+            # 2022/03/02: 用户主页链接中不应该出现?previous_page,?enter_from参数
             # 原user/([\d\D]*?)([?])
-            try:
-                for one in re.finditer(r'user\/([\d\D]*)([?])',str(r.url)):
-                    key = one.group(1)
-            except:
-                for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
-                    key = one.group(1)
+            # try:
+            #     for one in re.finditer(r'user\/([\d\D]*)([?])',str(r.url)):
+            #         key = one.group(1)
+            # except:
+            for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
+                key = one.group(1)
             print('[  提示  ]:用户的sec_id=%s\r' % key)
 
         # 第一次访问页码
