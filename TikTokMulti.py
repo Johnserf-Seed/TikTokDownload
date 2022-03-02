@@ -425,5 +425,5 @@ if __name__ == "__main__":
         get_args(args.user, args.dir, args.music, args.count, args.mode)
     except Exception as e:
         # print(e)
-        print('[  提示  ]:未输入命令，自动退出!')
+        print('[  提示  ]:未输入命令或意外出错，自动退出!')
         sys.exit(0)
