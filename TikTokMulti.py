@@ -8,6 +8,7 @@
 @License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
+@Thanks     :RobotJohns
 '''
 
 import requests,json,os,time,configparser,re,sys,argparse
@@ -300,6 +301,14 @@ class TikTok():
             except Exception as error:
                 # print(error)
                 pass
+
+            # Code From RobotJohns https://github.com/RobotJohns
+            # 移除文件名称  /r/n
+            author_list[i] = ''.join(author_list[i].splitlines())
+            if len(author_list[i]) > 182:
+                print("[  提示  ]:", "文件名称太长 进行截取")
+                author_list[i] = author_list[i][0:180]
+                print("[  提示  ]:","截取后的文案：{0}，长度：{1}".format(author_list[i], len(author_list[i])))
 
             # 每次判断视频是否已经下载过
             try:
