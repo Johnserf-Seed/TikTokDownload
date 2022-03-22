@@ -16,16 +16,16 @@ def printUsage():
         使用方法: 1、添加为环境变量 2、输入命令
         -u<url 抖音复制的链接:https://v.douyin.com/JtcjTwo/>
         -m<music 是否下载音频,默认为yes可选no>
-        
+
         例如：TikTokDownload.exe -u https://v.douyin.com/JtcjTwo/ -m yes
-        
+
     ''')
     #TikTokDownLoad.exe --url=<抖音复制的链接> --music=<是否下载音频,默认为yes可选no>
-    
-def Find(string): 
+
+def Find(string):
     # findall() 查找匹配正则表达式的字符串
     url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
-    return url 
+    return url
 
 def main():
     urlarg=""
@@ -35,7 +35,7 @@ def main():
     except getopt.GetoptError:
         printUsage()
         sys.exit(-1)
-    try:    
+    try:
         if opts == []:
             printUsage()
             urlarg = str(input("请输入抖音链接:"))
@@ -56,29 +56,30 @@ def main():
 def download(video_url,music_url,video_title,music_title,headers,musicarg):
     #视频下载
     if video_url == '':
-        print('该视频可能无法下载哦~')
+        print('[  提示  ]:该视频可能无法下载哦~\r')
         return
     else:
         r=requests.get(url=video_url,headers=headers)
         if video_title == '':
-            video_title = '此视频没有文案_%s' % music_title
+            video_title = '[  提示  ]:此视频没有文案_%s\r' % music_title
         with open(f'{video_title}.mp4','wb') as f:
             f.write(r.content)
+            print('[  视频  ]:%s下载完成\r' % video_title)
 
     if music_url == '':
-        input('下载出错，按任意键退出...')
-        return
+        print('[  提示  ]:下载出错\r')
+        #return
     else:
         #原声下载
         if musicarg != 'yes':
-            input('下载完成，按任意键退出...')
-            return
+            print('[  提示  ]:不下载%s视频原声\r' % video_title)
+            #return
         else:
             r=requests.get(url=music_url,headers=headers)
             with open(f'{music_title}.mp3','wb') as f:
                 f.write(r.content)
-            input('下载完成，按任意键退出...')
-            return
+                print('[  音频  ]:%s下载完成\r' % music_title)
+            #return
 
 def video_download(urlarg,musicarg):
         headers = {
@@ -92,18 +93,18 @@ def video_download(urlarg,musicarg):
         try:
             video_url = str(js['item_list'][0]['video']['play_addr']['url_list'][0]).replace('playwm','play')   #去水印后链接
         except:
-            print('视频链接获取失败')
+            print('[  提示  ]:视频链接获取失败\r')
             video_url = ''
         try:
             music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
         except:
-            print('该音频目前不可用')
+            print('[  提示  ]:该音频目前不可用\r')
             music_url = ''
         try:
             video_title = str(js['item_list'][0]['desc'])
             music_title = str(js['item_list'][0]['music']['author'])
         except:
-            print('标题获取失败')
+            print('[  提示  ]:标题获取失败\r')
             video_title = '视频走丢啦~'
             music_title = '音频走丢啦~'
         download(video_url,music_url,video_title,music_title,headers,musicarg)
@@ -111,4 +112,3 @@ def video_download(urlarg,musicarg):
 if __name__=="__main__":
     urlarg,musicarg = main()
     video_download(urlarg,musicarg)
-	
