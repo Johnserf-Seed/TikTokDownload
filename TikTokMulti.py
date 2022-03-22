@@ -48,6 +48,9 @@ class TikTok():
         # 用户主页      # 保存路径      # 单页下载数        # 下载音频      # 下载模式      # 保存用户名            # 点赞个数
         self.uid = '';self.save = '';self.count = '';self.musicarg = '';self.mode = '';self.nickname = '';self.like_counts = 0
 
+        # 用户唯一标识
+        self.sec = ''
+
         # 检测配置文件
         if os.path.isfile("conf.ini") == True:
             pass
@@ -147,6 +150,7 @@ class TikTok():
             # 获取用户sec_uid
             for one in re.finditer(r'user/([\d\D]*?)\?',str(r.url)):
                 key = one.group(1)
+                self.sec = key
             # key = re.findall('/user/(.*?)\?', str(r.url))[0]
             print('[  提示  ]:用户的sec_id=%s\r' % key)
         else:
@@ -162,6 +166,7 @@ class TikTok():
             # except:
             for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
                 key = one.group(1)
+                self.sec = key
             print('[  提示  ]:用户的sec_id=%s\r' % key)
 
         # 第一次访问页码
@@ -218,9 +223,10 @@ class TikTok():
         r = requests.get(url = self.Find(self.uid)[0])
 
         # 获取用户sec_uid
-        key = re.findall('/user/(.*?)\?', str(r.url))[0]
-        if not key:
-            key = r.url[28:83]
+        #key = re.findall('/user/(.*?)\?', str(r.url))[0]
+        #if not key:
+        #    key = r.url[28:83]
+        key = self.sec
 
         # 构造下一次访问链接
         api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
@@ -287,7 +293,8 @@ class TikTok():
 
         v_info = self.check_info(self.nickname)
 
-        for i in range(self.count):
+        # self.count值可能大于实际api的长度，所以用len(author_list) 2022/03/22改
+        for i in range(len(author_list)):
 
             # 点赞视频排序
             self.like_counts += 1
