@@ -1,16 +1,14 @@
 @echo off & title TikTokDownload update By JohnserfSeed
- 
-::ÉèÖÃÒªÏÂÔØµÄÎÄ¼şÁ´½Ó£¬½öÖ§³ÖhttpĞ­Òé¡£±ØĞ´Ïî¡£
+
 set Url=https://github.com/Johnserf-Seed/TikTokDownload/releases/download/v1.2.5/TikTokMulti.exe
 set Url2=https://github.com/Johnserf-Seed/TikTokDownload/releases/download/v1.2.5/TikTokDownload.exe
 
-::ÉèÖÃÎÄ¼ş±£´æÄ¿Â¼£¬ÈôÏÂÔØÖÁµ±Ç°Ä¿Â¼£¬ÇëÁô¿Õ
 set Save=.\dist
-if exist %Save% (echo ¸üĞÂÎ»ÖÃ£º%Save%) else (mkdir %Save% & echo ÒÑ´´½¨£º%Save%)
+if exist %Save% (echo Update Locationï¼š%Save%) else (mkdir %Save% & echo Createdï¼š%Save%)
 if not exist ".\dist\TikTokMulti.exe" (
 del ".\dist\TikTokMulti.exe"
 del ".\dist\TikTokDownload.exe"
-echo ÒÑÉ¾³ı¾É°æ±¾
+echo old version deleted
 )
 
 for %%a in ("%Url%") do set "FileName=%%~nxa"
@@ -32,9 +30,9 @@ echo   ado.Close
 echo End Sub)>DownloadFile.vbs
 
 DownloadFile.vbs "%Url%" ".\dist\TikTokMulti.exe"
-echo TikTokMulti¸üĞÂÍê³É
+echo TikTokMulti Update Complete
 DownloadFile.vbs "%Url2%" ".\dist\TikTokDownload.exe"
-echo TikTokDownload¸üĞÂÍê³É
-::ÏÂÔØÍêÉ¾³ıÉú³ÉµÄvbsÎÄ¼ş
+echo TikTokDownload Update Complete
+
 del DownloadFile.vbs
 pause
