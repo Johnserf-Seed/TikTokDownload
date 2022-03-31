@@ -144,37 +144,34 @@ class TikTok():
     # 判断个人主页api链接
     def judge_link(self):
         # 判断长短链
-        if self.uid[0:20] == 'https://v.douyin.com':
-            r = requests.get(url = self.Find(self.uid)[0])
-            print('[  提示  ]:为您下载多个视频!\r')
-            # 获取用户sec_uid
-            for one in re.finditer(r'user/([\d\D]*?)\?',str(r.url)):
-                key = one.group(1)
-                self.sec = key
-            # key = re.findall('/user/(.*?)\?', str(r.url))[0]
-            print('[  提示  ]:用户的sec_id=%s\r' % key)
-        else:
-            r = requests.get(url = self.Find(self.uid)[0])
-            print('[  提示  ]:为您下载多个视频!\r')
-            # 获取用户sec_uid
-            # 因为某些情况链接中会有?previous_page=app_code_link参数，为了不影响key结果做二次过滤
-            # 2022/03/02: 用户主页链接中不应该出现?previous_page,?enter_from参数
-            # 原user/([\d\D]*?)([?])
-            # try:
-            #     for one in re.finditer(r'user\/([\d\D]*)([?])',str(r.url)):
-            #         key = one.group(1)
-            # except:
-            for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
-                key = one.group(1)
-                self.sec = key
-            print('[  提示  ]:用户的sec_id=%s\r' % key)
+        r = requests.get(url = self.Find(self.uid)[0])
+        print('[  提示  ]:为您下载多个视频!\r')
+        # 获取用户sec_uid
+        for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
+            self.sec = one.group(1)
+        # key = re.findall('/user/(.*?)\?', str(r.url))[0]
+        print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
+        #else:
+        #    r = requests.get(url = self.Find(self.uid)[0])
+        #    print('[  提示  ]:为您下载多个视频!\r')
+        #    # 获取用户sec_uid
+        #    # 因为某些情况链接中会有?previous_page=app_code_link参数，为了不影响key结果做二次过滤
+        #    # 2022/03/02: 用户主页链接中不应该出现?previous_page,?enter_from参数
+        #    # 原user/([\d\D]*?)([?])
+        #    # try:
+        #    #     for one in re.finditer(r'user\/([\d\D]*)([?])',str(r.url)):
+        #    #         key = one.group(1)
+        #    # except:
+        #    for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
+        #        self.sec = one.group(1)
+        #    print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
 
         # 第一次访问页码
         max_cursor = 0
 
         # 构造第一次访问链接
         api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % ( 
-                self.mode, key, str(self.count), max_cursor)
+                self.mode, self.sec, str(self.count), max_cursor)
 
         response = requests.get(url = api_post_url, headers = self.headers)
         html = json.loads(response.content.decode())
@@ -183,7 +180,7 @@ class TikTok():
                 os.makedirs(self.save + self.mode + "\\" + self.nickname)
 
         self.get_data(api_post_url, max_cursor)
-        return api_post_url,max_cursor,key
+        return api_post_url,max_cursor,self.sec
 
     # 获取第一次api数据
     def get_data(self, api_post_url, max_cursor):
@@ -226,11 +223,21 @@ class TikTok():
         #key = re.findall('/user/(.*?)\?', str(r.url))[0]
         #if not key:
         #    key = r.url[28:83]
-        key = self.sec
+        # key = self.sec
+
+        if self.uid[0:20] == 'https://v.douyin.com':
+            r = requests.get(url = self.Find(self.uid)[0])
+            # 获取用户sec_uid
+            for one in re.finditer(r'user/([\d\D]*?)\?',str(r.url)):
+                self.sec = one.group(1)
+        else:
+            r = requests.get(url = self.Find(self.uid)[0])
+            for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
+                self.sec = one.group(1)
 
         # 构造下一次访问链接
         api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
-            self.mode, key, str(self.count), max_cursor)
+            self.mode, self.sec, str(self.count), max_cursor)
 
         index = 0
         result = []
