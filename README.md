@@ -1,7 +1,6 @@
 # TikTokDownload V1.2.5
-**抖音去水印视频下载，年前最后一次大大大更新**
+**抖音去水印视频下载
 
-**bug统一年后修复**
 ![mit](https://img.shields.io/badge/license-MIT-blue)![python: v3.8.5 (shields.io](https://img.shields.io/badge/python-v3.8.5-green)![pyqt](https://img.shields.io/badge/Qt5-v5.14.3-red)<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text-decoration:none;"><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/></a>
 
 [English](README-EN.md) [简体中文](README.md)
@@ -21,6 +20,12 @@
 
 **V1.2.5控制台界面版本**
 ![V1.2.5控制台界面版本](https://tvax2.sinaimg.cn/large/006908GAly1gyuycwma5lj30ux0qstiz.jpg)
+
+## Web版项目
+
+[Johnserf-Seed/TikTokWeb](https://github.com/Johnserf-Seed/TikTokWeb)
+
+![image](https://tvax3.sinaimg.cn/large/006908GAly1h1e6e0mjmbj30m217a168.jpg)
 
 
 ### 使用教程
