@@ -266,21 +266,26 @@ class TikTok():
 
     # 处理视频信息
     def video_info(self, result, max_cursor):
-        # 作者信息      # 无水印视频链接    # 作品id        # 作者id        # 封面大图
-        author_list = [];video_list = [];aweme_id = [];nickname = [];# dynamic_cover = []
+        # 作者信息      # 无水印视频链接    # 作品id        # 作者id      # 唯一视频标识# 封面大图
+        author_list = [];video_list = [];aweme_id = [];nickname = [];uri_list=[]# dynamic_cover = []
 
         for v in range(self.count):
             try:
                 author_list.append(str(result[v]['desc']))
+                # 2022/04/22
+                # 如果直接从 /web/api/v2/aweme/post 这个接口拿数据，那么只有720p的清晰度
+                # 如果在 /web/api/v2/aweme/iteminfo/ 这个接口拿视频uri
+                # 拼接到 aweme.snssdk.com/aweme/v1/play/?video_id=xxxx&radio=1080p 则获取到1080p清晰的
                 video_list.append(str(result[v]['video']['play_addr']['url_list'][0]))
+                uri_list.append(str(result[v]['video']['play_addr']['uri']))
                 aweme_id.append(str(result[v]['aweme_id']))
                 nickname.append(str(result[v]['author']['nickname']))
                 # dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
             except Exception as error:
                 # print(error)
                 pass
-        self.videos_download(author_list, video_list, aweme_id, nickname, max_cursor)
-        return self,author_list,video_list,aweme_id,nickname,max_cursor
+        self.videos_download(author_list, video_list, uri_list, aweme_id, nickname, max_cursor)
+        return self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
 
     # 检测视频是否已经下载过
     def check_info(self, nickname):
@@ -291,7 +296,9 @@ class TikTok():
         return v_info
 
     # 音视频下载
-    def videos_download(self, author_list, video_list, aweme_id, nickname, max_cursor):
+    def videos_download(self, author_list, video_list, uri_list, aweme_id, nickname, max_cursor):
+        # 生成1080p分辨率的视频链接
+        new_video_list = [];uri_url = 'https://aweme.snssdk.com/aweme/v1/play/?video_id=%s&radio=1080p&line=0'
         # 创建并检测下载目录是否存在
         try:
             os.makedirs(self.save + self.mode + "\\" + nickname[0])
@@ -370,12 +377,16 @@ class TikTok():
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
                                 end - start))                           # 输出下载用时时间
 
-            except:
+            except Exception as error:
+                print(error)
                 print('\r[  警告  ]:下载音频出错!\r')
 
             # 尝试下载视频
             try:
-                video = requests.get(video_list[i])                     # 保存视频
+                new_video_list.append(uri_url % uri_list[i])            # 生成1080p视频链接
+                video = requests.get(video_list[i])                     # 视频信息
+                t_video = requests.get(url=new_video_list[i],
+                    headers=self.headers).content                       # 视频内容
                 start = time.time()                                     # 下载开始时间
                 size = 0                                                # 初始化已下载大小
                 chunk_size = 1024                                       # 每次下载的数据大小
@@ -394,17 +405,15 @@ class TikTok():
 
                         with open(v_url,'wb') as file:                  # 显示进度条
                             for data in video.iter_content(chunk_size = chunk_size):
-                                file.write(data)
                                 size += len(data)
                                 print('\r' + '[下载进度]:%s%.2f%%' % (
                                     '>' * int(size * 50 / content_size), float(size / content_size * 100)), end=' ')
-
+                            file.write(t_video)
                             end = time.time()                           # 下载结束时间
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
                                 end - start))                           # 输出下载用时时间
 
                 except Exception as error:
-                    # print(error)
                     print('[  警告  ]:下载视频出错!')
                     print('[  警告  ]:', error, '\r')
 
