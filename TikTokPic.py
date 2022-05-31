@@ -100,8 +100,10 @@ def pic_download(urlarg):
                 print('[  提示  ]:请重新输入图集链接!\r')
                 urlarg = get_args()
             pic_download(urlarg)
+            
+        # 2022/05/31 抖音把图集更新为note
+        key = re.findall('note/(\d+)?',str(r.url))[0]
 
-        key = re.findall('video/(\d+)?',str(r.url))[0]
         # 官方接口
         jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'
         js = json.loads(requests.get(url = jx_url,headers = headers).text)
