@@ -141,6 +141,27 @@ class TikTok():
             'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
         return url
 
+    def replaceT(self, obj):
+        """
+        @description  : 替换文案非法字符
+        ---------
+        @param  : ojb 传入对象
+        -------
+        @Returns  : n 处理后的内容
+        -------
+        """
+        r = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+        if type(obj) == list:
+            new = []
+            for i in obj:
+                # 替换为下划线
+                retest = re.sub(r, "_", i)
+                new.append(retest)
+        elif type(obj) == str:
+            # 替换为下划线
+            new = re.sub(r, "_", obj)
+        return new
+
     # 判断个人主页api链接
     def judge_link(self):
         # 判断长短链
@@ -284,6 +305,11 @@ class TikTok():
             except Exception as error:
                 # print(error)
                 pass
+        # 过滤视频文案和作者名中的非法字符
+        print('[  提示  ]:等待替换文案非法字符!\r')
+        author_list = self.replaceT(author_list)
+        print('[  提示  ]:等待替换作者非法字符!\r')
+        nickname = self.replaceT(nickname)
         self.videos_download(author_list, video_list, uri_list, aweme_id, nickname, max_cursor)
         return self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
 
@@ -448,5 +474,6 @@ if __name__ == "__main__":
         get_args(args.user, args.dir, args.music, args.count, args.mode)
     except Exception as e:
         # print(e)
+        print('[  警告  ]:',e,'可以复制此报错内容发issues')
         print('[  提示  ]:未输入命令或意外出错，自动退出!')
         sys.exit(0)
