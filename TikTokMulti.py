@@ -334,8 +334,7 @@ class TikTok():
         # 创建并检测下载目录是否存在
         try:
             #os.makedirs(self.save + self.mode + "\\" + nickname[0])
-            nickname_path = os.path.join(self.down_path, nickname[0])
-            os.makedirs(nickname_path)
+            os.makedirs(os.path.join(self.down_path, nickname[0]))
         except:
             pass
 
