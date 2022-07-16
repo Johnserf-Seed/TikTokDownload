@@ -7,6 +7,10 @@ echo Bulid TikTokMulti
 pyinstaller -F -i logo.ico --version-file API\TikTokMultiVersion.txt TikTokMulti.py
 echo Bulid TikTokDownload
 pyinstaller -F -i logo.ico --version-file API\TikTokDownloadVersion.txt TikTokDownload.py
+echo Bulid TikTokMultiDownload
+pyinstaller -F -i logo.ico --version-file API\TikTokMultiVersion.txt TikTokMultiDown.py
+echo Bulid TikTokTools
+pyinstaller -F -i logo.ico --version-file API\TikTokMultiVersion.txt TikTokTools.py
 echo Bulid TikTokPic
 pyinstaller -F -i logo.ico --version-file API\TikTokPicVersion.txt TikTokPic.py
 pause
