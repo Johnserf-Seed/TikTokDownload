@@ -74,7 +74,7 @@
 4. 批量保存
 
 	- 下载录制
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5bel0gf8ng319r0g3qvc.gif" alt="image" width="800" data-width="808" data-height="224">
+	<img src="https://tva1.sinaimg.cn/large/006908GAly1h5bgh6pvgog318h0ey4qp.gif" alt="image" width="800" data-width="808" data-height="224">
    
 	- 跳过已下载
 	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
