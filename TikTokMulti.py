@@ -411,7 +411,7 @@ class TikTok():
             try:
                 new_video_list.append(uri_url % uri_list[i])            # 生成1080p视频链接
                 video = requests.get(video_list[i])                     # 视频信息
-                t_video = requests.get(url=new_video_list[i],
+                t_video = requests.get(url=new_video_list[0],
                     headers=self.headers).content                       # 视频内容
                 start = time.time()                                     # 下载开始时间
                 size = 0                                                # 初始化已下载大小
@@ -438,6 +438,7 @@ class TikTok():
                             end = time.time()                           # 下载结束时间
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
                                 end - start))                           # 输出下载用时时间
+                            self.new_video_list = []
 
                 except Exception as error:
                     print('[  警告  ]:下载视频出错!')
