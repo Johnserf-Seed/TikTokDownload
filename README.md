@@ -32,12 +32,16 @@
 
   批量下载可直接修改配置文件，单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析
 
-​                                              **新版配置文件conf.ini**                                                               *** 旧版配置文件conf.conf***
-
-<figure class="half" align="center">
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg" width="300">
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg" width="300">
-</figure>
+<table>
+    <tr>
+        <td><center><img src="https://tva2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg"></center></td>
+        <td><center><img src="https://tvax3.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
+    </tr>
+    <tr>
+    	<td>新版配置文件conf.ini</td>
+    	<td>旧版配置文件conf.conf</td>
+    </tr>
+</table>
 
 2. ~~本项目制作了pip包，可以输入 ``` pip install TikTokDownload==1.2.3 ```安装~~
 （1.2.3没有及时更新到1.3.0，请勿安装）
