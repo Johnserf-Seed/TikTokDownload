@@ -1,0 +1,183 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Description:Download.py
+@Date       :2022/08/11 22:02:49
+@Author     :JohnserfSeed
+@version    :1.0
+@License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
+@Github     :https://github.com/johnserf-seed
+@Mail       :johnserfseed@gmail.com
+-------------------------------------------------
+Change Log  :
+2022/08/11 22:02:49 : Init
+-------------------------------------------------
+'''
+
+import Util
+
+class Download():
+
+    def __init__(self):
+        pass
+
+    def VideoDownload(self, profileData):
+        # 生成1080p分辨率的视频链接
+        self.like_counts = 0
+        self.new_video_list = []
+        self.uri_url = 'https://aweme.snssdk.com/aweme/v1/play/?video_id=%s&radio=1080p&line=0'
+        self.music = profileData.music
+        self.headers = profileData.headers
+        self.mode = profileData.mode
+        self.author_list = profileData.author_list
+        self.video_list = profileData.video_list
+        self.uri_list = profileData.uri_list
+        self.aweme_id = profileData.aweme_id
+        self.nickname = profileData.nickname
+        self.max_cursor = profileData.max_cursor
+        self.path = profileData.path                                 # 下载路径
+        self.sprit = profileData.sprit                               # 系统分隔符
+        # self.v_info = profileData.v_info
+        # self.size = 0                                              # 初始化已下载大小
+        # self.chunk_size = 1024                                     # 每次下载的数据大小
+        #self.profile = Profile()
+        self.check = Util.CheckInfo()
+
+        for i in range(len(self.author_list)):
+            # 点赞视频排序
+            self.like_counts += 1
+            # 获取单部视频接口信息
+            try:
+                # 官方接口
+                jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={self.aweme_id[i]}'
+                js = Util.json.loads(Util.requests.get(
+                    url=jx_url, headers=self.headers).text)
+
+                creat_time = Util.time.strftime(
+                    "%Y-%m-%d %H.%M.%S", Util.time.localtime(js['item_list'][0]['create_time']))
+            except Exception as e:
+                Util.log.warning(e)
+                print('[  🚩  ]:%s\r' % e)
+                Util.log.warning(
+                    f'[  🚩  ]: {self.nickname[i]} 的视频 {self.aweme_id[i]} 下载失败')
+                pass
+
+            # Code From RobotJohns https://github.com/RobotJohns
+            # 移除文件名称  /r/n
+            self.author_list[i] = ''.join(self.author_list[i].splitlines())
+            if len(self.author_list[i]) > 182:
+                print("[  提示  ]:", "文件名称太长 进行截取")
+                self.author_list[i] = self.author_list[i][0:180]
+                print("[  提示  ]:", "截取后的文案：{0}，长度：{1}".format(
+                    self.author_list[i], len(self.author_list[i])))
+
+            # 检查视频下载情况
+            file_state = self.check.test(
+                self.path, creat_time, self.author_list[i])
+            if file_state == True:
+                print('[  提示  ]: %s%s [文件已存在，为您跳过]' %
+                        (creat_time, self.author_list[i]), end="")
+                Util.log.info('[  提示  ]:%s[文件已存在，为您跳过]' % self.author_list[i])
+                # 在PyQt中无法使用flush进行消息传输
+                # for _ in range(20):
+                #     print(">",end = '', flush = True)
+                #     Util.time.sleep(0.01)
+                print('\r')
+                continue
+            else:
+                print('\r')
+                # continue
+
+            # 尝试下载音频
+            try:
+                if self.music == "yes":                                 # 保留音频
+                    music_url = str(js['item_list'][0]['music']
+                                    ['play_url']['url_list'][0])
+                    music_title = str(js['item_list'][0]['music']['author'])
+                    music = Util.requests.get(
+                        music_url)                       # 保存音频
+                    start = Util.time.time()                                 # 下载开始时间
+                    size = 0                                                # 初始化已下载大小
+                    chunk_size = 1024                                       # 每次下载的数据大小
+                    content_size = int(
+                        music.headers['content-length'])  # 下载文件总大小
+                    if music.status_code == 200:                        # 判断是否响应成功
+                        print('[  音频  ]:' + creat_time + self.author_list[i]+'[文件 大小]:{size:.2f} MB'.format(
+                            size=content_size / chunk_size / 1024))    # 开始下载，显示下载文件大小
+
+                        if self.mode == 'post':
+                            m_url = self.path + self.sprit + creat_time + Util.re.sub(
+                                r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + self.author_list[i] + '.mp3'
+                        else:
+                            m_url = self.path + self.sprit + str(self.like_counts) + '、' + Util.re.sub(
+                                r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + self.author_list[i] + '.mp3'
+
+                        with open(m_url, 'wb') as file:                  # 显示进度条
+                            for data in music.iter_content(chunk_size=chunk_size):
+                                file.write(data)
+                                size += len(data)
+                                print('\r' + '[下载进度]:%s%.2f%%' % (
+                                    '>' * int(size * 50 / content_size), float(size / content_size * 100)), end=' ')
+
+                        end = Util.time.time()                           # 下载结束时间
+                        print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
+                            end - start))                           # 输出下载用时时间
+                        Util.log.info(m_url)
+                        Util.log.info('[下载完成]:耗时: %.2f秒\n' % (end - start))
+
+            except Exception as e:
+                Util.log.error(e)
+                print('[  ❌  ]:%s\r' % e)
+                print('\r[  警告  ]:下载音频出错!\r')
+                Util.log.error('[  ❌  ]:下载音频出错!')
+
+            # 尝试下载视频
+            try:                                                        # 生成1080p视频链接
+                self.new_video_list.append(self.uri_url % self.uri_list[i])
+                video = Util.requests.get(
+                    self.video_list[i])                # 视频信息
+                t_video = Util.requests.get(url=self.new_video_list[0],
+                                            headers=self.headers).content                       # 视频内容
+                start = Util.time.time()                                     # 下载开始时间
+                size = 0                                                # 初始化已下载大小
+                chunk_size = 1024                                       # 每次下载的数据大小
+                content_size = int(
+                    video.headers['content-length'])     # 下载文件总大小
+                try:
+                    if video.status_code == 200:                        # 判断是否响应成功
+                        print('[  视频  ]:' + creat_time + self.author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
+                            size=content_size / chunk_size / 1024))    # 开始下载，显示下载文件大小
+                        if self.mode == 'post':
+                            v_url = self.path + self.sprit + creat_time + Util.re.sub(
+                                r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
+                        else:
+                            v_url = self.path + self.sprit + str(self.like_counts) + '、' + Util.re.sub(
+                                r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
+
+                        with open(v_url, 'wb') as file:                  # 显示进度条
+                            for data in video.iter_content(chunk_size=chunk_size):
+                                size += len(data)
+                                print('\r' + '[下载进度]:%s%.2f%%' % (
+                                    '>' * int(size * 50 / content_size), float(size / content_size * 100)), end=' ')
+                            file.write(t_video)
+
+                        end = Util.time.time()                           # 下载结束时间
+                        print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
+                            end - start))                           # 输出下载用时时间
+                        Util.log.info(v_url)
+                        Util.log.info('[下载完成]:耗时: %.2f秒\n' % (end - start))
+                        self.new_video_list = []                    # 清除每个旧的视频列表
+
+                except Exception as e:
+                    Util.log.error(e)
+                    print('[  ❌  ]:%s\r' % e)
+                    print('[  警告  ]:下载视频出错!')
+
+            except Exception as e:
+                Util.log.error(e)
+                print('[  ❌  ]:%s\r' % e)
+                print('[  提示  ]:该页视频资源没有35个,已为您跳过！\r')
+                break
+
+if __name__ == '__main__':
+    Download()
