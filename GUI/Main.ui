@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>600</height>
+    <width>1111</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@ color: #FFFFFF;</string>
     <rect>
      <x>230</x>
      <y>0</y>
-     <width>670</width>
+     <width>851</width>
      <height>600</height>
     </rect>
    </property>
@@ -90,7 +90,7 @@ font: 9pt &quot;華康布丁體&quot;;</string>
   <widget class="QPushButton" name="Button_Close">
    <property name="geometry">
     <rect>
-     <x>860</x>
+     <x>1030</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -107,7 +107,7 @@ background-color: rgb(255, 81, 53);</string>
   <widget class="QPushButton" name="Button_Max">
    <property name="geometry">
     <rect>
-     <x>830</x>
+     <x>1000</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -124,7 +124,7 @@ background-color: #FFC32D;</string>
   <widget class="QPushButton" name="Button_Min">
    <property name="geometry">
     <rect>
-     <x>800</x>
+     <x>970</x>
      <y>20</y>
      <width>21</width>
      <height>21</height>
@@ -142,8 +142,8 @@ background-color: #37C847;</string>
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>100</y>
-     <width>471</width>
+     <y>90</y>
+     <width>651</width>
      <height>41</height>
     </rect>
    </property>
@@ -182,8 +182,8 @@ qproperty-alignment:AlignHCenter;</string>
   <widget class="QPushButton" name="Button_Go">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>100</y>
+     <x>930</x>
+     <y>90</y>
      <width>121</width>
      <height>41</height>
     </rect>
@@ -213,7 +213,7 @@ qproperty-alignment:AlignHCenter;</string>
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>160</y>
+     <y>140</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -263,8 +263,8 @@ background-color: rgb(22, 23, 34);</string>
   <widget class="QCheckBox" name="Check_Cover">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>160</y>
+     <x>350</x>
+     <y>140</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -276,8 +276,8 @@ background-color: rgb(22, 23, 34);</string>
   <widget class="QCheckBox" name="Check_Music">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>160</y>
+     <x>460</x>
+     <y>140</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -291,7 +291,7 @@ background-color: rgb(22, 23, 34);</string>
     <rect>
      <x>230</x>
      <y>0</y>
-     <width>670</width>
+     <width>851</width>
      <height>60</height>
     </rect>
    </property>
@@ -301,6 +301,25 @@ border-top-right-radius: 25px;</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>170</y>
+     <width>791</width>
+     <height>401</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="lineWrapMode">
+    <enum>QTextEdit::NoWrap</enum>
    </property>
   </widget>
   <zorder>Label_Right</zorder>
@@ -318,6 +337,7 @@ border-top-right-radius: 25px;</string>
   <zorder>pushButton_2</zorder>
   <zorder>Check_Cover</zorder>
   <zorder>Check_Music</zorder>
+  <zorder>textBrowser</zorder>
  </widget>
  <resources>
   <include location="Resource.qrc"/>
