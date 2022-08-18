@@ -23,8 +23,8 @@
 <img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/>
 </a>
 </p>
-[English](README-EN.md) [简体中文](README.md)
 
+[English](README-EN.md)   [简体中文](README.md)
 
 ## 使用教程
 
@@ -32,8 +32,7 @@
 
   批量下载可直接修改配置文件，单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析
 
-​                                              **新版配置文件**                                                                    *** 旧版配置文件***
-​                                              **conf.ini**                                                                             ***conf.conf***
+​                                              **新版配置文件**     **conf.ini**                                                               *** 旧版配置文件***    ***conf.conf***
 
 <figure class="half" align="center">
 <img src="https://tva2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg" width="380">
@@ -90,8 +89,7 @@
 
 <img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg" alt="image" width="800" data-width="808" data-height="224">
 
-6. 单一下载模式 TikTokDownload	   批量下载模式TikTokMulti
-	图文下载 TikTokPic				            测试版图形界面 TikTokMultiGUI
+6. 单一下载模式 TikTokDownload,批量下载模式TikTokMulti,图文下载 TikTokPic,测试版图形界面 TikTokMultiGUI
 
 **注意（常见错误）：**
 
