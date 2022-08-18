@@ -52,7 +52,7 @@ class TikTok():
         self.sec = ''
 
         # 检测配置文件
-        if os.path.isfile("conf.ini") == True:
+        if os.path.isfile("conf.conf") == True:
             pass
         else:
             print('[  提示  ]:没有检测到配置文件，生成中!\r')
@@ -75,7 +75,7 @@ class TikTok():
             except:
                 input('[  提示  ]:生成失败,正在为您下载配置文件!\r')
                 r =requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.ini')
-                with open("conf.ini", "a+") as conf:
+                with open("conf.conf", "a+") as conf:
                     conf.write(r.content)
                 sys.exit()
 
