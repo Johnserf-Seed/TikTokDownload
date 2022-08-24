@@ -99,7 +99,8 @@ class Profile():
         Util.log.info('[  提示  ]:为您下载多个视频!')
 
         # 获取用户sec_uid
-        for one in Util.re.finditer(r'user\/([\d\D]*)', str(r.url)):
+        # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
+        for one in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
             self.sec = one.group(1)
 
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
