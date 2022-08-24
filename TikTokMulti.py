@@ -31,7 +31,7 @@ class TikTok():
         使用说明：
                 1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
                 2、命令行操作方法：1）将本程序路径添加到环境变量
-                                2）控制台输入 TikTokMulti -u https://v.douyin.com/JtcjTwo/
+                                2）控制台输入 TikTokMulti -u https://v.douyin.com/jqwLHjF/
 
                 3、配置文件操作方法：1）运行软件前先打开目录下 conf.ini 文件按照要求进行配置
                                 2）按照控制台输出信息操作
@@ -60,7 +60,7 @@ class TikTok():
                 self.cf = configparser.ConfigParser()
                 # 往配置文件写入内容
                 self.cf.add_section("url")
-                self.cf.set("url", "uid", "https://v.douyin.com/JcjJ5Tq/")
+                self.cf.set("url", "uid", "https://v.douyin.com/jqwLHjF/")
                 self.cf.add_section("music")
                 self.cf.set("music", "musicarg", "yes")
                 self.cf.add_section("count")
@@ -69,12 +69,12 @@ class TikTok():
                 self.cf.set("save", "url", ".\\Download\\")
                 self.cf.add_section("mode")
                 self.cf.set("mode", "mode", "post")
-                with open("conf.ini", "a+") as f:
+                with open("conf.conf", "a+") as f:
                     self.cf.write(f)
                 print('[  提示  ]:生成成功!\r')
             except:
                 input('[  提示  ]:生成失败,正在为您下载配置文件!\r')
-                r =requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.ini')
+                r =requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.conf')
                 with open("conf.conf", "a+") as conf:
                     conf.write(r.content)
                 sys.exit()
@@ -83,7 +83,7 @@ class TikTok():
         self.cf = configparser.ConfigParser()
 
         # 用utf-8防止出错
-        self.cf.read("conf.ini", encoding="utf-8")
+        self.cf.read("conf.conf", encoding="utf-8")
 
     def setting(self,uid,music,count,dir,mode):
         """
@@ -168,9 +168,9 @@ class TikTok():
         r = requests.get(url = self.Find(self.uid)[0])
         print('[  提示  ]:为您下载多个视频!\r')
         # 获取用户sec_uid
-        for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
+        for one in re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
             self.sec = one.group(1)
-        # key = re.findall('/user/(.*?)\?', str(r.url))[0]
+        # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
         #else:
         #    r = requests.get(url = self.Find(self.uid)[0])
@@ -237,25 +237,6 @@ class TikTok():
 
     # 下一页
     def next_data(self,max_cursor):
-        # 获取解码后原地址
-        r = requests.get(url = self.Find(self.uid)[0])
-
-        # 获取用户sec_uid
-        #key = re.findall('/user/(.*?)\?', str(r.url))[0]
-        #if not key:
-        #    key = r.url[28:83]
-        # key = self.sec
-
-        if self.uid[0:20] == 'https://v.douyin.com':
-            r = requests.get(url = self.Find(self.uid)[0])
-            # 获取用户sec_uid
-            for one in re.finditer(r'user/([\d\D]*?)\?',str(r.url)):
-                self.sec = one.group(1)
-        else:
-            r = requests.get(url = self.Find(self.uid)[0])
-            for one in re.finditer(r'user\/([\d\D]*)',str(r.url)):
-                self.sec = one.group(1)
-
         # 构造下一次访问链接
         api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
             self.mode, self.sec, str(self.count), max_cursor)
@@ -438,7 +419,7 @@ class TikTok():
                             end = time.time()                           # 下载结束时间
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
                                 end - start))                           # 输出下载用时时间
-                            self.new_video_list = []
+                            new_video_list = []
 
                 except Exception as error:
                     print('[  警告  ]:下载视频出错!')
