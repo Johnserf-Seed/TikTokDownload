@@ -17,6 +17,7 @@ Change Log  :
 
 import Util
 
+
 class Download():
 
     def __init__(self):
@@ -28,7 +29,7 @@ class Download():
         self.new_video_list = []
         self.uri_url = 'https://aweme.snssdk.com/aweme/v1/play/?video_id=%s&radio=1080p&line=0'
         self.music = profileData.music
-        self.headers = profileData.headers
+        self.headers = Util.headers
         self.mode = profileData.mode
         self.author_list = profileData.author_list
         self.video_list = profileData.video_list
