@@ -46,8 +46,13 @@ class Images():
             self.nickname = js['item_list'][0]['author']['nickname']
             self.desc = js['item_list'][0]['desc']
             self.create_time = js['item_list'][0]['create_time']
-            self.position = js['item_list'][0]['aweme_poi_info']['poi_name']
             self.number = len(js['item_list'][0]['images'])
+
+            # 有的作品不会带定位
+            try:
+                self.position = js['item_list'][0]['aweme_poi_info']['poi_name']
+            except:
+                self.position = ''
 
             for i in range(self.number):
                 self.images.append(js['item_list'][0]['images'][i]['url_list'][3])
