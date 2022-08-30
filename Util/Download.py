@@ -75,7 +75,7 @@ class Download():
 
             # 检查视频下载情况
             file_state = self.check.test(
-                self.path, creat_time, self.author_list[i])
+                self.path, creat_time, self.author_list[i],".mp4")
             if file_state == True:
                 print('[  提示  ]: %s%s [文件已存在，为您跳过]' %
                         (creat_time, self.author_list[i]), end="")
