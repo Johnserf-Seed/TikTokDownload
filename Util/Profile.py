@@ -24,22 +24,9 @@ class Profile():
         # 第一次访问页码
         self.max_cursor = 0
         # 全局IOS头部
-        self.headers = {
-            'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
-        }
+        self.headers = Util.headers
 
-        if (Util.platform.system() == 'Windows'):
-            self.sprit = '\\'
-            # 💻
-            print('[   💻   ]:Windows平台')
-        elif (Util.platform.system() == 'Linux'):
-            self.sprit = '/'
-            # 🐧
-            print('[   🐧   ]:Linux平台')
-        else:
-            self.sprit = '/'
-            # 🍎
-            print('[   🍎   ]:MacOS平台')
+        self.sprit = Util.sprit
 
         # 输出日志
         Util.log.info(Util.platform.system())
@@ -56,28 +43,6 @@ class Profile():
         result = Util.re.findall(
             'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', strurl)
         return result
-
-    def replaceT(self, obj):
-        """替换文案非法字符
-
-        Args:
-            obj (_type_): 传入对象
-
-        Returns:
-            new: 处理后的内容
-        """
-        # '/ \ : * ? " < > |'
-        reSub = r"[\/\\\:\*\?\"\<\>\|]"
-        new = []
-        if type(obj) == list:
-            for i in obj:
-                # 替换为下划线
-                retest = Util.re.sub(reSub, "_", i)
-                new.append(retest)
-        elif type(obj) == str:
-            # 替换为下划线
-            new = Util.re.sub(reSub, "_", obj)
-        return new
 
     def getProfile(self, param):
         """判断个人主页api链接
@@ -265,12 +230,12 @@ class Profile():
             return
         # 过滤视频文案和作者名中的非法字符
         print('[  提示  ]:等待替换文案非法字符!\r')
-        self.author_list = self.replaceT(self.author_list)
+        self.author_list = Util.replaceT(self.author_list)
         # 输出日志
         Util.log.info('[  提示  ]:等待替换文案非法字符!')
 
         print('[  提示  ]:等待替换作者非法字符!\r')
-        self.nickname = self.replaceT(self.nickname)
+        self.nickname = Util.replaceT(self.nickname)
         # 输出日志
         Util.log.info('[  提示  ]:等待替换作者非法字符!')
         # 下载主页所有图集
