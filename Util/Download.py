@@ -199,13 +199,13 @@ class Download():
             # 检测下载目录是否存在
             if not Util.os.path.exists(path):
                 Util.os.makedirs(path)
-            # 图片目录
-            p_url = 'Download' + self.sprit + 'pic' + self.sprit + self.nickname + self.sprit + \
+
+            for i in range(self.number):
+                # 图片目录
+                p_url = 'Download' + self.sprit + 'pic' + self.sprit + self.nickname + self.sprit + \
                         self.create_time + self.desc + self.sprit + \
                             self.create_time + self.desc + \
                         '_' + str(i) + '.jpeg'
-
-            for i in range(self.number):
                 # 检查图片下载情况
                 if Util.os.path.exists(p_url):
                     print('[  提示  ]: %s%s [文件已存在，为您跳过]' %
@@ -215,6 +215,7 @@ class Download():
                     continue
                 else:
                     print('\r')
+                    pass
 
                 # 尝试下载图片
                 try:
