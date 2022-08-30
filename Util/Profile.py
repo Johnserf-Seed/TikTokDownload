@@ -234,22 +234,28 @@ class Profile():
         self.aweme_id = []
         # 唯一视频标识
         self.uri_list = []
+        # 图集
+        self.image_list = []
         # 封面大图
         # self.dynamic_cover = []
         for v in range(len(result)):
             try:
-                self.author_list.append(str(result[v]['desc']))
-                # 2022/04/22
-                # 如果直接从 /web/api/v2/aweme/post 这个接口拿数据，那么只有720p的清晰度
-                # 如果在 /web/api/v2/aweme/iteminfo/ 这个接口拿视频uri
-                # 拼接到 aweme.snssdk.com/aweme/v1/play/?video_id=xxxx&radio=1080p 则获取到1080p清晰的
-                self.video_list.append(
-                    str(result[v]['video']['play_addr']['url_list'][0]))
-                self.uri_list.append(
-                    str(result[v]['video']['play_addr']['uri']))
-                self.aweme_id.append(str(result[v]['aweme_id']))
-                # nickname.append(str(result[v]['author']['nickname']))
-                # self.dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
+                # url_list < 4 说明是图集
+                if len(result[v]['video']['play_addr']['url_list']) < 4:
+                    self.image_list.append(result[v]['aweme_id'])
+                else:
+                    self.author_list.append(str(result[v]['desc']))
+                    # 2022/04/22
+                    # 如果直接从 /web/api/v2/aweme/post 这个接口拿数据，那么只有720p的清晰度
+                    # 如果在 /web/api/v2/aweme/iteminfo/ 这个接口拿视频uri
+                    # 拼接到 aweme.snssdk.com/aweme/v1/play/?video_id=xxxx&radio=1080p 则获取到1080p清晰的
+                    self.video_list.append(
+                        str(result[v]['video']['play_addr']['url_list'][0]))
+                    self.uri_list.append(
+                        str(result[v]['video']['play_addr']['uri']))
+                    self.aweme_id.append(str(result[v]['aweme_id']))
+                    # nickname.append(str(result[v]['author']['nickname']))
+                    # self.dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
             except Exception as e:
                 # 输出日志
                 Util.log.info('%s,因为每次不一定完全返回35条数据！' % (e))
@@ -267,8 +273,10 @@ class Profile():
         self.nickname = self.replaceT(self.nickname)
         # 输出日志
         Util.log.info('[  提示  ]:等待替换作者非法字符!')
-
+        # 下载主页所有图集
+        datas = Util.Images().get_all_images(self.image_list)
         Util.Download().VideoDownload(self)
+        Util.Download().ImageDownload(datas)
         self.getNextData()
         return  # self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
 
