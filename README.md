@@ -126,6 +126,16 @@
 
 ## New
 
+**08/30 现支持批量下载时自动下载主页所有图集内容**
+
+<img src="https://tvax1.sinaimg.cn/large/006908GAly1h5olxy83pcj30n304mac3.jpg" alt="image" width="800" data-width="831" data-height="166">
+
+<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5olz436xrj30lr06g43z.jpg" alt="image" width="800" data-width="783" data-height="232">
+
+<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5om3r87lzj30uw0kzjyh.jpg" alt="image" width="800" data-width="1112" data-height="755">
+
+
+
 **05/01 更新了无水印图集下载功能 ->TikTokPic.py**
 
 <img src="https://tvax2.sinaimg.cn/large/006908GAly1h1s8uky10aj30us0gh0ym.jpg" alt="image" width="800" data-width="1108" data-height="593">
