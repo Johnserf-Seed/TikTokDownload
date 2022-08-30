@@ -49,6 +49,8 @@ def replaceT(obj):
         Returns:
             new: 处理后的内容
         """
+        if len(obj) > 80:
+            obj = obj[:80]
         # '/ \ : * ? " < > |'
         reSub = r"[\/\\n\:\*\?\"\<\>\|]"
         new = []
@@ -58,16 +60,7 @@ def replaceT(obj):
                 retest = re.sub(reSub, "_", i)
                 new.append(retest)
         elif type(obj) == str:
-            obj.replace('\\','')
-            obj.replace('\/','')
-            obj.replace(':','')
-            obj.replace('*','')
-            obj.replace('?','')
-            obj.replace('<','')
-            obj.replace('>','')
-            obj.replace('|','')
-            obj.replace('"','')
-            new = obj.replace('\n','')
+            new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
             # 替换为下划线
             # new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
         return new
