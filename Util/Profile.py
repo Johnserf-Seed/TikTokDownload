@@ -100,8 +100,12 @@ class Profile():
 
         # 获取用户sec_uid
         # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
-        for one in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
-            self.sec = one.group(1)
+        if '?' in r.request.path_url:
+            for one in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
+                self.sec = one.group(1)
+        else:
+            for one in Util.re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
+                self.sec = one.group(1)
 
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
 

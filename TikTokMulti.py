@@ -168,8 +168,12 @@ class TikTok():
         r = requests.get(url = self.Find(self.uid)[0])
         print('[  提示  ]:为您下载多个视频!\r')
         # 获取用户sec_uid
-        for one in re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
-            self.sec = one.group(1)
+        if '?' in r.request.path_url:
+            for one in re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
+                self.sec = one.group(1)
+        else:
+            for one in re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
+                self.sec = one.group(1)
         # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
         #else:
