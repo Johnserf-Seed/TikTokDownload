@@ -47,7 +47,7 @@ class Download():
 
         for i in range(len(self.author_list)):
             # 点赞视频排序
-            self.like_counts += 1
+            # self.like_counts += 1
             # 获取单部视频接口信息
             try:
                 # 官方接口
@@ -107,11 +107,7 @@ class Download():
                         print('[  音频  ]:' + creat_time + self.author_list[i]+'[文件 大小]:{size:.2f} MB'.format(
                             size=content_size / chunk_size / 1024))    # 开始下载，显示下载文件大小
 
-                        if self.mode == 'post':
-                            m_url = self.path + self.sprit + creat_time + Util.re.sub(
-                                r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + self.author_list[i] + '.mp3'
-                        else:
-                            m_url = self.path + self.sprit + str(self.like_counts) + '、' + Util.re.sub(
+                        m_url = self.path + self.sprit + creat_time + Util.re.sub(
                                 r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + self.author_list[i] + '.mp3'
 
                         with open(m_url, 'wb') as file:                  # 显示进度条
@@ -149,11 +145,8 @@ class Download():
                     if video.status_code == 200:                        # 判断是否响应成功
                         print('[  视频  ]:' + creat_time + self.author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
                             size=content_size / chunk_size / 1024))    # 开始下载，显示下载文件大小
-                        if self.mode == 'post':
-                            v_url = self.path + self.sprit + creat_time + Util.re.sub(
-                                r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
-                        else:
-                            v_url = self.path + self.sprit + str(self.like_counts) + '、' + Util.re.sub(
+
+                        v_url = self.path + self.sprit + creat_time + Util.re.sub(
                                 r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
 
                         with open(v_url, 'wb') as file:                  # 显示进度条
