@@ -61,7 +61,7 @@ class Download():
                 Util.log.warning(e)
                 print('[  🚩  ]:%s\r' % e)
                 Util.log.warning(
-                    f'[  🚩  ]: {self.nickname[i]} 的视频 {self.aweme_id[i]} 下载失败')
+                    f'[  🚩  ]: {self.nickname} 的视频 {self.aweme_id[i]} 下载失败')
                 pass
 
             # Code From RobotJohns https://github.com/RobotJohns
