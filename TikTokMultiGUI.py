@@ -116,7 +116,7 @@ class Ui_Dialog(QtWidgets.QMainWindow):
         self.Label_Version = QtWidgets.QLabel(Dialog)
         self.Label_Version.setGeometry(QtCore.QRect(180, 90, 54, 12))
         self.Label_Version.setStyleSheet("color: rgb(255, 255, 255);\n"
-                                            "font: 9pt \"華康布丁體\";")
+                                            "font: 9pt \"微软雅黑\";")
         self.Label_Version.setObjectName("Label_Version")
         self.Button_Close = QtWidgets.QPushButton(Dialog)
         self.Button_Close.setGeometry(QtCore.QRect(980, 20, 21, 21))
@@ -141,7 +141,7 @@ class Ui_Dialog(QtWidgets.QMainWindow):
         self.plainTextEdit.setAutoFillBackground(False)
         self.plainTextEdit.setStyleSheet("background-color: #292B35;\n"
                                             "border-radius: 10px;\n"
-                                            "font: 20pt \"華康布丁體\";\n"
+                                            "font: 20pt \"微软雅黑\";\n"
                                             "color: rgb(255, 255, 255);")
         self.plainTextEdit.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.plainTextEdit.setVerticalScrollBarPolicy(
@@ -157,7 +157,7 @@ class Ui_Dialog(QtWidgets.QMainWindow):
         self.Button_Go.setGeometry(QtCore.QRect(880, 90, 130, 41))
         self.Button_Go.setStyleSheet("#Button_Go {\n"
                                     "    border-radius: 10px;\n"
-                                    "    font: 19pt \"華康布丁體\";\n"
+                                    "    font: 19pt \"微软雅黑\";\n"
                                     "    color: rgb(0, 0, 0);\n"
                                     "    background-color: #B9BAC7;\n"
                                     "}\n"
@@ -183,29 +183,29 @@ class Ui_Dialog(QtWidgets.QMainWindow):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(50, 390, 131, 61))
         self.pushButton.setStyleSheet("border-radius: 25px;\n"
-                                        "font: 16pt \"華康布丁體\";\n"
+                                        "font: 16pt \"微软雅黑\";\n"
                                         "color: rgb(255, 255, 255);\n"
                                         "background-color: rgb(22, 23, 34);")
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(50, 490, 131, 61))
         self.pushButton_2.setStyleSheet("border-radius: 25px;\n"
-                                        "font: 16pt \"華康布丁體\";\n"
+                                        "font: 16pt \"微软雅黑\";\n"
                                         "color: rgb(255, 255, 255);\n"
                                         "background-color: rgb(22, 23, 34);")
         self.pushButton_2.setObjectName("pushButton_2")
         self.Check_All = QtWidgets.QCheckBox(Dialog)
         self.Check_All.setGeometry(QtCore.QRect(260, 140, 71, 16))
         self.Check_All.setObjectName("Check_All")
-        self.Check_All.setStyleSheet("font: 10pt \"華康布丁體\";\n")
+        self.Check_All.setStyleSheet("font: 10pt \"微软雅黑\";\n")
         self.Check_Cover = QtWidgets.QCheckBox(Dialog)
         self.Check_Cover.setGeometry(QtCore.QRect(340, 140, 101, 16))
         self.Check_Cover.setObjectName("Check_Cover")
-        self.Check_Cover.setStyleSheet("font: 10pt \"華康布丁體\";\n")
+        self.Check_Cover.setStyleSheet("font: 10pt \"微软雅黑\";\n")
         self.Check_Music = QtWidgets.QCheckBox(Dialog)
         self.Check_Music.setGeometry(QtCore.QRect(440, 140, 101, 16))
         self.Check_Music.setObjectName("Check_Music")
-        self.Check_Music.setStyleSheet("font: 10pt \"華康布丁體\";\n")
+        self.Check_Music.setStyleSheet("font: 10pt \"微软雅黑\";\n")
         self.textBrowser = QtWidgets.QTextBrowser(Dialog)
         self.textBrowser.setGeometry(QtCore.QRect(260, 170, 750, 401))
         self.textBrowser.setObjectName("textBrowser")
