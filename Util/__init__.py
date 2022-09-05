@@ -25,6 +25,8 @@ import platform
 import argparse
 import configparser
 
+from lxml import etree
+
 from .Log import Log
 from .Check import CheckInfo
 from .Config import Config
