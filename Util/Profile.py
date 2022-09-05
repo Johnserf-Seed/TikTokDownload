@@ -56,7 +56,7 @@ class Profile():
         self.music = param[1]
         self.mode = param[2]
 
-        r = Util.requests.get(url=self.reFind(param[0])[0])
+        r = Util.requests.post(url=self.reFind(param[0])[0])
 
         print('[  提示  ]:为您下载多个视频!\r')
 
@@ -77,17 +77,11 @@ class Profile():
         # 输出日志
         Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
-        # 构造第一次访问链接
-        self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
-            self.mode, self.sec, 35, self.max_cursor)
-
-        response = Util.requests.get(url=self.api_post_url,
-                                        headers=self.headers)
-
-        # 获取json数据
-        html = Util.json.loads(response.content.decode())
+        # 2022/09/05
+        # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
         try:
-            self.nickname = html['aweme_list'][0]['author']['nickname']
+            self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/text()')[0]
+            # self.nickname = html['aweme_list'][0]['author']['nickname']
         except Exception as e:
             print('[  提示  ]：获取用户昵称失败! 请重新运行本程序！\r')
             # 输出日志
@@ -95,6 +89,11 @@ class Profile():
             Util.log.error(e)
             input('[  提示  ]：按任意键退出程序!\r')
             exit()
+
+        # 构造第一次访问链接
+        self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
+            self.mode, self.sec, 35, self.max_cursor)
+
         # 创建用户文件夹
         self.path = "." + self.sprit + "Download" + self.sprit + \
             param[2] + self.sprit + self.nickname + self.sprit
