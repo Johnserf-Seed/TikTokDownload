@@ -32,7 +32,7 @@ class Download():
         self.headers = Util.headers
         self.mode = profileData.mode
         self.author_list = profileData.author_list
-        self.video_list = profileData.video_list
+        # self.video_list = profileData.video_list
         self.uri_list = profileData.uri_list
         self.aweme_id = profileData.aweme_id
         self.nickname = profileData.nickname
@@ -128,21 +128,18 @@ class Download():
                 print('[  ❌  ]:%s\r' % e)
                 print('\r[  警告  ]:下载音频出错!\r')
                 Util.log.error('[  ❌  ]:下载音频出错!')
-
             # 尝试下载视频
             try:                                                        # 生成1080p视频链接
-                self.new_video_list.append(self.uri_url % self.uri_list[i])
-                video = Util.requests.get(
-                    self.video_list[i])                # 视频信息
+                self.new_video_list.append('https://aweme.snssdk.com/aweme/v1/play/?video_id=%s&ratio=1080p&line=0' % self.uri_list[i])
                 t_video = Util.requests.get(url=self.new_video_list[0],
-                                            headers=self.headers).content                       # 视频内容
+                                            headers=self.headers)                       # 视频内容
                 start = Util.time.time()                                     # 下载开始时间
                 size = 0                                                # 初始化已下载大小
                 chunk_size = 1024                                       # 每次下载的数据大小
                 content_size = int(
-                    video.headers['content-length'])     # 下载文件总大小
+                    t_video.headers['content-length'])     # 下载文件总大小
                 try:
-                    if video.status_code == 200:                        # 判断是否响应成功
+                    if t_video.status_code == 200:                        # 判断是否响应成功
                         print('[  视频  ]:' + creat_time + self.author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
                             size=content_size / chunk_size / 1024))    # 开始下载，显示下载文件大小
 
@@ -150,11 +147,11 @@ class Download():
                                 r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
 
                         with open(v_url, 'wb') as file:                  # 显示进度条
-                            for data in video.iter_content(chunk_size=chunk_size):
+                            for data in t_video.iter_content(chunk_size=chunk_size):
                                 size += len(data)
                                 print('\r' + '[下载进度]:%s%.2f%%' % (
                                     '>' * int(size * 50 / content_size), float(size / content_size * 100)), end=' ')
-                            file.write(t_video)
+                            file.write(t_video.content)
 
                         end = Util.time.time()                           # 下载结束时间
                         print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
