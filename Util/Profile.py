@@ -77,10 +77,14 @@ class Profile():
         # 输出日志
         Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
+        post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
+            self.sec)
+        post_name_json = Util.json.loads(Util.requests.get(url = post_url, headers=self.headers).content.decode())
         # 2022/09/05
         # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
         try:
-            self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/text()')[0]
+            self.nickname = post_name_json['aweme_list'][0]['author']['nickname']
+            # self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/span/text()')[0]
             # self.nickname = html['aweme_list'][0]['author']['nickname']
         except Exception as e:
             print('[  提示  ]：获取用户昵称失败! 请重新运行本程序！\r')
@@ -130,7 +134,13 @@ class Profile():
                 # 输出日志
                 Util.log.info('[  用户  ]:%s\r' % str(self.nickname))
 
-                self.max_cursor = html['max_cursor']
+                try:
+                    self.max_cursor = html['max_cursor']
+                except:
+                    input('[  提示  ]:该用户未开放喜欢页!\r')
+                    Util.log.info('[  提示  ]:该用户未开放喜欢页!\r')
+                    exit(0)
+
                 result = html['aweme_list']
                 print('[  提示  ]:抓获数据成功!\r')
 
@@ -193,7 +203,7 @@ class Profile():
         # 作者信息
         self.author_list = []
         # 无水印视频链接
-        self.video_list = []
+        # self.video_list = []
         # 作品id
         self.aweme_id = []
         # 唯一视频标识
@@ -213,8 +223,8 @@ class Profile():
                     # 如果直接从 /web/api/v2/aweme/post 这个接口拿数据，那么只有720p的清晰度
                     # 如果在 /web/api/v2/aweme/iteminfo/ 这个接口拿视频uri
                     # 拼接到 aweme.snssdk.com/aweme/v1/play/?video_id=xxxx&radio=1080p 则获取到1080p清晰的
-                    self.video_list.append(
-                        str(result[v]['video']['play_addr']['url_list'][0]))
+                    # self.video_list.append(
+                    #     str(result[v]['video']['play_addr']['url_list'][0]))
                     self.uri_list.append(
                         str(result[v]['video']['play_addr']['uri']))
                     self.aweme_id.append(str(result[v]['aweme_id']))
