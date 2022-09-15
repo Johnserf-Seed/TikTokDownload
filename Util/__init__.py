@@ -28,6 +28,7 @@ import configparser
 from lxml import etree
 
 from .Log import Log
+from .Lives import Lives
 from .Check import CheckInfo
 from .Config import Config
 from .Command import Command
