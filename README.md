@@ -28,25 +28,29 @@
 
 ## 使用教程
 
-1. 运行软件前先打开目录下 conf.ini 文件按照要求进行配置
+1. 运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
 
-  批量下载可直接修改配置文件，单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析
+  批量下载使用**<a href="https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.3.0-beta">TikTokTool</a>**，直接修改配置文件；单一视频下载推荐**<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>**项目在线解析；**TikTokMulti不再维护**。
 
 <table>
+    <tr>
+    <td><center>TikTokTool</td>
+    <td><center>TikTokMulti</td>
+    </tr>
     <tr>
         <td><center><img src="https://tva2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg"></center></td>
         <td><center><img src="https://tvax3.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
     </tr>
     <tr>
-    	<td>新版配置文件conf.ini</td>
-    	<td>旧版配置文件conf.conf</td>
+    	<td><center>新版配置文件conf.ini</td>
+    	<td><center>旧版配置文件conf.conf</td>
     </tr>
 </table>
 
 2. ~~本项目制作了pip包，可以输入 ``` pip install TikTokDownload==1.2.3 ```安装~~
-（1.2.3没有及时更新到1.3.0，请勿安装）
+**（1.2.3没有及时更新到1.3.0，请勿安装）**
 
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1gqg4j7ppuij30w60nnmxz.jpg" alt="image" width="800" data-width="808" data-height="224">
+<img src="https://tva1.sinaimg.cn/large/006908GAly1h7aqj3053oj30w60f8agh.jpg" alt="image" width="800" data-width="1158" data-height="548">
 
 <img src="https://tvax3.sinaimg.cn/large/006908GAly1gqg4jfswmxj30ul08xmy8.jpg" alt="image" width="800" data-width="808" data-height="224">
 
@@ -65,7 +69,7 @@
    # TK.video_download(*TK.main())
    ```
 
-   ***example.py需确保TikTokMulti.py与TikTokDownload.py两个文件都在相同目录中***
+   ***``example.py``需确保``TikTokMulti.py``与``TikTokDownload.py``两个文件都在相同目录中***
 
 3. 如何编译
 
@@ -75,6 +79,9 @@
 
 	- 下载录制
 	<img src="https://tva1.sinaimg.cn/large/006908GAly1h5bgh6pvgog318h0ey4qp.gif" alt="image" width="800" data-width="808" data-height="224">
+	
+	- 直播推流
+	<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
    
 	- 跳过已下载
 	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
@@ -93,7 +100,7 @@
 
 <img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg" alt="image" width="800" data-width="808" data-height="224">
 
-6. 单一下载模式 TikTokDownload,批量下载模式TikTokMulti,图文下载 TikTokPic,测试版图形界面 TikTokMultiGUI
+6. 单一下载模式 ``TikTokDownload``;批量下载模式``TikTokMulti``;图文下载 ``TikTokPic``;测试版图形界面 ``TikTokMultiGUI``
 
 **注意（常见错误）：**
 
@@ -101,11 +108,15 @@
 
    如：
 
-    - <img src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dofvcc7j309800k3y9.jpg" alt="image" width="800" data-width="808" data-height="224">
+    - <img src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dofvcc7j309800k3y9.jpg" alt="image" width="700" data-width="808" data-height="224">
 
-    - <img src="https://tvax2.sinaimg.cn/large/006908GAly1gn1dpoiqhzj306d0193ya.jpg" alt="image" width="800" data-width="808" data-height="224">
+    - <img src="https://tvax2.sinaimg.cn/large/006908GAly1gn1dpoiqhzj306d0193ya.jpg" alt="image" width="700" data-width="808" data-height="224">
 
-   ***链接一定要输入仔细哦~***
+   链接一定要输入仔细,配置文件只支持***用户主页***
+   
+   - <img src="https://tvax3.sinaimg.cn/large/006908GAly1h7aq83zn1wj30mc04dwi5.jpg" alt="image" width="700" data-width="804" data-height="157">
+   
+   ***出现报用户昵称错误的情况需要在主页发布一条视频，原因见 [获取用户昵称失败————主页若空作品则无法下载喜欢页](https://github.com/Johnserf-Seed/TikTokDownload/issues/236)***
 
 2. 配置文件一定要注意编码格式（推荐Notepad++）
 
@@ -119,12 +130,21 @@
 
    挺抽风的，另存为的UTF-8居然不可以会闪退，玄学
 
-3. 如果出现长时间的api抓取可能是姿势不对（抖音api比较奇怪）
+3. 如果出现长时间的api抓取可能是姿势不对（抖音api服务器会抽）
 4. 现在新增了日志功能，可以在logs中找到所有的日志文件，汇报issue的时候可以附上
+
 <img src="https://tva2.sinaimg.cn/large/006908GAly1h5beyv1f13j30gk07pgqg.jpg" width="700">
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5bf16rylfj310q0ijb29.jpg">
+
+<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5bf16rylfj310q0ijb29.jpg" width="700">
 
 ## New
+
+**09/15 支持获取抖音直播推流解析**
+
+<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
+
+<img src="https://tvax4.sinaimg.cn/large/006908GAly1h7aqf4v8exj30eu0sh7df.jpg" alt="image" width="500">
+
 
 **08/30 现支持批量下载时自动下载主页所有图集内容**
 
@@ -171,9 +191,9 @@
 - [x] 可视化界面
 - [ ] 支持多平台视频解析
 - [ ] 记录作品详细信息到本地数据库
-- [ ] 本地服务检测抖音关注用户作品的更新情况***(并推送)***
+- [ ] 本地服务检测抖音关注用户作品的更新情况 ***(并推送)***
 - [ ] 所有已关注用户主页的视频批量下载的可选功能
-- [ ] 直播推流保存
+- [x] 直播推流保存
 - [ ] 制作本地接口解析服务
 
 
