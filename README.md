@@ -30,7 +30,7 @@
 
 1. 运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
 
-  批量下载使用<a href="https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.3.0-beta">TikTokTool</a>，直接修改配置文件；单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析；**TikTokMulti不再维护**。
+  批量下载使用**<a href="https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.3.0-beta">TikTokTool</a>**，直接修改配置文件；单一视频下载推荐**<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>**项目在线解析；**TikTokMulti不再维护**。
 
 <table>
     <tr>
