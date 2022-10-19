@@ -57,19 +57,30 @@
    **包使用方法：**
 
    ```python
-   #example.py
+   # example.py
    import TikTokDownload as TK
-   import TikTokMulti as MTK
-   # 删除注释使用对应文件
-   
-   # 用户主页批量下载
-   # MTK.TikTok()
+   import Util
    
    # 单视频下载
    # TK.video_download(*TK.main())
+   
+   # 批量下载
+   if __name__ == '__main__':
+       # 获取命令行参数
+       cmd = Util.Command()
+       # 获取用户主页数据
+       profile = Util.Profile()
+       # 使用参数，没有则使用默认参数并下载
+       profile.getProfile(cmd.setting())
+   	# 如果需要定时下载则注释这个input
+       input('[  完成  ]:已完成批量下载，输入任意键后退出:')
+   
    ```
 
-   ***``example.py``需确保``TikTokMulti.py``与``TikTokDownload.py``两个文件都在相同目录中***
+   ***``example.py``需确保``__init__.py``与``TikTokDownload.py``两个文件都在相同目录中***
+   ***``example.py``需确保``__init__.py``与``TikTokDownload.py``两个文件都在相同目录中***
+   ***``example.py``需确保``__init__.py``与``TikTokDownload.py``两个文件都在相同目录中***
+**重要的话说三遍**
 
 3. 如何编译
 
