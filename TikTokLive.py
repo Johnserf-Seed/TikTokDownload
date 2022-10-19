@@ -43,10 +43,13 @@ display_long = json['data']['data'][0]['room_view_stats']['display_long']
 # 推流
 flv_pull_url = json['data']['data'][0]['stream_url']['flv_pull_url']
 
-# 分区
-partition = json['data']['partition_road_map']['partition']['title']
-sub_partition = json['data']['partition_road_map']['sub_partition']['partition']['title']
-
+try:
+    # 分区
+    partition = json['data']['partition_road_map']['partition']['title']
+    sub_partition = json['data']['partition_road_map']['sub_partition']['partition']['title']
+except Exception as e:
+    partition = '无'
+    sub_partition = '无'
 
 info = '[   💻   ]:直播间：%s  当前%s  主播：%s  分区：%s-%s\r' % (
     title, display_long, nickname, partition, sub_partition)
