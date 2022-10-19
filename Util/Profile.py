@@ -87,10 +87,14 @@ class Profile():
             # self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/span/text()')[0]
             # self.nickname = html['aweme_list'][0]['author']['nickname']
         except Exception as e:
-            print('[  提示  ]：获取用户昵称失败! 请重新运行本程序！\r')
+            # 2022/10/19
+            # like模式需要保存该账户昵称的文件夹下，如果是空作品则最少需要发布一条作品方可获取该账户昵称
+            print('[  提示  ]：获取用户昵称失败! 请检查是否发布过作品，发布后请重新运行本程序！\r')
             # 输出日志
-            Util.log.error('[  提示  ]：获取用户昵称失败! 请重新运行本程序！')
+            Util.log.error('[  提示  ]：获取用户昵称失败! 请检查是否发布过作品，发布后请重新运行本程序！')
             Util.log.error(e)
+            # ERROR: list index out of range
+            # {'status_code': 0, 'aweme_list': [], 'max_cursor': 0, 'min_cursor': xxx, 'extra': {'now': xxx, 'logid': 'xxx'}, 'has_more': False}
             input('[  提示  ]：按任意键退出程序!\r')
             exit()
 
@@ -137,15 +141,15 @@ class Profile():
                 try:
                     self.max_cursor = html['max_cursor']
                 except:
-                    input('[  提示  ]:该用户未开放喜欢页!\r')
-                    Util.log.info('[  提示  ]:该用户未开放喜欢页!\r')
+                    input('[  提示  ]:该用户未开放喜欢页，请开放后重新运行!\r')
+                    Util.log.info('[  提示  ]:该用户未开放喜欢页，请开放后重新运行!\r')
                     exit(0)
 
                 result = html['aweme_list']
-                print('[  提示  ]:抓获数据成功!\r')
+                print('[  提示  ]:抓获用户主页数据成功!\r')
 
                 # 输出日志
-                Util.log.info('[  提示  ]:抓获数据成功!')
+                Util.log.info('[  提示  ]:抓获用户主页数据成功!')
 
                 # 处理第一页视频信息
                 self.getVideoInfo(result)
