@@ -11,14 +11,33 @@
 @Thanks     :RobotJohns
 '''
 
-import requests,json,os,time,configparser,re,sys,argparse
+import requests, json, os, time, configparser, re, sys, argparse, platform
+
+
+def is_windows_os():
+    return platform.system().lower() == 'windows'
+
+
+def platform_path(path: str):
+    if is_windows_os():
+        return path.replace('/', '\\', -1)
+    else:
+        return path.replace('\\', '/', -1)
+
+
+def ds():
+    if is_windows_os():
+        return '\\'
+    else:
+        return '/'
+
 
 class TikTok():
     # 初始化
     def __init__(self):
         self.headers = {
             'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
-            }
+        }
 
         # 抓获所有视频
         self.Isend = False
@@ -26,7 +45,7 @@ class TikTok():
         # 绘制布局
         print("#" * 120)
         print(
-    """
+            """
                                                 TikTokDownload V1.2.5
         使用说明：
                 1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
@@ -46,7 +65,13 @@ class TikTok():
         print('\r')
 
         # 用户主页      # 保存路径      # 单页下载数        # 下载音频      # 下载模式      # 保存用户名            # 点赞个数
-        self.uid = '';self.save = '';self.count = '';self.musicarg = '';self.mode = '';self.nickname = '';self.like_counts = 0
+        self.uid = '';
+        self.save = '';
+        self.count = '';
+        self.musicarg = '';
+        self.mode = '';
+        self.nickname = '';
+        self.like_counts = 0
 
         # 用户唯一标识
         self.sec = ''
@@ -66,7 +91,7 @@ class TikTok():
                 self.cf.add_section("count")
                 self.cf.set("count", "count", "35")
                 self.cf.add_section("save")
-                self.cf.set("save", "url", ".\\Download\\")
+                self.cf.set("save", "url", platform_path(".\\Download\\"))
                 self.cf.add_section("mode")
                 self.cf.set("mode", "mode", "post")
                 with open("conf.conf", "a+") as f:
@@ -74,7 +99,7 @@ class TikTok():
                 print('[  提示  ]:生成成功!\r')
             except:
                 input('[  提示  ]:生成失败,正在为您下载配置文件!\r')
-                r =requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.conf')
+                r = requests.get('https://gitee.com/johnserfseed/TikTokDownload/raw/main/conf.conf')
                 with open("conf.conf", "a+") as conf:
                     conf.write(r.content)
                 sys.exit()
@@ -85,7 +110,7 @@ class TikTok():
         # 用utf-8防止出错
         self.cf.read("conf.conf", encoding="utf-8")
 
-    def setting(self,uid,music,count,dir,mode):
+    def setting(self, uid, music, count, dir, mode):
         """
         @description  : 设置命令行参数
         ---------
@@ -94,12 +119,17 @@ class TikTok():
         @Returns  : None
         -------
         """
+
         if uid != None:
             if uid == None:
                 print('[  警告  ]:--user不能为空')
                 pass
             else:
-                self.uid = uid;self.save = dir;self.count=count;self.musicarg=music;self.mode=mode
+                self.uid = uid;
+                self.save = platform_path(dir);
+                self.count = count;
+                self.musicarg = music;
+                self.mode = mode
                 print('[  提示  ]:读取命令完成!\r')
                 self.judge_link()
         # 没有接收到命令
@@ -107,7 +137,7 @@ class TikTok():
             print('[  警告  ]:未检测到命令，将使用配置文件进行批量下载!')
 
             # 读取保存路径
-            self.save = self.cf.get("save", "url")
+            self.save = platform_path(self.cf.get("save", "url"))
 
             # 读取下载视频个数
             self.count = int(self.cf.get("count", "count"))
@@ -165,7 +195,7 @@ class TikTok():
     # 判断个人主页api链接
     def judge_link(self):
         # 判断长短链
-        r = requests.get(url = self.Find(self.uid)[0])
+        r = requests.get(url=self.Find(self.uid)[0])
         print('[  提示  ]:为您下载多个视频!\r')
         # 获取用户sec_uid
         if '?' in r.request.path_url:
@@ -176,7 +206,7 @@ class TikTok():
                 self.sec = one.group(1)
         # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
-        #else:
+        # else:
         #    r = requests.get(url = self.Find(self.uid)[0])
         #    print('[  提示  ]:为您下载多个视频!\r')
         #    # 获取用户sec_uid
@@ -195,17 +225,17 @@ class TikTok():
         max_cursor = 0
 
         # 构造第一次访问链接
-        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % ( 
-                self.mode, self.sec, str(self.count), max_cursor)
+        api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
+            self.mode, self.sec, str(self.count), max_cursor)
 
-        response = requests.get(url = api_post_url, headers = self.headers)
+        response = requests.get(url=api_post_url, headers=self.headers)
         html = json.loads(response.content.decode())
         self.nickname = html['aweme_list'][0]['author']['nickname']
-        if not os.path.exists(self.save + self.mode + "\\" + self.nickname):
-                os.makedirs(self.save + self.mode + "\\" + self.nickname)
+        if not os.path.exists(self.save + self.mode + ds() + self.nickname):
+            os.makedirs(self.save + self.mode + ds() + self.nickname)
 
         self.get_data(api_post_url, max_cursor)
-        return api_post_url,max_cursor,self.sec
+        return api_post_url, max_cursor, self.sec
 
     # 获取第一次api数据
     def get_data(self, api_post_url, max_cursor):
@@ -218,13 +248,13 @@ class TikTok():
             print('[  提示  ]:正在进行第 %d 次尝试\r' % index)
             time.sleep(0.3)
             response = requests.get(
-                url = api_post_url, headers = self.headers)
+                url=api_post_url, headers=self.headers)
             html = json.loads(response.content.decode())
             # with open('r.json', 'wb')as f:
             #     f.write(response.content)
             if self.Isend == False:
                 # 下一页值
-                print('[  用户  ]:',str(self.nickname),'\r')
+                print('[  用户  ]:', str(self.nickname), '\r')
                 max_cursor = html['max_cursor']
                 result = html['aweme_list']
                 print('[  提示  ]:抓获数据成功!\r')
@@ -237,10 +267,10 @@ class TikTok():
                 # self.Isend = True
                 print('[  提示  ]:此页无数据，为您跳过......\r')
 
-        return result,max_cursor
+        return result, max_cursor
 
     # 下一页
-    def next_data(self,max_cursor):
+    def next_data(self, max_cursor):
         # 构造下一次访问链接
         api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
             self.mode, self.sec, str(self.count), max_cursor)
@@ -256,7 +286,7 @@ class TikTok():
             index += 1
             print('[  提示  ]:正在对', max_cursor, '页进行第 %d 次尝试！\r' % index)
             time.sleep(0.3)
-            response = requests.get(url = api_naxt_post_url, headers = self.headers)
+            response = requests.get(url=api_naxt_post_url, headers=self.headers)
             html = json.loads(response.content.decode())
             if self.Isend == False:
                 # 下一页值
@@ -273,7 +303,11 @@ class TikTok():
     # 处理视频信息
     def video_info(self, result, max_cursor):
         # 作者信息      # 无水印视频链接    # 作品id        # 作者id      # 唯一视频标识# 封面大图
-        author_list = [];video_list = [];aweme_id = [];nickname = [];uri_list=[]# dynamic_cover = []
+        author_list = [];
+        video_list = [];
+        aweme_id = [];
+        nickname = [];
+        uri_list = []  # dynamic_cover = []
 
         for v in range(self.count):
             try:
@@ -296,23 +330,25 @@ class TikTok():
         print('[  提示  ]:等待替换作者非法字符!\r')
         nickname = self.replaceT(nickname)
         self.videos_download(author_list, video_list, uri_list, aweme_id, nickname, max_cursor)
-        return self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
+        return self, author_list, video_list, uri_list, aweme_id, nickname, max_cursor
 
     # 检测视频是否已经下载过
     def check_info(self, nickname):
         if nickname == []:
             return
         else:
-            v_info = os.listdir((self.save + self.mode + "\\" + nickname))
+            v_info = os.listdir((self.save + self.mode + ds() + nickname))
         return v_info
 
     # 音视频下载
     def videos_download(self, author_list, video_list, uri_list, aweme_id, nickname, max_cursor):
         # 生成1080p分辨率的视频链接
-        new_video_list = [];uri_url = 'https://aweme.snssdk.com/aweme/v1/play/?video_id=%s&radio=1080p&line=0'
+        new_video_list = [];
+        uri_url = 'https://aweme.snssdk.com/aweme/v1/play/?video_id=%s&radio=1080p&line=0'
         # 创建并检测下载目录是否存在
+
         try:
-            os.makedirs(self.save + self.mode + "\\" + nickname[0])
+            os.makedirs(self.save + self.mode + ds() + nickname[0])
         except:
             pass
 
@@ -326,9 +362,9 @@ class TikTok():
 
             # 获取单部视频接口信息
             try:
-                jx_url  = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={aweme_id[i]}'    # 官方接口
+                jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={aweme_id[i]}'  # 官方接口
                 js = json.loads(requests.get(
-                    url = jx_url,headers=self.headers).text)
+                    url=jx_url, headers=self.headers).text)
 
                 creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(js['item_list'][0]['create_time']))
             except Exception as error:
@@ -341,14 +377,14 @@ class TikTok():
             if len(author_list[i]) > 182:
                 print("[  提示  ]:", "文件名称太长 进行截取")
                 author_list[i] = author_list[i][0:180]
-                print("[  提示  ]:","截取后的文案：{0}，长度：{1}".format(author_list[i], len(author_list[i])))
+                print("[  提示  ]:", "截取后的文案：{0}，长度：{1}".format(author_list[i], len(author_list[i])))
 
             # 每次判断视频是否已经下载过
             try:
                 if creat_time + author_list[i] + '.mp4' in v_info:
-                    print('[  提示  ]:', author_list[i], '[文件已存在，为您跳过]', end = "") # 开始下载，显示下载文件大小
+                    print('[  提示  ]:', author_list[i], '[文件已存在，为您跳过]', end="")  # 开始下载，显示下载文件大小
                     for i in range(20):
-                        print(">",end = '', flush = True)
+                        print(">", end='', flush=True)
                         time.sleep(0.01)
                     print('\r')
                     continue
@@ -358,35 +394,36 @@ class TikTok():
 
             # 尝试下载音频
             try:
-                if self.musicarg == "yes":                              # 保留音频
+                if self.musicarg == "yes":  # 保留音频
                     music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
                     music_title = str(js['item_list'][0]['music']['author'])
-                    music=requests.get(music_url)                       # 保存音频
-                    start = time.time()                                 # 下载开始时间
-                    size = 0                                            # 初始化已下载大小
-                    chunk_size = 1024                                   # 每次下载的数据大小
-                    content_size = int(music.headers['content-length']) # 下载文件总大小
-                    if music.status_code == 200:                        # 判断是否响应成功
-                        print('[  音频  ]:'+ creat_time + author_list[i]+'[文件 大小]:{size:.2f} MB'.format(
-                            size = content_size / chunk_size /1024))    # 开始下载，显示下载文件大小
+                    music = requests.get(music_url)  # 保存音频
+                    start = time.time()  # 下载开始时间
+                    size = 0  # 初始化已下载大小
+                    chunk_size = 1024  # 每次下载的数据大小
+                    content_size = int(music.headers['content-length'])  # 下载文件总大小
+                    if music.status_code == 200:  # 判断是否响应成功
+                        print('[  音频  ]:' + creat_time + author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
+                            size=content_size / chunk_size / 1024))  # 开始下载，显示下载文件大小
 
                         if self.mode == 'post':
-                            m_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time + re.sub(
+                            m_url = self.save + self.mode + ds() + nickname[i] + ds() + creat_time + re.sub(
                                 r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
                         else:
-                            m_url = self.save + self.mode + "\\" + self.nickname + '\\' + str(self.like_counts)+ '、' + re.sub(
+                            m_url = self.save + self.mode + ds() + self.nickname + ds() + str(
+                                self.like_counts) + '、' + re.sub(
                                 r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + author_list[i] + '.mp3'
 
-                        with open(m_url,'wb') as file:                  # 显示进度条
-                            for data in music.iter_content(chunk_size = chunk_size):
+                        with open(m_url, 'wb') as file:  # 显示进度条
+                            for data in music.iter_content(chunk_size=chunk_size):
                                 file.write(data)
                                 size += len(data)
                                 print('\r' + '[下载进度]:%s%.2f%%' % (
                                     '>' * int(size * 50 / content_size), float(size / content_size * 100)), end=' ')
 
-                            end = time.time()                           # 下载结束时间
+                            end = time.time()  # 下载结束时间
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
-                                end - start))                           # 输出下载用时时间
+                                    end - start))  # 输出下载用时时间
 
             except Exception as error:
                 print(error)
@@ -394,35 +431,36 @@ class TikTok():
 
             # 尝试下载视频
             try:
-                new_video_list.append(uri_url % uri_list[i])            # 生成1080p视频链接
-                video = requests.get(video_list[i])                     # 视频信息
+                new_video_list.append(uri_url % uri_list[i])  # 生成1080p视频链接
+                video = requests.get(video_list[i])  # 视频信息
                 t_video = requests.get(url=new_video_list[0],
-                    headers=self.headers).content                       # 视频内容
-                start = time.time()                                     # 下载开始时间
-                size = 0                                                # 初始化已下载大小
-                chunk_size = 1024                                       # 每次下载的数据大小
-                content_size = int(video.headers['content-length'])     # 下载文件总大小
+                                       headers=self.headers).content  # 视频内容
+                start = time.time()  # 下载开始时间
+                size = 0  # 初始化已下载大小
+                chunk_size = 1024  # 每次下载的数据大小
+                content_size = int(video.headers['content-length'])  # 下载文件总大小
                 try:
-                    if video.status_code == 200:                        # 判断是否响应成功
+                    if video.status_code == 200:  # 判断是否响应成功
                         print('[  视频  ]:' + creat_time + author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
-                            size = content_size / chunk_size /1024))    # 开始下载，显示下载文件大小
+                            size=content_size / chunk_size / 1024))  # 开始下载，显示下载文件大小
 
                         if self.mode == 'post':
-                            v_url = self.save + self.mode + "\\" + nickname[i] + '\\' + creat_time + re.sub(
+                            v_url = self.save + self.mode + ds() + nickname[i] + ds() + creat_time + re.sub(
                                 r'[\\/:*?"<>|\r\n] + ', "_", author_list[i]) + '.mp4'
                         else:
-                            v_url = self.save + self.mode + "\\" + self.nickname + '\\' + str(self.like_counts)+ '、' + re.sub(
+                            v_url = self.save + self.mode + ds() + self.nickname + ds() + str(
+                                self.like_counts) + '、' + re.sub(
                                 r'[\\/:*?"<>|\r\n] + ', "_", author_list[i]) + '.mp4'
 
-                        with open(v_url,'wb') as file:                  # 显示进度条
-                            for data in video.iter_content(chunk_size = chunk_size):
+                        with open(v_url, 'wb') as file:  # 显示进度条
+                            for data in video.iter_content(chunk_size=chunk_size):
                                 size += len(data)
                                 print('\r' + '[下载进度]:%s%.2f%%' % (
                                     '>' * int(size * 50 / content_size), float(size / content_size * 100)), end=' ')
                             file.write(t_video)
-                            end = time.time()                           # 下载结束时间
+                            end = time.time()  # 下载结束时间
                             print('\n' + '[下载完成]:耗时: %.2f秒\n' % (
-                                end - start))                           # 输出下载用时时间
+                                    end - start))  # 输出下载用时时间
                             new_video_list = []
 
                 except Exception as error:
@@ -436,30 +474,34 @@ class TikTok():
         # 获取下一页信息
         self.next_data(max_cursor)
 
+
 # 主模块执行
 if __name__ == "__main__":
     # 获取命令行函数
-    def get_args(user,dir,music,count,mode):
+    def get_args(user, dir, music, count, mode):
         # 新建TK实例
         TK = TikTok()
         # 命令行传参
-        TK.setting(user,music,count,dir,mode)
+        TK.setting(user, music, count, dir, mode)
         input('[  完成  ]:已完成批量下载，输入任意键后退出:')
         sys.exit(0)
+
 
     try:
         parser = argparse.ArgumentParser(description='TikTokMulti V1.2.5 使用帮助')
         parser.add_argument('--user', '-u', type=str, help='为用户主页链接，非必要参数', required=False)
-        parser.add_argument('--dir','-d', type=str,help='视频保存目录，非必要参数， 默认./Download', default='./Download/')
-        #parser.add_argument('--single', '-s', type=str, help='单条视频链接，非必要参数，与--user参数冲突')
+        parser.add_argument('--dir', '-d', type=str, help='视频保存目录，非必要参数， 默认./Download',
+                            default='./Download/')
+        # parser.add_argument('--single', '-s', type=str, help='单条视频链接，非必要参数，与--user参数冲突')
         parser.add_argument('--music', '-m', type=str, help='视频音乐下载，非必要参数， 默认no可选yes', default='no')
         parser.add_argument('--count', '-c', type=int, help='单页下载的数量，默认参数 35 无须修改', default=35)
-        parser.add_argument('--mode', '-M', type=str, help='下载模式选择，默认post:发布的视频 可选like:点赞视频(需要开放权限)', default='post')
+        parser.add_argument('--mode', '-M', type=str,
+                            help='下载模式选择，默认post:发布的视频 可选like:点赞视频(需要开放权限)', default='post')
         args = parser.parse_args()
         # 获取命令行
         get_args(args.user, args.dir, args.music, args.count, args.mode)
     except Exception as e:
         # print(e)
-        print('[  警告  ]:',e,'可以复制此报错内容发issues')
+        print('[  警告  ]:', e, '可以复制此报错内容发issues')
         print('[  提示  ]:未输入命令或意外出错，自动退出!')
         sys.exit(0)
