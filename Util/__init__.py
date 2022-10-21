@@ -55,7 +55,7 @@ def replaceT(obj):
         if len(obj) > 80:
             obj = obj[:80]
         # '/ \ : * ? " < > |'
-        reSub = r"[\/\\n\:\*\?\"\<\>\|]"
+        reSub = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^#]"  # '/ \ : * ? " < > |'
         new = []
         if type(obj) == list:
             for i in obj:
@@ -63,9 +63,9 @@ def replaceT(obj):
                 retest = re.sub(reSub, "_", i)
                 new.append(retest)
         elif type(obj) == str:
-            new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
+            # new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
             # 替换为下划线
-            # new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
+            new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
         return new
 
 print('''
