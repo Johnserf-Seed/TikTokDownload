@@ -23,11 +23,12 @@ def printUsage():
         使用方法: 1、添加为环境变量 2、输入命令
         -u<url 抖音复制的链接:https://v.douyin.com/JtcjTwo/>
         -m<music 是否下载音频,默认为yes可选no>
+        -n<name 用于自定义视频文件名，默认不设置>
 
-        例如：TikTokDownload.exe -u https://v.douyin.com/JtcjTwo/ -m yes
+        例如：TikTokDownload.exe -u https://v.douyin.com/JtcjTwo/ -m yes -n 下载1
 
     ''')
-# TikTokDownLoad.exe --url=<抖音复制的链接> --music=<是否下载音频,默认为yes可选no>
+# TikTokDownLoad.exe --url=<抖音复制的链接> --music=<是否下载音频,默认为yes可选no> --name=<用于自定义视频文件名，默认不设置>
 
 
 def Find(string):
@@ -38,18 +39,19 @@ def Find(string):
 
 
 def main():
-    urlarg = ""
-    musicarg = "yes"
+    url = ""
+    music = "yes"
+    name = ""
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hu:m:", ["url=", "music="])
+        opts, args = getopt.getopt(sys.argv[1:], "h:u:m:n:", ["url=", "music=", "name="])
     except getopt.GetoptError:
         printUsage()
         sys.exit(-1)
     try:
         if opts == []:
             printUsage()
-            urlarg = str(input("请输入抖音链接:"))
-            return urlarg, musicarg
+            url = str(input("请输入抖音链接:"))
+            return url, music, name
     except:
         pass
     for opt, arg in opts:
@@ -57,35 +59,39 @@ def main():
             printUsage()
             sys.exit(-1)
         elif opt in ("-u", "--url"):
-            urlarg = arg
+            url = arg
         elif opt in ("-m", "--music"):
-            musicarg = arg
-    return urlarg, musicarg
+            music = arg
+        elif opt in ("-n", "--name"):
+            name = arg
+    return url, music, name
 
 
 # @retry(stop_max_attempt_number=3)
-def download(video_url, music_url, video_title, music_title, headers, musicarg):
+def download(video_url, music_url, video_title, music_title, headers, music, name):
     # 视频下载
     if video_url == '':
         print('[  提示  ]:该视频可能无法下载哦~\r')
         return
     else:
         r = requests.get(url=video_url, headers=headers)
-        if Util.Status_Code(r.status_code):
+        if not Util.Status_Code(r.status_code):
             if video_title == '':
                 video_title = '[  提示  ]:此视频没有文案_%s\r' % music_title
             video_title = Util.replaceT(video_title)
             music_title = Util.replaceT(music_title)
-            with open(f'{video_title}.mp4', 'wb') as f:
+            if name == "":
+                name = video_title
+            with open(f'{name}.mp4', 'wb') as f:
                 f.write(r.content)
-                print('[  视频  ]:%s.mp4 下载完成\r' % video_title)
+                print('[  视频  ]:%s.mp4 下载完成\r' % name)
 
     if music_url == '':
         print('[  提示  ]:下载出错\r')
         # return
     else:
         # 原声下载
-        if musicarg != 'yes':
+        if music != 'yes':
             print('[  提示  ]:不下载%s视频原声\r' % video_title)
             # return
         else:
@@ -96,11 +102,11 @@ def download(video_url, music_url, video_title, music_title, headers, musicarg):
             # return
 
 
-def video_download(urlarg, musicarg):
+def video_download(url, music, name):
     headers = {
         'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
     }
-    r = requests.get(url=Find(urlarg)[0])
+    r = requests.get(url=Find(url)[0])
     key = re.findall('video/(\d+)?', str(r.url))[0]
     # 官方接口
     jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'
@@ -124,11 +130,11 @@ def video_download(urlarg, musicarg):
         print('[  提示  ]:标题获取失败\r')
         video_title = '视频走丢啦~'
         music_title = '音频走丢啦~'
-    download(video_url, music_url, video_title, music_title, headers, musicarg)
+    download(video_url, music_url, video_title, music_title, headers, music, name)
 
 
 if __name__ == "__main__":
-    urlarg, musicarg = main()
-    video_download(urlarg, musicarg)
+    url, music, name = main()
+    video_download(url, music, name)
     input('[  提示  ]:按任意键退出')
-    exit(0)
+    sys.exit()
