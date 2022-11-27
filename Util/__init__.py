@@ -68,12 +68,12 @@ def replaceT(obj):
             new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
         return new
 
-def Status_Code(code: str):
-    if code == '200':
-        pass
+def Status_Code(code: int):
+    if code == 200:
+        return
     else:
-        log.info('[  提示  ]:该视频%s，暂时无法解析！' % code)
-        print('[  提示  ]:该视频%s，暂时无法解析！' % code)
+        log.info('[  提示  ]:该视频%i，暂时无法解析！' % code)
+        print('[  提示  ]:该视频%i，暂时无法解析！' % code)
         return
 
 print('''
