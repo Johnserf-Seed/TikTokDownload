@@ -26,6 +26,7 @@ class Profile():
         # 全局IOS头部
         self.headers = Util.headers
 
+        # 系统分隔符
         self.sprit = Util.sprit
 
         # 输出日志
@@ -74,6 +75,9 @@ class Profile():
 
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
 
+        # 用户主页
+        self.homepage = "https://www.douyin.com/user/" + self.sec
+
         # 输出日志
         Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
@@ -107,6 +111,10 @@ class Profile():
             param[2] + self.sprit + self.nickname + self.sprit
         if not Util.os.path.exists(self.path):
             Util.os.makedirs(self.path)
+
+        # 保存用户主页地址
+        self.s_homepage()
+        # 获取用户数据
         self.getData(self.api_post_url)
         return  # self.api_post_url,self.max_cursor,self.sec
 
@@ -219,7 +227,9 @@ class Profile():
         for v in range(len(result)):
             try:
                 # url_list < 4 说明是图集
-                if len(result[v]['video']['play_addr']['url_list']) < 4:
+                # 2022/11/27 aweme_type是作品类型 2：图集 4：视频
+                if result[v]['aweme_type'] == 2:
+                #if len(result[v]['video']['play_addr']['url_list']) < 4:
                     self.image_list.append(result[v]['aweme_id'])
                 else:
                     self.author_list.append(str(result[v]['desc']))
@@ -257,6 +267,10 @@ class Profile():
         Util.Download().ImageDownload(datas)
         self.getNextData()
         return  # self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
+
+    def s_homepage(self):
+        with open(self.path + self.sprit + self.nickname + '.txt','w') as f:
+            f.write(self.homepage)
 
 if __name__ == '__main__':
     Profile()
