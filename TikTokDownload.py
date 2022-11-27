@@ -12,6 +12,7 @@
 import re
 import sys
 import json
+import Util
 import getopt
 import requests
 
@@ -62,7 +63,7 @@ def main():
     return urlarg, musicarg
 
 
-@retry(stop_max_attempt_number=3)
+# @retry(stop_max_attempt_number=3)
 def download(video_url, music_url, video_title, music_title, headers, musicarg):
     # 视频下载
     if video_url == '':
@@ -70,11 +71,14 @@ def download(video_url, music_url, video_title, music_title, headers, musicarg):
         return
     else:
         r = requests.get(url=video_url, headers=headers)
-        if video_title == '':
-            video_title = '[  提示  ]:此视频没有文案_%s\r' % music_title
-        with open(f'{video_title}.mp4', 'wb') as f:
-            f.write(r.content)
-            print('[  视频  ]:%s下载完成\r' % video_title)
+        if Util.Status_Code(r.status_code):
+            if video_title == '':
+                video_title = '[  提示  ]:此视频没有文案_%s\r' % music_title
+            video_title = Util.replaceT(video_title)
+            music_title = Util.replaceT(music_title)
+            with open(f'{video_title}.mp4', 'wb') as f:
+                f.write(r.content)
+                print('[  视频  ]:%s.mp4 下载完成\r' % video_title)
 
     if music_url == '':
         print('[  提示  ]:下载出错\r')
@@ -88,7 +92,7 @@ def download(video_url, music_url, video_title, music_title, headers, musicarg):
             r = requests.get(url=music_url, headers=headers)
             with open(f'{music_title}.mp3', 'wb') as f:
                 f.write(r.content)
-                print('[  音频  ]:%s下载完成\r' % music_title)
+                print('[  音频  ]:%s.mp3 下载完成\r' % music_title)
             # return
 
 
@@ -126,3 +130,5 @@ def video_download(urlarg, musicarg):
 if __name__ == "__main__":
     urlarg, musicarg = main()
     video_download(urlarg, musicarg)
+    input('[  提示  ]:按任意键退出')
+    exit(0)
