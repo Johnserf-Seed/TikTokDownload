@@ -16,7 +16,7 @@ import Util
 import getopt
 import requests
 
-from retrying import retry
+# from retrying import retry
 
 def printUsage():
     print('''
