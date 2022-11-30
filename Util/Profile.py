@@ -32,19 +32,6 @@ class Profile():
         # 输出日志
         Util.log.info(Util.platform.system())
 
-    def reFind(self, strurl):
-        """匹配分享的url地址
-
-        Args:
-            strurl (string): 带文案的分享链接
-
-        Returns:
-            result: url短链
-        """
-        result = Util.re.findall(
-            'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', strurl)
-        return result
-
     def getProfile(self, param):
         """判断个人主页api链接
 
@@ -57,7 +44,7 @@ class Profile():
         self.music = param[1]
         self.mode = param[2]
 
-        r = Util.requests.post(url=self.reFind(param[0])[0])
+        r = Util.requests.post(url=Util.reFind(param[0])[0])
 
         print('[  提示  ]:为您下载多个视频!\r')
 

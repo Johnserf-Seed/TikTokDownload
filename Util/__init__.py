@@ -76,6 +76,22 @@ def Status_Code(code: int):
         print('[  提示  ]:该视频%i，暂时无法解析！' % code)
         return
 
+def reFind(strurl):
+    """匹配分享的url地址
+
+    Args:
+        strurl (string): 带文案的分享链接
+
+    Returns:
+        result: url短链
+    """
+    # 空数据判断
+    if strurl == '':
+        return strurl
+    result = re.findall(
+        'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', strurl)
+    return result
+
 print('''
   ████████╗██╗██╗  ██╗████████╗ ██████╗ ██╗  ██╗██████╗  ██████╗ ██╗    ██╗███╗   ██╗██╗      ██████╗  █████╗ ██████╗
   ╚══██╔══╝██║██║ ██╔╝╚══██╔══╝██╔═══██╗██║ ██╔╝██╔══██╗██╔═══██╗██║    ██║████╗  ██║██║     ██╔═══██╗██╔══██╗██╔══██╗
