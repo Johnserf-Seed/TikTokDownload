@@ -14,7 +14,10 @@ Change Log  :
 '''
 import Util
 
-live_url = input('[   📺   ]:输入抖音直播间web端链接，例如 https://live.douyin.com/176819813905：')
+live_url = Util.reFind(input('[   📺   ]:输入抖音直播间web端链接，例如 https://live.douyin.com/176819813905：'))[0]
+
+if live_url == '':
+    Util.reFind(input('[   📺   ]:请输入正确的链接：'))[0]
 
 json = Util.Lives.get_Live(live_url)
 
@@ -22,7 +25,7 @@ json = Util.Lives.get_Live(live_url)
 status = json['data']['data'][0]['status']
 
 if status == 4:
-    input('当前直播已结束')
+    input('[   📺   ]:当前直播已结束，按回车退出')
     exit(0)
 
 # 直播标题
@@ -73,6 +76,7 @@ rate = int(input('[   🎬   ]输入数字选择推流清晰度：'))
 
 # or4 = 原画
 
+# 显示清晰度列表
 print('[   %s   ]:%s' % (flv[rate], flv_pull_url[flv[rate]]))
 
-input('复制链接使用下载工具下载，按任意键退出')
+input('[   📺   ]:复制链接使用下载工具下载，按回车退出')

@@ -69,8 +69,8 @@ class Config:
             print('[  提示  ]:从GitHub为您下载配置文件!\r')
             Util.log.info('[  提示  ]:从GitHub为您下载配置文件!')
             r = Util.requests.get(
-                'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload/conf.ini')
-            with open("conf1.ini", "a+") as f:
+                'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload@main/conf.ini')
+            with open("conf.ini", "a+") as f:
                 f.write(r.content)
             print('[  提示  ]:下载成功!\r')
             Util.log.info('[  提示  ]:下载成功!')
