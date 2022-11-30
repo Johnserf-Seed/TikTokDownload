@@ -4,7 +4,7 @@
 @Description:__init__.py
 @Date       :2022/07/29 23:20:56
 @Author     :JohnserfSeed
-@version    :1.0
+@version    :1.3.0.33
 @License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
@@ -26,6 +26,7 @@ import argparse
 import configparser
 
 from lxml import etree
+from TikTokUpdata import Updata
 
 from .Log import Log
 from .Lives import Lives
@@ -104,7 +105,7 @@ print('''
 print("#" * 120)
 print(
         """
-                                                TikTokTool V1.3.0
+                                                TikTokTool V1.3.0.33
         使用说明：
                 1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
                 2、命令行操作方法：1）将本程序路径添加到环境变量
@@ -134,3 +135,6 @@ else:
     sprit = '/'
     # 🍎
     print('[   🍎   ]:MacOS平台')
+
+# 检查版本
+Updata().get_Updata()
