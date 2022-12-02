@@ -82,7 +82,7 @@ class Updata:
             zip = requests.get(url, stream=True)
             filesize = int(zip.headers['content-length'])
         except:
-            input('[  🚧  ]:网络不太通畅，请重新运行')
+            input('[   🚧   ]:网络不太通畅，请重新运行')
             sys.exit(0)
 
         with open('TikTokDownload-main.zip', 'wb') as f:
@@ -121,14 +121,17 @@ class Updata:
             # 移动文件
             for i in os.listdir(oripath):
                 try:
-                    print('[   删除   ]:' + tardir + self.sprit + i)
+                    print('[  删除  ]:' + tardir + self.sprit + i)
                     shutil.rmtree(tardir + self.sprit + i)
                 except:
                     pass
-                print('[   移动   ]:' + oripath + i)
-                print('[   移到   ]:' + tardir + self.sprit + i)
+                print('[  移动  ]:' + oripath + i)
+                print('[  移到  ]:' + tardir + self.sprit + i)
                 shutil.move(oripath + i, tardir + self.sprit + i)
-            print('[  🚩  ]:删除更新临时目录')
+            print('[   🚩   ]:删除更新临时目录')
+            # 重新读取本地版本
+            with open('version', 'r') as file:
+                self.l_Version = int(file.read())
             shutil.rmtree(oripath)
             status = 1
         return status
