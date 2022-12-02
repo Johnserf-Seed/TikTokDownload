@@ -73,7 +73,7 @@ class Updata:
                 print('[   🚩   ]:取消升级,旧版可能会出现没有修复的bug')
                 return
             else:
-                sys.exit(0)
+                self.get_Updata()
 
     # @retry(stop_max_attempt_number=3)
     def zip_Download(self):
@@ -128,9 +128,9 @@ class Updata:
                 print('[   移动   ]:' + oripath + i)
                 print('[   移到   ]:' + tardir + self.sprit + i)
                 shutil.move(oripath + i, tardir + self.sprit + i)
+            print('[  🚩  ]:删除更新临时目录')
+            shutil.rmtree(oripath)
             status = 1
-        print('[  🚩  ]:删除更新临时目录')
-        shutil.rmtree(oripath)
         return status
 
 
