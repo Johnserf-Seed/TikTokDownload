@@ -53,7 +53,7 @@ class Config:
                 # self.cf.set("path", "path", ".\\Download\\")
                 self.cf.add_section("mode")
                 self.cf.set("mode", "mode", "post")
-                with open("conf.ini", "a+") as f:
+                with open("conf.ini", "w") as f:
                     self.cf.write(f)
                 print('[  提示  ]:生成成功!\r')
                 Util.log.info('[  提示  ]:生成成功!')
@@ -70,7 +70,7 @@ class Config:
             Util.log.info('[  提示  ]:从GitHub为您下载配置文件!')
             r = Util.requests.get(
                 'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload@main/conf.ini')
-            with open("conf.ini", "a+") as f:
+            with open("conf.ini", "w") as f:
                 f.write(r.content)
             print('[  提示  ]:下载成功!\r')
             Util.log.info('[  提示  ]:下载成功!')
