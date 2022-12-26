@@ -51,7 +51,7 @@ class Download():
             # 获取单部视频接口信息
             try:
                 # 官方接口
-                jx_url = f'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={self.aweme_id[i]}'
+                jx_url = f"https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={self.aweme_id[i]}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333"
                 js = Util.json.loads(Util.requests.get(
                     url=jx_url, headers=self.headers).text)
 
