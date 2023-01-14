@@ -11,7 +11,7 @@
 <img src="https://img.shields.io/github/license/johnserf-seed/tiktokdownload">
 </a>
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/badge/python-v3.8.5-green">
+<img src="https://img.shields.io/badge/python-v3.11.1-orange">
 </a>
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social">
@@ -40,21 +40,14 @@
     <td><center>TikTokMulti</td>
     </tr>
     <tr>
-        <td><center><img src="https://tva2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg"></center></td>
-        <td><center><img src="https://tvax3.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
+        <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg"></center></td>
+        <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
     </tr>
     <tr>
     	<td><center>新版配置文件conf.ini</td>
     	<td><center>旧版配置文件conf.conf</td>
     </tr>
 </table>
-
-2. ~~本项目制作了pip包，可以输入 ``` pip install TikTokDownload==1.2.3 ```安装~~
-**（1.2.3没有及时更新到1.3.0，请勿安装）**
-
-<img src="https://tva1.sinaimg.cn/large/006908GAly1h7aqj3053oj30w60f8agh.jpg" alt="image" width="800" data-width="1158" data-height="548">
-
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1gqg4jfswmxj30ul08xmy8.jpg" alt="image" width="800" data-width="808" data-height="224">
 
    **包使用方法：**
 
@@ -79,16 +72,17 @@
    
    ```
 
-   ***``example.py``需确保``__init__.py``与``TikTokDownload.py``两个文件都在相同目录中***
-   ***``example.py``需确保``__init__.py``与``TikTokDownload.py``两个文件都在相同目录中***
-   ***``example.py``需确保``__init__.py``与``TikTokDownload.py``两个文件都在相同目录中***
+   ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+   ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+   ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+
 **重要的话说三遍**
 
-3. 如何编译
+2. 如何编译
 
    运行根目录下```build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
 
-4. 批量保存
+3. 批量保存
 
 	- 下载录制
 	<img src="https://tva1.sinaimg.cn/large/006908GAly1h5bgh6pvgog318h0ey4qp.gif" alt="image" width="800" data-width="808" data-height="224">
@@ -108,12 +102,12 @@
 	- 资源文件夹
 	<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
    
-5. issues反馈
+4. issues反馈
     如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
 
 <img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg" alt="image" width="800" data-width="808" data-height="224">
 
-6. 单一下载模式 ``TikTokDownload``;批量下载模式``TikTokMulti``;图文下载 ``TikTokPic``;测试版图形界面 ``TikTokMultiGUI``
+5. 单一下载模式 ``TikTokDownload``;批量下载模式``TikTokMulti``;图文下载 ``TikTokPic``;测试版图形界面 ``TikTokMultiGUI``
 
 **注意（常见错误）：**
 
@@ -202,11 +196,12 @@
 ## ToDo
 - [x] 无水印图集下载功能
 - [x] 可视化界面
+- [x] 直播推流保存
 - [ ] 支持多平台视频解析
 - [ ] 记录作品详细信息到本地数据库
 - [ ] 本地服务检测抖音关注用户作品的更新情况 ***(并推送)***
 - [ ] 所有已关注用户主页的视频批量下载的可选功能
-- [x] 直播推流保存
+- [ ] 收藏作品与搜索作品下载
 - [ ] 制作本地接口解析服务
 
 
