@@ -32,7 +32,7 @@ class Command:
             args: 返回命令行对象
         """
         parser = Util.argparse.ArgumentParser(
-            description='TikTokTool V1.3.0.33 使用帮助')
+            description='TikTokTool V1.3.0.43 使用帮助')
         parser.add_argument('--uid', '-u', type=str,
                             help='为用户主页链接，非必要参数', required=False)
         # parser.add_argument('--dir','-d', type=str,help='视频保存目录，非必要参数， 默认./Download', default='./Download/')
