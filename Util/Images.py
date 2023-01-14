@@ -11,6 +11,7 @@
 -------------------------------------------------
 Change Log  :
 2022/08/29 22:02:49 : Init
+2023/01/14 17:35:31 : 更换接口
 -------------------------------------------------
 '''
 
@@ -20,7 +21,7 @@ import Util
 class Images():
     def __init__(self):
         # 作品接口
-        self.apiUrl = 'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids='
+        self.apiUrl = 'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
         # 作品id
         self.aweme_id = ''
         # 作者id
@@ -39,26 +40,27 @@ class Images():
     def get_all_images(self, aweme_id):
         datas = []
         for id in aweme_id:
-            r = Util.requests.get(self.apiUrl + str(id),
+            r = Util.requests.get(self.apiUrl.format(str(id)),
                                     headers=Util.headers).text
             js = Util.json.loads(r)
 
-            self.nickname = js['item_list'][0]['author']['nickname']
-            self.desc = js['item_list'][0]['desc']
-            self.create_time = js['item_list'][0]['create_time']
-            self.number = len(js['item_list'][0]['images'])
+            self.nickname = js['aweme_detail']['author']['nickname']
+            self.desc = js['aweme_detail']['desc']
+            self.create_time = js['aweme_detail']['create_time']
+            self.number = len(js['aweme_detail']['images'])
 
             # 有的作品不会带定位
             try:
-                self.position = js['item_list'][0]['aweme_poi_info']['poi_name']
+                self.position = js['aweme_detail']['aweme_poi_info']['poi_name']
             except:
                 self.position = ''
 
             for i in range(self.number):
-                self.images.append(js['item_list'][0]['images'][i]['url_list'][3])
+                self.images.append(js['aweme_detail']
+                                    ['images'][i]['url_list'][3])
 
             datas.append([self.nickname, self.desc, self.create_time,
-                        self.position, self.number, self.images])
+                            self.position, self.number, self.images])
             # 清除上一个作品
             self.images = []
         return datas
