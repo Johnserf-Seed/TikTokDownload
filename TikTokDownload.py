@@ -18,6 +18,7 @@ import requests
 
 # from retrying import retry
 
+
 def printUsage():
     print('''
         使用方法: 1、添加为环境变量 2、输入命令
@@ -43,7 +44,8 @@ def main():
     music = "yes"
     name = ""
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:u:m:n:", ["url=", "music=", "name="])
+        opts, args = getopt.getopt(sys.argv[1:], "h:u:m:n:", [
+                                    "url=", "music=", "name="])
     except getopt.GetoptError:
         printUsage()
         sys.exit(-1)
@@ -104,33 +106,41 @@ def download(video_url, music_url, video_title, music_title, headers, music, nam
 
 def video_download(url, music, name):
     headers = {
-        'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
+        'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66',
+        'Cookie': 'msToken=%s' % Util.generate_random_str(107)
     }
     r = requests.get(url=Find(url)[0])
     key = re.findall('video/(\d+)?', str(r.url))[0]
     # 官方接口
-    jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'
+    # 旧接口22/12/23失效
+    # jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={self.aweme_id[i]}'
+    # 23/01/11
+    # 此ies domian暂时不需要xg参数
+    # 单作品接口 'aweme_detail'
+    # 主页作品 'aweme_list'
+    jx_url = f'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={key}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
     js = json.loads(requests.get(url=jx_url, headers=headers).text)
 
     try:
-        video_url = str(js['item_list'][0]['video']['play_addr']
-                        ['url_list'][0]).replace('playwm', 'play')  # 去水印后链接
+        video_url = str(js['aweme_detail']['video']['play_addr']
+                        ['url_list'][2])  # .replace('playwm', 'play')  # 去水印后链接
     except:
         print('[  提示  ]:视频链接获取失败\r')
         video_url = ''
     try:
-        music_url = str(js['item_list'][0]['music']['play_url']['url_list'][0])
+        music_url = str(js['aweme_detail']['music']['play_url']['url_list'][0])
     except:
         print('[  提示  ]:该音频目前不可用\r')
         music_url = ''
     try:
-        video_title = str(js['item_list'][0]['desc'])
-        music_title = str(js['item_list'][0]['music']['author'])
+        video_title = str(js['aweme_detail']['desc'])
+        music_title = str(js['aweme_detail']['music']['author']) + '创作的视频原声'
     except:
         print('[  提示  ]:标题获取失败\r')
         video_title = '视频走丢啦~'
         music_title = '音频走丢啦~'
-    download(video_url, music_url, video_title, music_title, headers, music, name)
+    download(video_url, music_url, video_title,
+                music_title, headers, music, name)
 
 
 if __name__ == "__main__":
