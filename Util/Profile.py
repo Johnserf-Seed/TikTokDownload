@@ -16,6 +16,11 @@ Change Log  :
 
 import Util
 
+############apis############
+# /aweme/v1/web/aweme/detail/       'aweme_detail'
+# /aweme/v1/web/aweme/post/         'aweme_list'
+###########################
+
 class Profile():
 
     def __init__(self):
@@ -25,10 +30,8 @@ class Profile():
         self.max_cursor = 0
         # 全局IOS头部
         self.headers = Util.headers
-
         # 系统分隔符
         self.sprit = Util.sprit
-
         # 输出日志
         Util.log.info(Util.platform.system())
 
@@ -68,9 +71,15 @@ class Profile():
         # 输出日志
         Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
-        post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
+        # 旧接口于22/12/23失效
+        # post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
+        #     self.sec)
+        # 23/1/11
+        # 暂时使用不需要xg的接口
+        post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128' % (
             self.sec)
-        post_name_json = Util.json.loads(Util.requests.get(url = post_url, headers=self.headers).content.decode())
+        post_name_json = Util.json.loads(Util.requests.get(
+            url=post_url, headers=self.headers).content.decode())
         # 2022/09/05
         # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
         try:
@@ -90,8 +99,12 @@ class Profile():
             exit()
 
         # 构造第一次访问链接
-        self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
-            self.mode, self.sec, 35, self.max_cursor)
+        if self.mode == 'post':
+            self.api_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128' % (
+                self.sec, 35, self.max_cursor)
+        else:
+            self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128' % (
+                self.sec, 35, self.max_cursor)
 
         # 创建用户文件夹
         self.path = "." + self.sprit + "Download" + self.sprit + \
@@ -161,8 +174,13 @@ class Profile():
         """获取下一页api数据
         """
         # 构造下一次访问链接
-        api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
-            self.mode, self.sec, 35, self.max_cursor)
+        # https://www.iesdouyin.com/aweme/v1/web/aweme/post/
+        if self.mode == 'post':
+            api_naxt_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128' % (
+                self.sec, 35, self.max_cursor)
+        else:
+            api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128' % (
+                self.sec, 35, self.max_cursor)
 
         index = 0
         result = []
@@ -216,7 +234,7 @@ class Profile():
                 # url_list < 4 说明是图集
                 # 2022/11/27 aweme_type是作品类型 2：图集 4：视频
                 if result[v]['aweme_type'] == 2:
-                #if len(result[v]['video']['play_addr']['url_list']) < 4:
+                    # if len(result[v]['video']['play_addr']['url_list']) < 4:
                     self.image_list.append(result[v]['aweme_id'])
                 else:
                     self.author_list.append(str(result[v]['desc']))
@@ -256,8 +274,9 @@ class Profile():
         return  # self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
 
     def s_homepage(self):
-        with open(self.path + self.sprit + self.nickname + '.txt','w') as f:
+        with open(self.path + self.sprit + self.nickname + '.txt', 'w') as f:
             f.write(self.homepage)
+
 
 if __name__ == '__main__':
     Profile()
