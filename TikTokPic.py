@@ -38,12 +38,12 @@ def printUsage():
 
 def out_Print():
     print(r'''
-████████╗      ██╗      ██╗  ██╗       ████████╗        ██████╗        ██╗  ██╗        ██████╗        ██╗        ██████╗
-╚══██╔══╝      ██║      ██║ ██╔╝       ╚══██╔══╝       ██╔═══██╗       ██║ ██╔╝        ██╔══██╗       ██║       ██╔════╝
-   ██║         ██║      █████╔╝           ██║          ██║   ██║       █████╔╝         ██████╔╝       ██║       ██║
-   ██║         ██║      ██╔═██╗           ██║          ██║   ██║       ██╔═██╗         ██╔═══╝        ██║       ██║
-   ██║         ██║      ██║  ██╗          ██║          ╚██████╔╝       ██║  ██╗        ██║            ██║       ╚██████╗
-   ╚═╝         ╚═╝      ╚═╝  ╚═╝          ╚═╝           ╚═════╝        ╚═╝  ╚═╝        ╚═╝            ╚═╝        ╚═════╝''')
+████████╗     ██╗     ██╗  ██╗      ████████╗       ██████╗       ██╗  ██╗       ██████╗       ██╗       ██████╗
+╚══██╔══╝     ██║     ██║ ██╔╝      ╚══██╔══╝      ██╔═══██╗      ██║ ██╔╝       ██╔══██╗      ██║      ██╔════╝
+   ██║        ██║     █████╔╝          ██║         ██║   ██║      █████╔╝        ██████╔╝      ██║      ██║
+   ██║        ██║     ██╔═██╗          ██║         ██║   ██║      ██╔═██╗        ██╔═══╝       ██║      ██║
+   ██║        ██║     ██║  ██╗         ██║         ╚██████╔╝      ██║  ██╗       ██║           ██║      ╚██████╗
+   ╚═╝        ╚═╝     ╚═╝  ╚═╝         ╚═╝          ╚═════╝       ╚═╝  ╚═╝       ╚═╝           ╚═╝       ╚═════╝''')
 
     # TikTokPic.exe --url=<抖音复制的链接> --music=<是否下载音频,默认为yes可选no>
 
@@ -114,25 +114,33 @@ def pic_download(urlarg):
         pic_download(urlarg)
 
     # 2022/05/31 抖音把图集更新为note
-    key = re.findall('note/(\d+)?', str(r.url))[0]
+    # 2023/01/14 第一步解析出来的链接是share/video/{id}
+    key = re.findall('video/(\d+)?', str(r.url))[0]
+    print(key)
+
 
     # 官方接口
-    jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={key}'
+    # 旧接口22/12/23失效
+    # jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={self.aweme_id[i]}'
+    # 23/01/11
+    # 此ies domian暂时不需要xg参数
+    # 单作品接口 'aweme_detail'
+    # 主页作品 'aweme_list'
+    jx_url = f'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={key}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
     js = json.loads(requests.get(url=jx_url, headers=headers).text)
 
     try:
-        creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(
-            js['item_list'][0]['create_time']))
+        creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(js['aweme_detail']['create_time']))
 
-        pic_title = str(js['item_list'][0]['desc'])
-        nickname = str(js['item_list'][0]['author']['nickname'])
+        pic_title = str(js['aweme_detail']['desc'])
+        nickname = str(js['aweme_detail']['author']['nickname'])
         # 检测下载目录是否存在
         if not os.path.exists('Download\\' + 'pic\\' + nickname):
             os.makedirs('Download\\' + 'pic\\' + nickname)
-        for i in range(len(js['item_list'][0]['images'])):
+        for i in range(len(js['aweme_detail']['images'])):
             # 尝试下载图片
             try:
-                pic_url = str(js['item_list'][0]['images'][i]['url_list'][0])
+                pic_url = str(js['aweme_detail']['images'][i]['url_list'][0])
                 picture = requests.get(url=pic_url, headers=headers)
                 p_url = 'Download\\' + 'pic\\' + nickname + '\\' + creat_time + \
                     pic_title + '_' + str(i) + '.jpeg'  # + now2ticks()
@@ -151,7 +159,7 @@ def pic_download(urlarg):
 
 if __name__ == "__main__":
     # 设置控制台大小
-    os.system("mode con cols=120 lines=25")
+    # os.system("mode con cols=120 lines=25")
     # 输出logo
     out_Print()
     # 获取命令行
