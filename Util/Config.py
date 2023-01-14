@@ -22,7 +22,7 @@ class Config:
     def __init__(self):
         self.headers = Util.headers
         self.default = {
-            'uid': 'https://v.douyin.com/JcjJ5Tq/',
+            'uid': 'https://v.douyin.com/k9NXNcH/',
             'music': 'yes',
             'path': 'Download',
             'mode': 'post'
