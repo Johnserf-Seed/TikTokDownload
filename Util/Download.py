@@ -51,12 +51,18 @@ class Download():
             # 获取单部视频接口信息
             try:
                 # 官方接口
-                jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={self.aweme_id[i]}'
+                # 旧接口22/12/23失效
+                # jx_url = f'https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={self.aweme_id[i]}'
+                # 23/01/11
+                # 此ies domian暂时不需要xg参数
+                # 单作品接口 'aweme_detail'
+                # 主页作品 'aweme_list'
+                jx_url = f'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={self.aweme_id[i]}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
                 js = Util.json.loads(Util.requests.get(
                     url=jx_url, headers=self.headers).text)
 
                 creat_time = Util.time.strftime(
-                    "%Y-%m-%d %H.%M.%S", Util.time.localtime(js['item_list'][0]['create_time']))
+                    "%Y-%m-%d %H.%M.%S", Util.time.localtime(js['aweme_detail']['create_time']))
             except Exception as e:
                 Util.log.warning(e)
                 print('[  🚩  ]:%s\r' % e)
@@ -93,9 +99,9 @@ class Download():
             # 尝试下载音频
             try:
                 if self.music == "yes":                                 # 保留音频
-                    music_url = str(js['item_list'][0]['music']
+                    music_url = str(js['aweme_detail']['music']
                                     ['play_url']['url_list'][0])
-                    music_title = str(js['item_list'][0]['music']['author'])
+                    music_title = str(js['aweme_detail']['music']['author']) + '创作的视频原声'
                     music = Util.requests.get(
                         music_url)                                      # 保存音频
                     start = Util.time.time()                            # 下载开始时间
