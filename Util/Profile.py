@@ -39,13 +39,14 @@ class Profile():
         """判断个人主页api链接
 
         Args:
-            param (tuple): uid,music,mode | ('https://v.douyin.com/efrHYf2/', 'no', 'post')
+            param (tuple): uid,dir,music,mode | ('https://v.douyin.com/efrHYf2/','./download/', 'no', 'post')
 
         Returns:
             _type_: _description_
         """
-        self.music = param[1]
-        self.mode = param[2]
+        self.dir = param[1]
+        self.music = param[2]
+        self.mode = param[3]
 
         r = Util.requests.post(url=Util.reFind(param[0])[0])
 
@@ -107,8 +108,7 @@ class Profile():
                 self.sec, 35, self.max_cursor)
 
         # 创建用户文件夹
-        self.path = "." + self.sprit + "Download" + self.sprit + \
-            param[2] + self.sprit + self.nickname + self.sprit
+        self.path = self.dir
         if not Util.os.path.exists(self.path):
             Util.os.makedirs(self.path)
 

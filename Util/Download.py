@@ -61,8 +61,6 @@ class Download():
                 js = Util.json.loads(Util.requests.get(
                     url=jx_url, headers=self.headers).text)
 
-                creat_time = Util.time.strftime(
-                    "%Y-%m-%d %H.%M.%S", Util.time.localtime(js['aweme_detail']['create_time']))
             except Exception as e:
                 Util.log.warning(e)
                 print('[  🚩  ]:%s\r' % e)
@@ -80,11 +78,9 @@ class Download():
                     self.author_list[i], len(self.author_list[i])))
 
             # 检查视频下载情况
-            file_state = self.check.test(
-                self.path, creat_time, self.author_list[i],".mp4")
+            file_state = self.check.test(self.path+self.sprit,self.author_list[i],".mp4")
             if file_state == True:
-                print('[  提示  ]: %s%s [文件已存在，为您跳过]' %
-                        (creat_time, self.author_list[i]), end="")
+                print('[  提示  ]: %s [文件已存在，为您跳过]' %self.author_list[i], end="")
                 Util.log.info('[  提示  ]:%s[文件已存在，为您跳过]' % self.author_list[i])
                 # 在PyQt中无法使用flush进行消息传输
                 # for _ in range(20):
@@ -110,10 +106,10 @@ class Download():
                     content_size = int(
                         music.headers['content-length'])                # 下载文件总大小
                     if music.status_code == 200:                        # 判断是否响应成功
-                        print('[  音频  ]:' + creat_time + self.author_list[i]+'[文件 大小]:{size:.2f} MB'.format(
+                        print('[  音频  ]:'  + self.author_list[i]+'[文件 大小]:{size:.2f} MB'.format(
                             size=content_size / chunk_size / 1024))     # 开始下载，显示下载文件大小
 
-                        m_url = self.path + self.sprit + creat_time + Util.re.sub(
+                        m_url = self.path + self.sprit  + Util.re.sub(
                                 r'[\\/:*?"<>|\r\n]+', "_", music_title) + '_' + self.author_list[i] + '.mp3'
 
                         with open(m_url, 'wb') as file:                 # 显示进度条
@@ -146,10 +142,10 @@ class Download():
                     t_video.headers['content-length'])                  # 下载文件总大小
                 try:
                     if t_video.status_code == 200:                      # 判断是否响应成功
-                        print('[  视频  ]:' + creat_time + self.author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
+                        print('[  视频  ]:'  + self.author_list[i] + '[文件 大小]:{size:.2f} MB'.format(
                             size=content_size / chunk_size / 1024))     # 开始下载，显示下载文件大小
 
-                        v_url = self.path + self.sprit + creat_time + Util.re.sub(
+                        v_url = self.path + self.sprit + Util.re.sub(
                                 r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
 
                         with open(v_url, 'wb') as file:                 # 显示进度条
@@ -183,15 +179,14 @@ class Download():
         for i in range(len(datas)):
             self.nickname = datas[i][0]
             self.desc = Util.replaceT(datas[i][1])
-            self.create_time = Util.time.strftime(
-                '%Y-%m-%d %H.%M.%S', Util.time.localtime(datas[i][2]))
+            #self.create_time = Util.time.strftime('%Y-%m-%d %H.%M.%S', Util.time.localtime(datas[i][2]))
             self.position = datas[i][3]
             self.number = datas[i][4]
             self.images = datas[i][5]
             self.sprit = Util.sprit
 
             path = "Download" + self.sprit + "pic" + self.sprit + \
-                self.nickname + self.sprit + self.create_time + self.desc
+                self.nickname + self.sprit + self.desc
             # 检测下载目录是否存在
             if not Util.os.path.exists(path):
                 Util.os.makedirs(path)
@@ -199,14 +194,14 @@ class Download():
             for i in range(self.number):
                 # 图片目录
                 p_url = 'Download' + self.sprit + 'pic' + self.sprit + self.nickname + self.sprit + \
-                        self.create_time + self.desc + self.sprit + \
-                            self.create_time + self.desc + \
+                        self.desc + self.sprit + \
+                            self.desc + \
                         '_' + str(i) + '.jpeg'
                 # 检查图片下载情况
                 if Util.os.path.exists(p_url):
-                    print('[  提示  ]: %s%s [文件已存在，为您跳过]' %
-                            (self.create_time, self.create_time + self.desc + '_' + str(i) + '.jpeg'), end="")
-                    Util.log.info('[  提示  ]:%s[文件已存在，为您跳过]' % self.create_time + self.desc + '_' + str(i) + '.jpeg')
+                    print('[  提示  ]: %s [文件已存在，为您跳过]' %
+                            (self.desc + '_' + str(i) + '.jpeg'), end="")
+                    Util.log.info('[  提示  ]:%s[文件已存在，为您跳过]' % self.desc + '_' + str(i) + '.jpeg')
                     print('\r')
                     continue
                 else:
@@ -219,8 +214,8 @@ class Download():
                         url=self.images[i], headers=Util.headers)
                     with open(p_url, 'wb') as file:
                         file.write(picture.content)
-                        print('[  提示  ]: %s%s_%s.jpeg下载完毕!\r' %
-                                (self.create_time, self.desc, str(i+1)))
+                        print('[  提示  ]: %s_%s.jpeg下载完毕!\r' %
+                                (self.desc, str(i+1)))
                 except Exception as error:
                     print('[  错误  ]:%s\r' % error)
                     print('[  提示  ]:发生了点意外!\r')

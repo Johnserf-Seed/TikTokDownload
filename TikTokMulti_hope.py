@@ -12,7 +12,6 @@
 '''
 
 import requests,json,os,time,configparser,re,sys,argparse
-import Util
 
 class TikTok():
     # 初始化
@@ -199,16 +198,8 @@ class TikTok():
         api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % ( 
                 self.mode, self.sec, str(self.count), max_cursor)
 
-        # 旧接口于22/12/23失效
-        # post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
-        #     self.sec)
-        # 23/1/11
-        # 暂时使用不需要xg的接口
-        api_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128' % (
-            self.sec)
-        html = Util.json.loads(Util.requests.get(
-            url=api_post_url, headers=self.headers).content.decode())
-
+        response = requests.get(url = api_post_url, headers = self.headers)
+        html = json.loads(response.content.decode())
         self.nickname = html['aweme_list'][0]['author']['nickname']
         if not os.path.exists(self.save):
                 os.makedirs(self.save)
@@ -253,10 +244,7 @@ class TikTok():
         # 构造下一次访问链接
         api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/%s/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&_signature=RuMN1wAAJu7w0.6HdIeO2EbjDc&dytk=' % (
             self.mode, self.sec, str(self.count), max_cursor)
-        # 23/1/11
-        # 暂时使用不需要xg的接口
-        api_naxt_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128' % (
-            self.sec)
+
         index = 0
         result = []
 
@@ -285,7 +273,7 @@ class TikTok():
     # 处理视频信息
     def video_info(self, result, max_cursor):
         # 作者信息      # 无水印视频链接    # 作品id        # 作者id      # 唯一视频标识# 封面大图
-        author_list = [];video_list = [];aweme_id = [];nickname = [];uri_list=[] ; dynamic_cover = []
+        author_list = [];video_list = [];aweme_id = [];nickname = [];uri_list=[]# dynamic_cover = []
 
         for v in range(self.count):
             try:
@@ -298,7 +286,7 @@ class TikTok():
                 uri_list.append(str(result[v]['video']['play_addr']['uri']))
                 aweme_id.append(str(result[v]['aweme_id']))
                 nickname.append(str(result[v]['author']['nickname']))
-                dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
+                # dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
             except Exception as error:
                 # print(error)
                 pass

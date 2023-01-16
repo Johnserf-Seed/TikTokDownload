@@ -17,6 +17,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+video_test/
 eggs/
 .eggs/
 lib/
@@ -133,7 +134,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#¹ýÂË
+#ï¿½ï¿½ï¿½ï¿½
 /Download/
 readconf.py
 .vscode
