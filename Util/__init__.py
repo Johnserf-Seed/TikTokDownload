@@ -60,31 +60,56 @@ headers = {
     'Cookie': 'msToken=%s' % generate_random_str(107)
 }
 
-
+# 老版本替换
 def replaceT(obj):
-    """替换文案非法字符
-
-    Args:
-        obj (_type_): 传入对象
-
-    Returns:
-        new: 处理后的内容
     """
-    if len(obj) > 80:
-        obj = obj[:80]
-    # '/ \ : * ? " < > |'
-    reSub = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^#]"  # '/ \ : * ? " < > |'
+    @description  : 替换文案非法字符
+    ---------
+    @param  : ojb 传入对象
+    -------
+    @Returns  : n 处理后的内容
+    -------
+    """
+    r = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
     new = []
     if type(obj) == list:
         for i in obj:
             # 替换为下划线
-            retest = re.sub(reSub, "_", i)
+            retest = re.sub(r, "_", i)
             new.append(retest)
     elif type(obj) == str:
-        # new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
         # 替换为下划线
-        new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
+        new = re.sub(r, "_", obj)
     return new
+
+
+#新版本替换
+# def replaceT(obj):
+#     """替换文案非法字符
+#
+#     Args:
+#         obj (_type_): 传入对象
+#
+#     Returns:
+#         new: 处理后的内容
+#     """
+#     if len(obj) > 80:
+#         obj = obj[:80]
+#     # '/ \ : * ? " < > |'
+#     reSub = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^#]"  # '/ \ : * ? " < > |'
+#     new = []
+#     if type(obj) == list:
+#         for i in obj:
+#             # 替换为下划线
+#             retest = re.sub(reSub, "_", i)
+#             new.append(retest)
+#     elif type(obj) == str:
+#         # new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
+#         # 替换为下划线
+#         new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
+#     return new
+
+
 
 
 def Status_Code(code: int):
@@ -157,4 +182,4 @@ else:
     print('[   🍎   ]:MacOS平台')
 
 # 检查版本
-Updata().get_Updata()
+#Updata().get_Updata()
