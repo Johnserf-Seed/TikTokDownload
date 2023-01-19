@@ -21,7 +21,7 @@ import Util
 class Images():
     def __init__(self):
         # 作品接口
-        self.apiUrl = 'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
+        self.apiUrl = 'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'        # 作品id
         # 作品id
         self.aweme_id = ''
         # 作者id
@@ -40,7 +40,7 @@ class Images():
     def get_all_images(self, aweme_id):
         datas = []
         for id in aweme_id:
-            r = Util.requests.get(self.apiUrl.format(str(id)),
+            r = Util.requests.get(self.apiUrl.format(id = str(id)),
                                     headers=Util.headers).text
             js = Util.json.loads(r)
 
