@@ -76,7 +76,7 @@ class Profile():
         #     self.sec)
         # 23/1/11
         # 暂时使用不需要xg的接口
-        post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128' % (
+        post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
             self.sec)
         post_name_json = Util.json.loads(Util.requests.get(
             url=post_url, headers=self.headers).content.decode())
@@ -100,10 +100,10 @@ class Profile():
 
         # 构造第一次访问链接
         if self.mode == 'post':
-            self.api_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128' % (
+            self.api_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
                 self.sec, 35, self.max_cursor)
         else:
-            self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128' % (
+            self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
                 self.sec, 35, self.max_cursor)
 
         # 创建用户文件夹
@@ -176,10 +176,10 @@ class Profile():
         # 构造下一次访问链接
         # https://www.iesdouyin.com/aweme/v1/web/aweme/post/
         if self.mode == 'post':
-            api_naxt_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128' % (
+            api_naxt_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
                 self.sec, 35, self.max_cursor)
         else:
-            api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128' % (
+            api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
                 self.sec, 35, self.max_cursor)
 
         index = 0
@@ -233,7 +233,8 @@ class Profile():
             try:
                 # url_list < 4 说明是图集
                 # 2022/11/27 aweme_type是作品类型 2：图集 4：视频
-                if result[v]['aweme_type'] == 2:
+                # 2023/01/19 aweme_type是作品类型 68：图集 0：视频
+                if result[v]['aweme_type'] == 68:
                     # if len(result[v]['video']['play_addr']['url_list']) < 4:
                     self.image_list.append(result[v]['aweme_id'])
                 else:
