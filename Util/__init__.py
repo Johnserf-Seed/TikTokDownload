@@ -137,8 +137,7 @@ print(
                 4、如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
                 5、GUI预览版本现已发布，操作更简单 https://github.com/Johnserf-Seed/TikTokDownload/tags 下载
                 6、TikTokLive 输入抖音直播间web端链接，例如 https://live.douyin.com/176819813905
-                7、TikTokPic 
-                8、新版工具fastdl正在开发中 ----> https://github.com/Johnserf-Seed/fastdl
+                7、新版工具fastdl正在开发中 ----> https://github.com/Johnserf-Seed/fastdl
 
         注意：  目前已经支持app内分享短链和web端长链识别。
         """
