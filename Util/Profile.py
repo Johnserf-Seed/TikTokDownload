@@ -78,8 +78,14 @@ class Profile():
         # 暂时使用不需要xg的接口
         post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
             self.sec)
-        post_name_json = Util.json.loads(Util.requests.get(
-            url=post_url, headers=self.headers).content.decode())
+        response = Util.requests.get(
+            url = post_url, headers = self.headers)
+        # 接口不稳定，有时会返回空数据
+        while response.text == '':
+            print('[  提示  ]:获取用户数据失败，正在重新获取\r')
+            response = Util.requests.get(
+                url = post_url, headers = self.headers)
+        post_name_json = Util.json.loads(response.content.decode())
         # 2022/09/05
         # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
         try:
@@ -140,6 +146,11 @@ class Profile():
             Util.time.sleep(0.5)
             response = Util.requests.get(
                 url=api_post_url, headers=self.headers)
+            # 接口不稳定，有时会返回空数据
+            while response.text == '':
+                print('[  提示  ]:获取作品数据失败，正在重新获取\r')
+                response = Util.requests.get(
+                    url=api_post_url, headers=self.headers)
             html = Util.json.loads(response.content.decode())
             if self.Isend == False:
                 # 下一页值
@@ -199,6 +210,11 @@ class Profile():
             Util.time.sleep(0.5)
             response = Util.requests.get(
                 url=api_naxt_post_url, headers=self.headers)
+            # 接口不稳定，有时会返回空数据
+            while response.text == '':
+                print('[  提示  ]:获取作品数据失败，正在重新获取\r')
+                response = Util.requests.get(
+                    url=api_naxt_post_url, headers=self.headers)
             html = Util.json.loads(response.content.decode())
             if self.Isend == False:
                 # 下一页值
