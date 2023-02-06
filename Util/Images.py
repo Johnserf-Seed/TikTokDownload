@@ -45,6 +45,7 @@ class Images():
             js = Util.json.loads(r)
 
             self.nickname = js['aweme_detail']['author']['nickname']
+            self.nickname = Util.replaceT(self.nickname)
             self.desc = js['aweme_detail']['desc']
             self.create_time = js['aweme_detail']['create_time']
             self.number = len(js['aweme_detail']['images'])

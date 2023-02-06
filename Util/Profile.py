@@ -84,6 +84,7 @@ class Profile():
         # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
         try:
             self.nickname = post_name_json['aweme_list'][0]['author']['nickname']
+            self.nickname = Util.replaceT(self.nickname)
             # self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/span/text()')[0]
             # self.nickname = html['aweme_list'][0]['author']['nickname']
         except Exception as e:

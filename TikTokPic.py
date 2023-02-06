@@ -30,7 +30,7 @@ def printUsage():
 
                     3、如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
                     4、GUI预览版本现已发布，操作更简单 https://github.com/Johnserf-Seed/TikTokDownload/tags 下载
-                    5、批量寻找用户主页中的图集将在未来版本中更新
+                    5、批量下载用户主页图集已在TikTokTool中适配
 
             注意：  目前已经支持app内分享短链和web端长链识别。
     ''')
@@ -78,8 +78,30 @@ def get_args():
 
     return urlarg
 
-# 获取当前时间戳
+def replaceT(obj):
+    """替换文案非法字符
 
+    Args:
+        obj (_type_): 传入对象
+
+    Returns:
+        new: 处理后的内容
+    """
+    if len(obj) > 80:
+        obj = obj[:80]
+    # '/ \ : * ? " < > |'
+    reSub = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^#]"  # '/ \ : * ? " < > |'
+    new = []
+    if type(obj) == list:
+        for i in obj:
+            # 替换为下划线
+            retest = re.sub(reSub, "_", i)
+            new.append(retest)
+    elif type(obj) == str:
+        # new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
+        # 替换为下划线
+        new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
+    return new
 
 def now2ticks(type):
     """
@@ -96,8 +118,6 @@ def now2ticks(type):
         return str(int(round(time.time() * 1000)))
 
 # 下载图集
-
-
 def pic_download(urlarg):
     headers = {
         'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
@@ -133,7 +153,7 @@ def pic_download(urlarg):
         creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(js['aweme_detail']['create_time']))
 
         pic_title = str(js['aweme_detail']['desc'])
-        nickname = str(js['aweme_detail']['author']['nickname'])
+        nickname = replaceT(str(js['aweme_detail']['author']['nickname']))
         # 检测下载目录是否存在
         if not os.path.exists('Download\\' + 'pic\\' + nickname):
             os.makedirs('Download\\' + 'pic\\' + nickname)
