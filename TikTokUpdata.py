@@ -77,7 +77,8 @@ class Updata:
 
     # @retry(stop_max_attempt_number=3)
     def zip_Download(self):
-        url = 'https://gh.api.99988866.xyz/https://github.com/Johnserf-Seed/TikTokDownload/archive/master.zip'
+        # 删除加速下载
+        url = 'https://github.com/Johnserf-Seed/TikTokDownload/archive/master.zip'
         try:
             zip = requests.get(url, stream=True)
             filesize = int(zip.headers['content-length'])
