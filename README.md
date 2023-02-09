@@ -216,6 +216,7 @@
 ## 赞赏
 
 <img src="https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png" alt="赞赏" width="1000" data-width="808" data-height="224">
+https://www.patreon.com/TikTokDownload713
 
 
 # 声明
