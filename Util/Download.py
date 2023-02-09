@@ -21,7 +21,7 @@ import Util
 class Download():
 
     def __init__(self):
-        pass
+        self.urls = Util.Urls()
 
     def VideoDownload(self, profileData):
         # 生成1080p分辨率的视频链接
@@ -57,7 +57,11 @@ class Download():
                 # 此ies domian暂时不需要xg参数
                 # 单作品接口 'aweme_detail'
                 # 主页作品 'aweme_list'
-                jx_url = f'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={self.aweme_id[i]}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
+                # 23/02/09 更新xg参数
+
+                jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
+                    f'aweme_id={self.aweme_id[i]}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
+
                 js = Util.json.loads(Util.requests.get(
                     url=jx_url, headers=self.headers).text)
 

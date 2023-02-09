@@ -16,10 +16,11 @@ Change Log  :
 
 import Util
 
-############apis############
+############ apis############
 # /aweme/v1/web/aweme/detail/       'aweme_detail'
 # /aweme/v1/web/aweme/post/         'aweme_list'
 ###########################
+
 
 class Profile():
 
@@ -34,6 +35,8 @@ class Profile():
         self.sprit = Util.sprit
         # 输出日志
         Util.log.info(Util.platform.system())
+        # 接口
+        self.urls = Util.Urls()
 
     def getProfile(self, param):
         """判断个人主页api链接
@@ -46,8 +49,10 @@ class Profile():
         """
         self.music = param[1]
         self.mode = param[2]
-
-        r = Util.requests.post(url=Util.reFind(param[0])[0])
+        try:
+            r = Util.requests.post(url=Util.reFind(param[0])[0])
+        except:
+            print('[  提示  ]:请检查你的配置链接填写是否正确!\r')
 
         print('[  提示  ]:为您下载多个视频!\r')
 
@@ -74,17 +79,19 @@ class Profile():
         # 旧接口于22/12/23失效
         # post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
         #     self.sec)
-        # 23/1/11
-        # 暂时使用不需要xg的接口
-        post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
-            self.sec)
+        # 23/02/09
+        # 获取xg参数
+        # datas 为元组 (params, xb)
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec))
         response = Util.requests.get(
-            url = post_url, headers = self.headers)
-        # 接口不稳定，有时会返回空数据
+            url=self.urls.USER_POST + datas.params, headers=self.headers)
+
         while response.text == '':
             print('[  提示  ]:获取用户数据失败，正在重新获取\r')
             response = Util.requests.get(
-                url = post_url, headers = self.headers)
+                url=self.urls.USER_POST, headers=self.headers)
+
         post_name_json = Util.json.loads(response.content.decode())
         # 2022/09/05
         # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
@@ -106,12 +113,12 @@ class Profile():
             exit()
 
         # 构造第一次访问链接
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec))
         if self.mode == 'post':
-            self.api_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
-                self.sec, 35, self.max_cursor)
+            self.api_post_url = self.urls.USER_POST + datas.params
         else:
-            self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
-                self.sec, 35, self.max_cursor)
+            self.api_post_url = self.urls.USER_FAVORITE_A + datas.params
 
         # 创建用户文件夹
         self.path = "." + self.sprit + "Download" + self.sprit + \
@@ -185,14 +192,13 @@ class Profile():
     def getNextData(self):
         """获取下一页api数据
         """
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec))
         # 构造下一次访问链接
-        # https://www.iesdouyin.com/aweme/v1/web/aweme/post/
         if self.mode == 'post':
-            api_naxt_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
-                self.sec, 35, self.max_cursor)
+            api_naxt_post_url = self.urls.USER_POST + datas.params
         else:
-            api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
-                self.sec, 35, self.max_cursor)
+            api_naxt_post_url = self.urls.USER_FAVORITE_A + datas.params
 
         index = 0
         result = []
@@ -275,15 +281,15 @@ class Profile():
         if self.max_cursor == 0:
             return
         # 过滤视频文案和作者名中的非法字符
-        print('[  提示  ]:等待替换文案非法字符!\r')
+        print('[  提示  ]:正在替换当页所有作品非法字符，耐心等待!\r')
         self.author_list = Util.replaceT(self.author_list)
         # 输出日志
-        Util.log.info('[  提示  ]:等待替换文案非法字符!')
+        Util.log.info('[  提示  ]:正在替换当页所有作品非法字符，耐心等待!')
 
-        print('[  提示  ]:等待替换作者非法字符!\r')
+        print('[  提示  ]:正在替换作者非法字符，耐心等待!\r')
         self.nickname = Util.replaceT(self.nickname)
         # 输出日志
-        Util.log.info('[  提示  ]:等待替换作者非法字符!')
+        Util.log.info('[  提示  ]:正在替换作者非法字符，耐心等待!')
         # 下载主页所有图集
         datas = Util.Images().get_all_images(self.image_list)
         Util.Download().VideoDownload(self)
