@@ -19,6 +19,7 @@ import Util
 
 class Urls:
     def __init__(self):
+        ######################################### WEB #########################################
         # 首页推荐
         self.TAB_FEED = 'https://www.douyin.com/aweme/v1/web/tab/feed/?'
 
@@ -30,6 +31,9 @@ class Urls:
 
         # 用户作品
         self.USER_POST = 'https://www.douyin.com/aweme/v1/web/aweme/post/?'
+
+        # 作品信息
+        self.POST_DETAIL = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?'
 
         # 用户喜欢A
         self.USER_FAVORITE_A = 'https://www.douyin.com/aweme/v1/web/aweme/favorite/?'
@@ -50,9 +54,29 @@ class Urls:
         self.FRIEND_FEED = 'https://www.douyin.com/aweme/v1/web/familiar/feed/?'
 
         # 关注用户作品
-        self.FOLLOW_FEED = 'https://www.iesdouyin.com/aweme/v1/web/follow/feed/?'
+        self.FOLLOW_FEED = 'https://www.douyin.com/aweme/v1/web/follow/feed/?'
 
+        # X-Bogus Path
+        self.GET_XB_PATH = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/xg/path?url='
 
+        # X-Bogus Dict
+        self.GET_XB_DICT = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/xg/dict/?params='
+
+        # X-Bogus Login
+        self.GET_XB_LOGIN = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/login'
+
+        # X-Bogus Register
+        self.GET_XB_REGISTER = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/register'
+
+        # X-Bogus Token
+        self.GET_XB_TOKEN = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/token'
+        #######################################################################################
+
+        ######################################### APP #########################################
+        # X-Gorgon Path
+        self.GET_XG_LOGIN = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/xog/path?url='
+
+        #######################################################################################
 
 if __name__ == '__main__':
     Urls()
