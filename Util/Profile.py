@@ -192,8 +192,8 @@ class Profile():
     def getNextData(self):
         """获取下一页api数据
         """
-        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
-            self.sec))
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec, self.max_cursor))
         # 构造下一次访问链接
         if self.mode == 'post':
             api_naxt_post_url = self.urls.USER_POST + datas.params
