@@ -30,7 +30,9 @@ import configparser
 from lxml import etree
 from TikTokUpdata import Updata
 
+from .XB import XBogus
 from .Log import Log
+from .Urls import Urls
 from .Lives import Lives
 from .Check import CheckInfo
 from .Config import Config
@@ -56,8 +58,9 @@ def generate_random_str(randomlength=16):
 
 
 headers = {
-    'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66',
-    'Cookie': 'msToken=%s' % generate_random_str(107)
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
+    'referer':'https://www.douyin.com/',
+    'Cookie': 'msToken=%s;odin_tt=324fb4ea4a89c0c05827e18a1ed9cf9bf8a17f7705fcc793fec935b637867e2a5a9b8168c885554d029919117a18ba69;' % generate_random_str(107)
 }
 
 
