@@ -15,7 +15,11 @@ import sys
 import json
 import time
 import getopt
+import random
 import requests
+
+from Util.XB import XBogus
+from Util.Urls import Urls
 
 def printUsage():
     print('''
@@ -117,10 +121,23 @@ def now2ticks(type):
     elif type == 'str':
         return str(int(round(time.time() * 1000)))
 
+def generate_random_str(randomlength=16):
+    """
+    根据传入长度产生随机字符串
+    """
+    random_str = ''
+    base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789='
+    length = len(base_str) - 1
+    for _ in range(randomlength):
+        random_str += base_str[random.randint(0, length)]
+    return random_str
+
 # 下载图集
 def pic_download(urlarg):
     headers = {
-        'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66'
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
+        'referer':'https://www.douyin.com/',
+        'Cookie': 'msToken=%s;odin_tt=324fb4ea4a89c0c05827e18a1ed9cf9bf8a17f7705fcc793fec935b637867e2a5a9b8168c885554d029919117a18ba69;' % generate_random_str(107)
     }
     try:
         r = requests.get(url=Find(urlarg)[0])
@@ -136,7 +153,6 @@ def pic_download(urlarg):
     # 2022/05/31 抖音把图集更新为note
     # 2023/01/14 第一步解析出来的链接是share/video/{id}
     key = re.findall('video/(\d+)?', str(r.url))[0]
-    print(key)
 
 
     # 官方接口
@@ -146,8 +162,11 @@ def pic_download(urlarg):
     # 此ies domian暂时不需要xg参数
     # 单作品接口 'aweme_detail'
     # 主页作品 'aweme_list'
-    jx_url = f'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={key}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
-    js = json.loads(requests.get(url=jx_url, headers=headers).text)
+    jx_url = Urls().POST_DETAIL + XBogus(
+        f'aweme_id={key}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
+
+    js = json.loads(requests.get(
+        url=jx_url, headers=headers).text)
 
     try:
         creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(js['aweme_detail']['create_time']))
