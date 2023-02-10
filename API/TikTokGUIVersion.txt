@@ -32,7 +32,7 @@ VSVersionInfo(
         [StringStruct(u'CompanyName', u'JohnserfSeed'),
         StringStruct(u'FileDescription', u'抖音批量下载-图形界面'),
         StringStruct(u'FileVersion', u'2.1.1.0'),
-        StringStruct(u'LegalCopyright', u'Copyright (C) 2019-2022 JohnserfSeed. All Rights Reserved'),
+        StringStruct(u'LegalCopyright', u'Copyright (C) 2019-2023 JohnserfSeed. All Rights Reserved'),
         StringStruct(u'ProductName', u'抖音批量下载-图形界面'),
         StringStruct(u'ProductVersion', u'2.1.1.0')])
       ]),
