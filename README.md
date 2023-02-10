@@ -211,7 +211,13 @@
 
 <img src="https://tvax3.sinaimg.cn/large/006908GAly1h1e6e0mjmbj30m217a168.jpg" alt="image" width="800" data-width="808" data-height="224">
 
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dxspeqeg302s02sdgf.gif" alt="image" width="100" data-width="808" data-height="224">
+
+
+## 赞赏
+
+<img src="https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png" alt="赞赏" width="1000" data-width="808" data-height="224">
+https://www.patreon.com/TikTokDownload713
+
 
 # 声明
 <h1>本项目只做个人学习研究之用，不得用于商业用途！</h1>
