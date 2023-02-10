@@ -57,24 +57,24 @@ class Urls:
         self.FOLLOW_FEED = 'https://www.douyin.com/aweme/v1/web/follow/feed/?'
 
         # X-Bogus Path
-        self.GET_XB_PATH = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/xg/path?url='
+        self.GET_XB_PATH = 'http://47.115.200.238/xg/path?url='
 
         # X-Bogus Dict
-        self.GET_XB_DICT = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/xg/dict/?params='
+        self.GET_XB_DICT = 'http://47.115.200.238/xg/dict/?params='
 
         # X-Bogus Login
-        self.GET_XB_LOGIN = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/login'
+        self.GET_XB_LOGIN = 'http://47.115.200.238/login'
 
         # X-Bogus Register
-        self.GET_XB_REGISTER = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/register'
+        self.GET_XB_REGISTER = 'http://47.115.200.238/register'
 
         # X-Bogus Token
-        self.GET_XB_TOKEN = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/token'
+        self.GET_XB_TOKEN = 'http://47.115.200.238/token'
         #######################################################################################
 
         ######################################### APP #########################################
         # X-Gorgon Path
-        self.GET_XG_LOGIN = 'https://service-i89l2uwx-1257133085.sh.apigw.tencentcs.com/xog/path?url='
+        self.GET_XG_LOGIN = 'http://47.115.200.238/xog/path?url='
 
         #######################################################################################
 
