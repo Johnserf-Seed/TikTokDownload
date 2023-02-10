@@ -34,12 +34,12 @@ class XBogus:
             if isinstance(url, dict):
                 params = eval(unquote(url, 'utf-8'))
                 url = urlencode(params, safe="=")
-                response = json.loads(requests.get(
+                response = json.loads(requests.post(
                     self.urls.GET_XB_DICT + url,
                         headers = self.headers).text)
             if isinstance(url, str):
                 url = url.replace('&','%26')
-                response = json.loads(requests.get(
+                response = json.loads(requests.post(
                     self.urls.GET_XB_PATH + url,
                         headers = self.headers).text)
             else:
