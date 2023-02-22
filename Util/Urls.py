@@ -56,6 +56,9 @@ class Urls:
         # 关注用户作品
         self.FOLLOW_FEED = 'https://www.douyin.com/aweme/v1/web/follow/feed/?'
 
+        # 直播信息接口
+        self.LIVE = 'https://live.douyin.com/webcast/room/web/enter/?'
+
         # X-Bogus Path
         self.GET_XB_PATH = 'http://47.115.200.238/xg/path?url='
 
