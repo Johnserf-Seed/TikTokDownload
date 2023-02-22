@@ -41,7 +41,7 @@ class XBogus:
                 url = url.replace('&','%26')
                 response = json.loads(requests.post(
                     self.urls.GET_XB_PATH + url,
-                        headers = self.headers).text)
+                        headers = self.headers, timeout=5).text)
             else:
                 print('[  提示  ]:传入的参数有误')
         except Exception as e:
