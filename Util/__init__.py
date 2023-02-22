@@ -60,7 +60,8 @@ def generate_random_str(randomlength=16):
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
     'referer':'https://www.douyin.com/',
-    'Cookie': 'msToken=%s;odin_tt=324fb4ea4a89c0c05827e18a1ed9cf9bf8a17f7705fcc793fec935b637867e2a5a9b8168c885554d029919117a18ba69;' % generate_random_str(107)
+    # 获取用户数据失败就自行替换ttwid
+    'Cookie': f'msToken={generate_random_str(107)};ttwid=1%7ChVRQ5XD5O_yEYNm1icKvmSyggtCsR1x3BDbzVOkiPhs%7C1677072526%7C8029ae32b048ed3609bd99a653c4a7edc4ff7a15828cafb8bb6779e89bfef783;'
 }
 
 
