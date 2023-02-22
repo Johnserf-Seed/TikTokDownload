@@ -58,6 +58,7 @@ class Updata:
                 'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload@main/version').text)
         except:
             print('[   🌋   ]:获取网络版本号失败!')
+            self.g_Version = self.l_Version
 
     def get_Updata(self):
         if self.l_Version == self.g_Version:
