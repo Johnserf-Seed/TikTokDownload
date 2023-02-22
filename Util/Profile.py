@@ -45,7 +45,7 @@ class Profile():
             param (tuple): uid,music,mode | ('https://v.douyin.com/efrHYf2/', 'no', 'post')
 
         Returns:
-            _type_: _description_
+            None
         """
         self.music = param[1]
         self.mode = param[2]
@@ -53,28 +53,25 @@ class Profile():
             r = Util.requests.post(url=Util.reFind(param[0])[0])
         except:
             print('[  提示  ]:请检查你的配置链接填写是否正确!\r')
+            input('[  提示  ]：按任意键退出程序!\r')
+            exit()
 
-        print('[  提示  ]:为您下载多个视频!\r')
-
-        # 输出日志
-        Util.log.info('[  提示  ]:为您下载多个视频!')
+        print('[  提示  ]:批量获取所有视频中!\r')
+        Util.log.info('[  提示  ]:批量获取所有视频中!')
 
         # 获取用户sec_uid
         # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
         if '?' in r.request.path_url:
-            for one in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
-                self.sec = one.group(1)
+            for id in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
+                self.sec = id.group(1)
         else:
-            for one in Util.re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
-                self.sec = one.group(1)
-
+            for id in Util.re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
+                self.sec = id.group(1)
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
+        Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
         # 用户主页
         self.homepage = "https://www.douyin.com/user/" + self.sec
-
-        # 输出日志
-        Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
         # 旧接口于22/12/23失效
         # post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
@@ -85,12 +82,11 @@ class Profile():
         datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
             self.sec))
         response = Util.requests.get(
-            url=self.urls.USER_POST + datas.params, headers=self.headers)
+            url=self.urls.USER_POST + datas.params, headers=self.headers, timeout=3)
 
-        while response.text == '':
-            print('[  提示  ]:获取用户数据失败，正在重新获取\r')
-            response = Util.requests.get(
-                url=self.urls.USER_POST, headers=self.headers)
+        if response.text == '':
+            input('[  提示  ]:获取用户数据失败，请从web端获取新ttwid\r')
+            exit()
 
         post_name_json = Util.json.loads(response.content.decode())
         # 2022/09/05
