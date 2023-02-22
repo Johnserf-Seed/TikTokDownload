@@ -108,7 +108,7 @@ def video_download(url, music, name):
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
         'referer':'https://www.douyin.com/',
-        'Cookie': 'msToken=%s;odin_tt=324fb4ea4a89c0c05827e18a1ed9cf9bf8a17f7705fcc793fec935b637867e2a5a9b8168c885554d029919117a18ba69;' % Util.generate_random_str(107)
+        'Cookie': 'ttwid=1%7Ch5y5kqyWCBm-83nsJVded8JSFUBP6_6NqHUmPoZPbsk%7C1677073080%7Ca5a22c1959315d00a8d89cf1d088fb4de5720e45c262d53f389ec0f6373c8475;'
     }
     r = requests.get(url=Find(url)[0])
     key = re.findall('video/(\d+)?', str(r.url))[0]
@@ -124,6 +124,10 @@ def video_download(url, music, name):
 
     js = Util.json.loads(Util.requests.get(
         url=jx_url, headers=headers).text)
+
+    if js == '':
+        input('[  提示  ]:获取视频数据失败，请从web端获取新ttwid\r')
+        exit()
 
     try:
         video_url = str(js['aweme_detail']['video']['play_addr']
