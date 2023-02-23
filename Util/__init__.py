@@ -4,7 +4,7 @@
 @Description:__init__.py
 @Date       :2022/07/29 23:20:56
 @Author     :JohnserfSeed
-@version    :1.3.0.52
+@version    :1.3.0.53
 @License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
