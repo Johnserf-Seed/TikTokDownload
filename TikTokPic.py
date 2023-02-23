@@ -132,12 +132,24 @@ def generate_random_str(randomlength=16):
         random_str += base_str[random.randint(0, length)]
     return random_str
 
+def generate_ttwid() -> str:
+    """生成请求必带的ttwid
+    param :None
+    return:ttwid
+    """
+    url = 'https://ttwid.bytedance.com/ttwid/union/register/'
+    data = '{"region":"cn","aid":1768,"needFid":false,"service":"www.ixigua.com","migrate_info":{"ticket":"","source":"node"},"cbUrlProtocol":"https","union":true}'
+    response = requests.request("POST", url, data=data)
+    # j = ttwid  k = 1%7CfPx9ZM.....
+    for j, k in response.cookies.items():
+        return k
+
 # 下载图集
 def pic_download(urlarg):
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
         'referer':'https://www.douyin.com/',
-        'Cookie': 'ttwid=1%7Ch5y5kqyWCBm-83nsJVded8JSFUBP6_6NqHUmPoZPbsk%7C1677073080%7Ca5a22c1959315d00a8d89cf1d088fb4de5720e45c262d53f389ec0f6373c8475;'
+        'Cookie': f'ttwid=ttwid={generate_ttwid()};'
     }
     try:
         r = requests.get(url=Find(urlarg)[0])
