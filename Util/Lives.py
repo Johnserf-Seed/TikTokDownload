@@ -25,9 +25,11 @@ class Lives():
 
         live_api = Util.Urls().LIVE + Util.XBogus('aid=6383&device_platform=web&web_rid=%s' % (web_rid)).params
 
+        odin_tt = 'a09d8eb0d95b7b9adb4b6fc6591918bfb996096967a7aa4305bd81b5150a8199d2e29ed21883cdd7709c5beaa2be3baa'
+
         headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-            'Cookie': 'ttwid=1%7Ch5y5kqyWCBm-83nsJVded8JSFUBP6_6NqHUmPoZPbsk%7C1677073080%7Ca5a22c1959315d00a8d89cf1d088fb4de5720e45c262d53f389ec0f6373c8475;'
+            'Cookie': f'ttwid={Util.generate_ttwid};{odin_tt}'
             }
 
         response = Util.requests.request("GET", live_api, headers=headers)

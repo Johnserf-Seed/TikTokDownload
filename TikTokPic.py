@@ -146,10 +146,11 @@ def generate_ttwid() -> str:
 
 # 下载图集
 def pic_download(urlarg):
+    odin_tt = 'a09d8eb0d95b7b9adb4b6fc6591918bfb996096967a7aa4305bd81b5150a8199d2e29ed21883cdd7709c5beaa2be3baa'
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
         'referer':'https://www.douyin.com/',
-        'Cookie': f'ttwid=ttwid={generate_ttwid()};'
+        'Cookie': f'ttwid=ttwid={generate_ttwid()};{odin_tt}'
     }
     try:
         r = requests.get(url=Find(urlarg)[0])

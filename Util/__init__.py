@@ -4,7 +4,7 @@
 @Description:__init__.py
 @Date       :2022/07/29 23:20:56
 @Author     :JohnserfSeed
-@version    :1.3.0.53
+@version    :1.3.0.54
 @License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
@@ -68,11 +68,12 @@ def generate_ttwid() -> str:
     for j, k in response.cookies.items():
         return k
 
+odin_tt = 'a09d8eb0d95b7b9adb4b6fc6591918bfb996096967a7aa4305bd81b5150a8199d2e29ed21883cdd7709c5beaa2be3baa'
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
     'referer':'https://www.douyin.com/',
     # 获取用户数据失败就自行替换ttwid
-    'Cookie': f'msToken={generate_random_str(107)};ttwid={generate_ttwid()};'
+    'Cookie': f'msToken={generate_random_str(107)};ttwid={generate_ttwid()};odin_tt={odin_tt}'
 }
 
 
@@ -140,7 +141,7 @@ print('''
 print("#" * 120)
 print(
     """
-                                                TikTokTool V1.3.0.53
+                                                TikTokTool V1.3.0.54
         使用说明：
                 1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
                 2、命令行操作方法：1）将本程序路径添加到环境变量
