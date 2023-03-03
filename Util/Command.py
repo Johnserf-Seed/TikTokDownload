@@ -42,6 +42,8 @@ class Command:
         # parser.add_argument('--count', '-c', type=int, help='单页下载的数量，默认参数 35 无须修改', default=35)
         parser.add_argument('--mode', '-M', type=str,
                             help='下载模式选择，默认post:发布的视频 可选like:点赞视频(需要开放权限)', default='post')
+        parser.add_argument('--cookie', '-C', type=str,
+                            help='填写"sessionid_ss"的值(32位)，网页登录后在开发者工具里查看', default='')
         args = parser.parse_args()
         return args
 
@@ -49,7 +51,7 @@ class Command:
         """设置配置
 
         Returns:
-            list: 返回uid,music,mode
+            list: 返回uid,music,mode,cookie
         """
         args = self.argument()
         if args.uid == None:
@@ -57,13 +59,15 @@ class Command:
             self.uid = self.cfg.get('uid', 'uid')
             self.music = self.cfg.get('music', 'music')
             self.mode = self.cfg.get('mode', 'mode')
+            self.cookie = self.cfg.get('cookie', 'cookie')
             print('[  提示  ]:读取本地配置完成!\r')
         else:
             self.uid = args.uid
             self.music = args.music
             self.mode = args.mode
+            self.cookie = args.cookie
             print('[  提示  ]:读取命令完成!\r')
-        return [self.uid, self.music, self.mode]
+        return [self.uid, self.music, self.mode, self.cookie]
 
 
 if __name__ == '__main__':

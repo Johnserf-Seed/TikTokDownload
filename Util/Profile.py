@@ -49,6 +49,8 @@ class Profile():
         """
         self.music = param[1]
         self.mode = param[2]
+        self.cookie = param[3]
+        self.headers['Cookie'] +=';sid_guard='+self.cookie+'|1677861360|5183990|Tue,+02-May-2023+16:35:58+GMT;'
         try:
             r = Util.requests.post(url=Util.reFind(param[0])[0])
         except:
