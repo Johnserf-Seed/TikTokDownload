@@ -12,6 +12,7 @@
 Change Log  :
 2022/07/29 23:20:56 : Init
 2022/08/16 18:34:27 : Add moudle Log
+2023/03/10 15:27:18 : Add rich download progress
 -------------------------------------------------
 '''
 
@@ -19,6 +20,8 @@ import re
 import os
 import json
 import time
+import rich
+import signal
 import random
 import asyncio
 import logging
@@ -29,6 +32,19 @@ import configparser
 
 from lxml import etree
 from TikTokUpdata import Updata
+from functools import partial
+from threading import Event
+from urllib.request import urlopen
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    Progress,
+    TaskID,
+    TextColumn,
+    TimeRemainingColumn,
+    TransferSpeedColumn,
+)
+from concurrent.futures import ThreadPoolExecutor
 
 from .XB import XBogus
 from .Log import Log
@@ -36,14 +52,26 @@ from .Urls import Urls
 from .Lives import Lives
 from .Check import CheckInfo
 from .Config import Config
+from .Images import Images
 from .Command import Command
+from .Cookies import Cookies
 from .Profile import Profile
 from .Download import Download
-from .Images import Images
 
-# 日志记录
-log = Log()
 
+progress = Progress(
+    TextColumn("[  提示  ]:[bold blue]{task.fields[filename]}", justify="left"),
+    BarColumn(bar_width=20),
+    "[progress.percentage]{task.percentage:>3.1f}%",
+    "•",
+    DownloadColumn(),
+    "•",
+    TransferSpeedColumn(),
+    "•",
+    TimeRemainingColumn(),
+)
+
+done_event = Event()
 
 def generate_random_str(randomlength=16):
     """
@@ -76,10 +104,34 @@ headers = {
     'Cookie': f'msToken={generate_random_str(107)};ttwid={generate_ttwid()};odin_tt={odin_tt}'
 }
 
+def handle_sigint(signum, frame):
+    done_event.set()
 
 def replaceT(obj):
     """替换文案非法字符
 
+signal.signal(signal.SIGINT, handle_sigint)
+
+
+def copy_url(task_id: TaskID, url: str, name: str, path: str) -> None:
+    response = urlopen(url)
+    progress.update(task_id, total=int(
+        response.info()["Content-length"]))
+    with open(path, "wb") as dest_file:
+        progress.start_task(task_id)
+        for data in iter(partial(response.read, 32768), b""):
+            dest_file.write(data)
+            progress.update(task_id, advance=len(data))
+            if done_event.is_set():
+                return
+
+
+# 日志记录
+log = Log()
+
+def replaceT(obj):
+    """
+    替换文案非法字符
     Args:
         obj (_type_): 传入对象
 
