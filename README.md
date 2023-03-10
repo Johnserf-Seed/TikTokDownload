@@ -30,7 +30,7 @@
 
 ## 使用教程
 
-1. 运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
+运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
 
   批量下载使用<a href="https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.3.0-beta">TikTokTool</a>，直接修改配置文件；单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析；**TikTokMulti不再维护**。
 
@@ -50,13 +50,18 @@
 </table>
 
 
-### 启动本地服务
-1、运行```./server.bat```启动本地接口解析
+### 安装及启动
+1、在项目文件夹控制台输入```pip install -r requirements.txt```安装本项目依赖 (确保本地安装Python  -> <a target="_blank" href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-v3.11.1-orange"></a>)
 
-2、运行```./tiktoktool.py```批量下载
+进入```Util```文件夹，控制台输入```npm i```安装node依赖
 
-   ### 包使用方法：
+2、运行```./server.bat```启动本地接口解析 (确保本地安装Node.js  -> <a target="_blank" href="https://nodejs.cn/download/"><img src="https://img.shields.io/badge/Nodejs-v18.12.1-blue"></a>)
 
+<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwyukr4sj30ka07q0uo.jpg" alt="image" width="600" data-width="600" data-height="278">
+
+3、运行```./tiktoktool.py```批量下载
+
+### 包使用方法：
    ```python
    # example.py
    import TikTokDownload as TK
@@ -80,34 +85,36 @@
    ```
 
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+   
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+   
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
 
 **重要的话说三遍**
 
 ### 如何编译
 
-   运行根目录下```build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
+   运行根目录下```./build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
 
 ### 批量下载
 
-	- 下载录制
-	<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
+- 下载录制
+<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
 	
-	- 直播推流
-	<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
+- 直播推流
+<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
 	   
-	- 跳过已下载
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
+- 跳过已下载
+<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
 	
-	- 图文下载
-	<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
+- 图文下载
+<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
 	   
-	- 全部下载
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
+- 全部下载
+<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
 	
-	- 资源文件夹
-	<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
+- 资源文件夹
+<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
 
 ### issues反馈
 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
