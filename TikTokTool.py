@@ -11,6 +11,7 @@
 -------------------------------------------------
 Change Log  :
 2022/07/29 23:19:14 : Init
+2023/03/10 16:22:19 : gen dyheaders
 -------------------------------------------------
 '''
 
@@ -23,8 +24,10 @@ class Tool():
 if __name__ == '__main__':
     # 获取命令行参数
     cmd = Util.Command()
-    # 获取主页消息
-    profile = Util.Profile()
+    # 获取headers
+    headers = Util.Cookies(cmd.setting()).dyheaders
+    # 获取主页内容
+    profile = Util.Profile(headers)
     # 使用参数并下载
     profile.getProfile(cmd.setting())
 
