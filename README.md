@@ -30,7 +30,7 @@
 
 ## 使用教程
 
-1. 运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
+运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
 
   批量下载使用<a href="https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.3.0-beta">TikTokTool</a>，直接修改配置文件；单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析；**TikTokMulti不再维护**。
 
@@ -50,13 +50,16 @@
 </table>
 
 
-### 启动本地服务
-1、运行```./server.bat```启动本地接口解析
+### 安装及启动
+1、在项目文件夹控制台输入```pip install -r requirements.txt```安装本项目依赖 (确保本地安装Python  -> <a target="_blank" href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-v3.11.1-orange"></a>)
 
-2、运行```./tiktoktool.py```批量下载
+2、运行```./server.bat```启动本地接口解析 (确保本地安装Node.js  -> <a target="_blank" href="https://nodejs.cn/download/"><img src="https://img.shields.io/badge/Nodejs-v18.12.1-blue"></a>)
 
-   ### 包使用方法：
+<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwyukr4sj30ka07q0uo.jpg" alt="image" width="600" data-width="600" data-height="278">
 
+3、运行```./tiktoktool.py```批量下载
+
+### 包使用方法：
    ```python
    # example.py
    import TikTokDownload as TK
