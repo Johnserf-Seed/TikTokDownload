@@ -85,7 +85,7 @@ class Profile():
             url=self.urls.USER_POST + datas.params, headers=self.headers, timeout=3)
 
         if response.text == '':
-            input('[  提示  ]:获取用户数据失败，请从web端获取新ttwid\r')
+            input('[  提示  ]:获取用户数据失败，请从web端获取新ttwid填入配置文件\r')
             exit()
 
         post_name_json = Util.json.loads(response.content.decode())
