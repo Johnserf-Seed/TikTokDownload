@@ -24,13 +24,13 @@ import Util
 
 class Profile():
 
-    def __init__(self):
+    def __init__(self, headers):
         # 抓获所有视频
         self.Isend = False
         # 第一次访问页码
         self.max_cursor = 0
         # 全局IOS头部
-        self.headers = Util.headers
+        self.headers = headers
         # 系统分隔符
         self.sprit = Util.sprit
         # 输出日志
@@ -272,7 +272,7 @@ class Profile():
             except Exception as e:
                 # 输出日志
                 Util.log.info('%s,因为每次不一定完全返回35条数据！' % (e))
-                print('[  🚩  ]:%s,因为每次不一定完全返回35条数据！' % (e))
+                print('[  🚩🚩  ]:%s,因为每次不一定完全返回35条数据！' % (e))
                 break
         if self.max_cursor == 0:
             return
@@ -292,7 +292,7 @@ class Profile():
         Util.Download().ImageDownload(datas)
         self.getNextData()
         return  # self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
-
+    # 保存用户主页链接
     def s_homepage(self):
         with open(self.path + self.sprit + self.nickname + '.txt', 'w') as f:
             f.write(self.homepage)
