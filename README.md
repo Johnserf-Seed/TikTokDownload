@@ -80,34 +80,36 @@
    ```
 
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+   
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+   
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
 
 **重要的话说三遍**
 
 ### 如何编译
 
-   运行根目录下```build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
+   运行根目录下```./build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
 
 ### 批量下载
 
-	- 下载录制
-	<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
+- 下载录制
+<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
 	
-	- 直播推流
-	<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
+- 直播推流
+<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
 	   
-	- 跳过已下载
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
+- 跳过已下载
+<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
 	
-	- 图文下载
-	<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
+- 图文下载
+<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
 	   
-	- 全部下载
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
+- 全部下载
+<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
 	
-	- 资源文件夹
-	<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
+- 资源文件夹
+<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
 
 ### issues反馈
 如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
