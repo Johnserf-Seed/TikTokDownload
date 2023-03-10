@@ -133,7 +133,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#¹ýÂË
+#filter
 /Download/
 readconf.py
 .vscode
+/Util/node_modules/
+1.py
+test.py
