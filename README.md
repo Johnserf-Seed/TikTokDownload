@@ -40,7 +40,7 @@
     <td><center>TikTokMulti</td>
     </tr>
     <tr>
-        <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg"></center></td>
+        <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwoqnk1fj30ku0ikwp7.jpg"></center></td>
         <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
     </tr>
     <tr>
@@ -49,7 +49,11 @@
     </tr>
 </table>
 
-   **包使用方法：**
+### 首先启动本地服务
+1、运行```./server.bat```启动本地接口解析
+2、运行```./tiktoktool.py```批量下载
+
+   ### 包使用方法：
 
    ```python
    # example.py
@@ -63,11 +67,12 @@
    if __name__ == '__main__':
        # 获取命令行参数
        cmd = Util.Command()
-       # 获取用户主页数据
-       profile = Util.Profile()
-       # 使用参数，没有则使用默认参数并下载
+       # 获取headers
+       headers = Util.Cookies(cmd.setting()).dyheaders
+       # 获取主页内容
+       profile = Util.Profile(headers)
+       # 使用参数并下载
        profile.getProfile(cmd.setting())
-   	# 如果需要定时下载则注释这个input
        input('[  完成  ]:已完成批量下载，输入任意键后退出:')
    
    ```
@@ -78,36 +83,35 @@
 
 **重要的话说三遍**
 
-2. 如何编译
+### 如何编译
 
    运行根目录下```build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
 
-3. 批量保存
+### 批量下载
 
 	- 下载录制
-	<img src="https://tva1.sinaimg.cn/large/006908GAly1h5bgh6pvgog318h0ey4qp.gif" alt="image" width="800" data-width="808" data-height="224">
+	<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
 	
 	- 直播推流
 	<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
-   
+	   
 	- 跳过已下载
 	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
 	
 	- 图文下载
 	<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
-   
+	   
 	- 全部下载
 	<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
-
+	
 	- 资源文件夹
 	<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
-   
-4. issues反馈
-    如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
 
-<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg" alt="image" width="800" data-width="808" data-height="224">
+### issues反馈
+如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
 
-5. 单一下载模式 ``TikTokDownload``;批量下载模式``TikTokMulti``;图文下载 ``TikTokPic``;测试版图形界面 ``TikTokMultiGUI``
+### 下载模式 
+单视频下载``TikTokDownload``;批量下载``TikTokTool``;图文下载 ``TikTokPic``;测试版图形界面 ``TikTokMultiGUI``
 
 **注意（常见错误）：**
 
@@ -125,7 +129,7 @@
    
    ***出现报用户昵称错误的情况需要在主页发布一条视频，原因见 [获取用户昵称失败————主页若空作品则无法下载喜欢页](https://github.com/Johnserf-Seed/TikTokDownload/issues/236)***
 
-2. 配置文件一定要注意编码格式（推荐Notepad++）
+2. 配置文件一定要**UTF-8**格式
 
    **正确：**
 
@@ -135,7 +139,7 @@
 
 <img src="https://tva1.sinaimg.cn/large/006908GAly1gn1dmakebqj30qh03lmx8.jpg" alt="image" width="700" data-width="808" data-height="224">
 
-   挺抽风的，另存为的UTF-8居然不可以会闪退，玄学
+   挺抽风的，另存为的**UTF-8**有时候居然不可以会闪退，玄学
 
 3. 如果出现长时间的api抓取可能是姿势不对（抖音api服务器会抽）
 4. 现在新增了日志功能，可以在logs中找到所有的日志文件，汇报issue的时候可以附上
@@ -146,14 +150,23 @@
 
 ## New
 
-**09/15 支持获取抖音直播推流解析**
+**23/03/10 异步下载、进度条美化**
+
+<img src="https://tvax3.sinaimg.cn/large/006908GAly1hbuwahkadyj30tw0dckf8.jpg" alt="image" width="800" data-width="800" data-height="480">
+
+**本地接口参数解析服务**
+
+<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwbw316nj30ux0hedti.jpg" alt="image" width="800" data-width="800" data-height="626">
+
+
+
+**22/09/15 支持获取抖音直播推流解析**
 
 <img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
 
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1h7aqf4v8exj30eu0sh7df.jpg" alt="image" width="500">
 
 
-**08/30 现支持批量下载时自动下载主页所有图集内容**
+**22/08/30 支持批量下载时自动下载主页所有图集内容**
 
 <img src="https://tvax1.sinaimg.cn/large/006908GAly1h5olxy83pcj30n304mac3.jpg" alt="image" width="800" data-width="831" data-height="166">
 
@@ -169,21 +182,25 @@
 
 <img src="https://tva4.sinaimg.cn/large/006908GAly1h1s8pryq7rj30mg068tdn.jpg" alt="image" width="800" data-width="808" data-height="224">
 
+
+
 **04/23 后的新版支持解析1080p分辨率视频（*注，虽然下载的是1080p，但是原视频不满足1080p的情况下，即使下载到本地也还是原本的分辨率***）
 
 **720p对比1080p**
 
 <img src="https://tva4.sinaimg.cn/large/006908GAly1h1iwtyrqyij30id073q52.jpg" alt="image" width="800" data-width="808" data-height="224">
 
-**GUI版即将发布**
+**GUI版**
 
 <img src="https://tva3.sinaimg.cn/large/006908GAly1h5bf3snbfij30sm0gzwhc.jpg" alt="image" width="800" data-width="808" data-height="224">
 
 ***可自行在GUI文件夹内编译ui -> pyuic5 -o Main.py Main.ui***
 
+
+
 **V1.3.0控制台界面版本**
 
-<img src="https://tvax1.sinaimg.cn/large/006908GAly1h5bf5oylooj30ui0m20zn.jpg" alt="image" width="800" data-width="808" data-height="224">
+<img src="https://tvax3.sinaimg.cn/large/006908GAly1hbuwf9bvtej30ux0kx0zf.jpg" alt="image" width="800" data-width="808" data-height="224">
 
 **uTools插件同步开发中...**
 
@@ -202,7 +219,7 @@
 - [ ] 本地服务检测抖音关注用户作品的更新情况 ***(并推送)***
 - [ ] 所有已关注用户主页的视频批量下载的可选功能
 - [ ] 收藏作品与搜索作品下载
-- [ ] 制作本地接口解析服务
+- [x] 制作本地接口解析服务
 
 
 ## Web版项目
