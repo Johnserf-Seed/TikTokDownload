@@ -38,18 +38,6 @@ def Find(string):
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
     return url
 
-def generate_ttwid() -> str:
-    """生成请求必带的ttwid
-    param :None
-    return:ttwid
-    """
-    url = 'https://ttwid.bytedance.com/ttwid/union/register/'
-    data = '{"region":"cn","aid":1768,"needFid":false,"service":"www.ixigua.com","migrate_info":{"ticket":"","source":"node"},"cbUrlProtocol":"https","union":true}'
-    response = requests.request("POST", url, data=data)
-    # j = ttwid  k = 1%7CfPx9ZM.....
-    for j, k in response.cookies.items():
-        return k
-
 def main():
     url = ""
     music = "yes"
@@ -115,13 +103,7 @@ def download(video_url, music_url, video_title, music_title, headers, music, nam
             # return
 
 
-def video_download(url, music, name):
-    odin_tt = 'a09d8eb0d95b7b9adb4b6fc6591918bfb996096967a7aa4305bd81b5150a8199d2e29ed21883cdd7709c5beaa2be3baa'
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-        'referer':'https://www.douyin.com/',
-        'Cookie': f'ttwid=ttwid={generate_ttwid()};{odin_tt}'
-    }
+def video_download(url, music, name, headers):
     r = requests.get(url=Find(url)[0])
     key = re.findall('video/(\d+)?', str(r.url))[0]
     # 官方接口
@@ -138,7 +120,7 @@ def video_download(url, music, name):
         url=jx_url, headers=headers).text)
 
     if js == '':
-        input('[  提示  ]:获取视频数据失败，请从web端获取新ttwid\r')
+        input('[  提示  ]:获取视频数据失败，请从web端获取新ttwid填入配置文件填入配置文件\r')
         exit()
 
     try:
@@ -165,6 +147,10 @@ def video_download(url, music, name):
 
 if __name__ == "__main__":
     url, music, name = main()
-    video_download(url, music, name)
+    # 获取命令行参数
+    cmd = Util.Command()
+    # 获取headers
+    headers = Util.Cookies(cmd.setting()).dyheaders
+    video_download(url, music, name, headers)
     input('[  提示  ]:按任意键退出')
     sys.exit()
