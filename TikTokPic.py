@@ -14,6 +14,7 @@ import re
 import sys
 import json
 import time
+import Util
 import getopt
 import random
 import requests
@@ -121,37 +122,8 @@ def now2ticks(type):
     elif type == 'str':
         return str(int(round(time.time() * 1000)))
 
-def generate_random_str(randomlength=16):
-    """
-    根据传入长度产生随机字符串
-    """
-    random_str = ''
-    base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789='
-    length = len(base_str) - 1
-    for _ in range(randomlength):
-        random_str += base_str[random.randint(0, length)]
-    return random_str
-
-def generate_ttwid() -> str:
-    """生成请求必带的ttwid
-    param :None
-    return:ttwid
-    """
-    url = 'https://ttwid.bytedance.com/ttwid/union/register/'
-    data = '{"region":"cn","aid":1768,"needFid":false,"service":"www.ixigua.com","migrate_info":{"ticket":"","source":"node"},"cbUrlProtocol":"https","union":true}'
-    response = requests.request("POST", url, data=data)
-    # j = ttwid  k = 1%7CfPx9ZM.....
-    for j, k in response.cookies.items():
-        return k
-
 # 下载图集
-def pic_download(urlarg):
-    odin_tt = 'a09d8eb0d95b7b9adb4b6fc6591918bfb996096967a7aa4305bd81b5150a8199d2e29ed21883cdd7709c5beaa2be3baa'
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-        'referer':'https://www.douyin.com/',
-        'Cookie': f'ttwid=ttwid={generate_ttwid()};{odin_tt}'
-    }
+def pic_download(urlarg, headers):
     try:
         r = requests.get(url=Find(urlarg)[0])
     # 如果输入链接不正确，则重新输入
@@ -165,7 +137,7 @@ def pic_download(urlarg):
 
     # 2022/05/31 抖音把图集更新为note
     # 2023/01/14 第一步解析出来的链接是share/video/{id}
-    key = re.findall('video/(\d+)?', str(r.url))[0]
+    key = re.findall('note/(\d+)?', str(r.url))[0]
 
 
     # 官方接口
@@ -182,7 +154,7 @@ def pic_download(urlarg):
         url=jx_url, headers=headers).text)
 
     if js == '':
-        input('[  提示  ]:获取图集数据失败，请从web端获取新ttwid\r')
+        input('[  提示  ]:获取图集数据失败，请从web端获取新ttwid填入配置文件\r')
         exit()
 
     try:
@@ -191,22 +163,28 @@ def pic_download(urlarg):
         pic_title = str(js['aweme_detail']['desc'])
         nickname = replaceT(str(js['aweme_detail']['author']['nickname']))
         # 检测下载目录是否存在
-        if not os.path.exists('Download\\' + 'pic\\' + nickname):
-            os.makedirs('Download\\' + 'pic\\' + nickname)
-        for i in range(len(js['aweme_detail']['images'])):
-            # 尝试下载图片
-            try:
-                pic_url = str(js['aweme_detail']['images'][i]['url_list'][0])
-                picture = requests.get(url=pic_url, headers=headers)
-                p_url = 'Download\\' + 'pic\\' + nickname + '\\' + creat_time + \
-                    pic_title + '_' + str(i) + '.jpeg'  # + now2ticks()
-                with open(p_url, 'wb') as file:
-                    file.write(picture.content)
-                    print('[  提示  ]:' + p_url + '下载完毕\r')
-            except Exception as error:
-                print('[  错误  ]:' + error + '\r')
-                print('[  提示  ]:发生了点意外！\r')
-                break
+        if not os.path.exists('Download\\' + 'pic\\' + nickname + '\\' + creat_time + pic_title):
+            os.makedirs('Download\\' + 'pic\\' + nickname + '\\' + creat_time + pic_title)
+        with Util.progress:
+            with Util.ThreadPoolExecutor(max_workers=10) as pool:
+                for i in range(len(js['aweme_detail']['images'])):
+                    # 尝试下载图片
+                    try:
+                        pic_url = str(js['aweme_detail']['images'][i]['url_list'][0])
+                        p_url = 'Download\\' + 'pic\\' + nickname + '\\' + creat_time + \
+                            pic_title + '\\' + pic_title + '_' + str(i) + '.jpeg'  # + now2ticks()
+                        if len(pic_title) > 20:
+                            filename = creat_time[:10] + pic_title[:20] + "..."
+                        else:
+                            filename = creat_time[:10] + pic_title
+                        task_id = Util.progress.add_task(
+                            "[  图集  ]:", filename=filename, start=False)
+                        pool.submit(Util.copy_url, task_id,
+                                    pic_url, pic_title, p_url)
+                    except Exception as picError:
+                        print('[  错误  ]:' + picError + '\r')
+                        print('[  提示  ]:发生了点意外！\r')
+                        break
     except Exception as error:
         print('[  错误  ]:' + error + '\r')
         print('[  提示  ]:获取图集失败\r')
@@ -224,5 +202,9 @@ if __name__ == "__main__":
     while urlarg == '':
         print('[  提示  ]:请重新输入图集链接!\r')
         urlarg = get_args()
+    # 获取命令行参数
+    cmd = Util.Command()
+    # 获取headers
+    headers = Util.Cookies(cmd.setting()).dyheaders
     # 调用下载
-    pic_download(urlarg)
+    pic_download(urlarg, headers)
