@@ -60,10 +60,7 @@ class Urls:
         self.LIVE = 'https://live.douyin.com/webcast/room/web/enter/?'
 
         # X-Bogus Path
-        self.GET_XB_PATH = 'http://47.115.200.238/xg/path?url='
-
-        # X-Bogus Dict
-        self.GET_XB_DICT = 'http://47.115.200.238/xg/dict/?params='
+        self.GET_XB_PATH = 'http://127.0.0.1:8889/xg/path?url='
 
         # X-Bogus Login
         self.GET_XB_LOGIN = 'http://47.115.200.238/login'
