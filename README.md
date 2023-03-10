@@ -53,6 +53,8 @@
 ### 安装及启动
 1、在项目文件夹控制台输入```pip install -r requirements.txt```安装本项目依赖 (确保本地安装Python  -> <a target="_blank" href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-v3.11.1-orange"></a>)
 
+进入```Util```文件夹，控制台输入```npm i```安装node依赖
+
 2、运行```./server.bat```启动本地接口解析 (确保本地安装Node.js  -> <a target="_blank" href="https://nodejs.cn/download/"><img src="https://img.shields.io/badge/Nodejs-v18.12.1-blue"></a>)
 
 <img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwyukr4sj30ka07q0uo.jpg" alt="image" width="600" data-width="600" data-height="278">
