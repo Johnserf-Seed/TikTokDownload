@@ -40,7 +40,7 @@
     <td><center>TikTokMulti</td>
     </tr>
     <tr>
-        <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwoqnk1fj30ku0ikwp7.jpg"></center></td>
+        <td><center><img src="https://tvax1.sinaimg.cn/large/006908GAly1hbuwr9m0g0j30j90iik18.jpg"></center></td>
         <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
     </tr>
     <tr>
@@ -48,6 +48,7 @@
     	<td><center>旧版配置文件conf.conf</td>
     </tr>
 </table>
+
 
 ### 首先启动本地服务
 1、运行```./server.bat```启动本地接口解析
