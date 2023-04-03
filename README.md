@@ -10,22 +10,33 @@
 <a href="https://github.com/Johnserf-Seed/TikTokDownload/blob/main/LICENSE">
 <img src="https://img.shields.io/github/license/johnserf-seed/tiktokdownload">
 </a>
+<a href="https://discord.gg/q3hA8qQZbG">
+<img src="https://img.shields.io/discord/1070512513889878067?color=5865F2&logo=discord&logoColor=white" alt="Discord server" />
+</a>
+<a href="https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload" title="jsDelivr monthly hits"><img alt="jsDelivr monthly hits badge" src="https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge">
+</a>
+<a href="https://hits.seeyoufarm.com">
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false"/>
+</a>
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/badge/python-v3.11.1-orange">
 </a>
+</p>
+<p align="center">
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social">
 </a>
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/github/forks/johnserf-seed/tiktokdownload?style=social">
 </a>
-<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text-decoration:none;">
-<img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/>
+<a href="https://github.com/Johnserf-Seed/TikTokDownload">
+<img src="https://img.shields.io/github/issues/johnserf-seed/tiktokdownload?style=social">
 </a>
-<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false"/>
+<a href="https://github.com/Johnserf-Seed/TikTokDownload">
+<img src="https://img.shields.io/github/issues-closed/johnserf-seed/tiktokdownload?style=social">
 </a>
-</p>
 
+</p>
 [English](README-EN.md)   [简体中文](README.md)
 
 ## 使用教程
@@ -49,6 +60,14 @@
     </tr>
 </table>
 
+### 遇到的问题和开发者更新说明贴
+[遇到的问题和开发者更新说明贴](https://github.com/Johnserf-Seed/TikTokDownload/issues/311)  其他issues里的第三方个人信息请注意甄别
+
+- 以下是我和[@Evil0ctal](https://github.com/Evil0ctal) 合作的仓库 <a href="https://github.com/TikHubIO">
+<img src="https://tvax3.sinaimg.cn/large/006908GAly1hcml2ovowyj304b01sdfp.jpg" alt="TikHub-horiz-aero" width="155" data-width="155" data-height="64"></a>
+
+- 这是我们的Discord开发官方频道  <a href="https://discord.gg/q3hA8qQZbG">
+<img src="https://discordapp.com/api/guilds/1070512513889878067/widget.png?style=shield" alt="Discord server" /></a>
 
 ### 安装及启动
 1、在项目文件夹控制台输入```pip install -r requirements.txt```安装本项目依赖 (确保本地安装Python  -> <a target="_blank" href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-v3.11.1-orange"></a>)
@@ -85,9 +104,9 @@
    ```
 
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
-   
+
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
-   
+
    ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
 
 **重要的话说三遍**
@@ -99,19 +118,19 @@
 ### 批量下载
 
 - 下载录制
-<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
+	<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
 	
 - 直播推流
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
-	   
+	<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
+	
 - 跳过已下载
-<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
+	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
 	
 - 图文下载
-<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
-	   
+	<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
+	
 - 全部下载
-<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
+	<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
 	
 - 资源文件夹
 <img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
