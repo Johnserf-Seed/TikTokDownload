@@ -20,8 +20,7 @@
 </a>
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/badge/python-v3.11.1-orange">
-</a>
-</p>
+</a></p>
 <p align="center">
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social">
@@ -34,9 +33,8 @@
 </a>
 <a href="https://github.com/Johnserf-Seed/TikTokDownload">
 <img src="https://img.shields.io/github/issues-closed/johnserf-seed/tiktokdownload?style=social">
-</a>
+</a></p>
 
-</p>
 [English](README-EN.md)   [简体中文](README.md)
 
 ## 使用教程
@@ -61,10 +59,10 @@
 </table>
 
 ### 遇到的问题和开发者更新说明贴
-[遇到的问题和开发者更新说明贴](https://github.com/Johnserf-Seed/TikTokDownload/issues/311)  其他issues里的第三方个人信息请注意甄别
+[更新说明贴#311](https://github.com/Johnserf-Seed/TikTokDownload/issues/311)  其他issues里的第三方个人信息请注意甄别
 
 - 以下是我和[@Evil0ctal](https://github.com/Evil0ctal) 合作的仓库 <a href="https://github.com/TikHubIO">
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1hcml2ovowyj304b01sdfp.jpg" alt="TikHub-horiz-aero" width="155" data-width="155" data-height="64"></a>
+<img src="https://tvax3.sinaimg.cn/large/006908GAly1hcml2ovowyj304b01sdfp.jpg" alt="TikHub-horiz-aero" width="78" data-width="155" height="32"></a>
 
 - 这是我们的Discord开发官方频道  <a href="https://discord.gg/q3hA8qQZbG">
 <img src="https://discordapp.com/api/guilds/1070512513889878067/widget.png?style=shield" alt="Discord server" /></a>
