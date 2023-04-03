@@ -19,7 +19,7 @@ import Util
 
 
 class Images():
-    def __init__(self):
+    def __init__(self, headers):
         # 作品接口
         self.apiUrl = Util.Urls().POST_DETAIL
         # 'aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'        # 作品id
@@ -38,10 +38,7 @@ class Images():
         # 图集链接
         self.images = []
         # headers
-        self.headers = {
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-            'referer':'https://www.douyin.com/'
-        }
+        self.headers = headers
 
 
     def get_all_images(self, aweme_id):
@@ -51,6 +48,9 @@ class Images():
                     f'aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
 
             r = Util.requests.get(url=jx_url, headers=self.headers).text
+            # 防止接口多次返回空
+            while r == '':
+                r = Util.requests.get(url=jx_url, headers=self.headers).text
             js = Util.json.loads(r)
 
             self.nickname = js['aweme_detail']['author']['nickname']
