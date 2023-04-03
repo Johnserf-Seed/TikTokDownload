@@ -69,6 +69,10 @@ class Download():
                             f'aweme_id={self.aweme_id[i]}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
                         js = Util.json.loads(Util.requests.get(
                             url=jx_url, headers=self.headers).text)
+                        # 防止接口多次返回空
+                        while js == '':
+                            js = Util.json.loads(Util.requests.get(
+                                url=jx_url, headers=self.headers).text)
                         creat_time = Util.time.strftime(
                             "%Y-%m-%d %H.%M.%S", Util.time.localtime(js['aweme_detail']['create_time']))
                     except Exception as videoNotFound:
