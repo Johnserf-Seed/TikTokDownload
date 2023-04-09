@@ -35,8 +35,7 @@ title = json['data']['data'][0]['title']
 user_count = json['data']['data'][0]['user_count_str']
 
 # 昵称
-nickname = json['data']['data'][0]['owner']['nickname']
-
+nickname = Util.replaceT(json['data']['data'][0]['owner']['nickname'])
 # sec_uid
 sec_uid = json['data']['data'][0]['owner']['sec_uid']
 

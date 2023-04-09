@@ -16,75 +16,84 @@ Change Log  :
 
 import Util
 
-############apis############
+############ apis############
 # /aweme/v1/web/aweme/detail/       'aweme_detail'
 # /aweme/v1/web/aweme/post/         'aweme_list'
 ###########################
 
+
 class Profile():
 
-    def __init__(self):
+    def __init__(self, headers):
         # 抓获所有视频
         self.Isend = False
         # 第一次访问页码
         self.max_cursor = 0
         # 全局IOS头部
-        self.headers = Util.headers
+        self.headers = headers
         # 系统分隔符
         self.sprit = Util.sprit
         # 输出日志
         Util.log.info(Util.platform.system())
+        # 接口
+        self.urls = Util.Urls()
 
     def getProfile(self, param):
         """判断个人主页api链接
 
         Args:
-            param (tuple): uid,dir,music,mode | ('https://v.douyin.com/efrHYf2/','./download/', 'no', 'post')
+            param (tuple): uid,music,mode | ('https://v.douyin.com/efrHYf2/', 'no', 'post')
 
         Returns:
-            _type_: _description_
+            None
         """
-        self.dir = param[1]
-        self.music = param[2]
-        self.mode = param[3]
+        self.music = param[1]
+        self.mode = param[2]
+        try:
+            r = Util.requests.post(url=Util.reFind(param[0])[0])
+        except:
+            print('[  提示  ]:请检查你的配置链接填写是否正确!\r')
+            input('[  提示  ]：按任意键退出程序!\r')
+            exit()
 
-        r = Util.requests.post(url=Util.reFind(param[0])[0])
-
-        print('[  提示  ]:为您下载多个视频!\r')
-
-        # 输出日志
-        Util.log.info('[  提示  ]:为您下载多个视频!')
+        print('[  提示  ]:批量获取所有视频中!\r')
+        Util.log.info('[  提示  ]:批量获取所有视频中!')
 
         # 获取用户sec_uid
         # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
         if '?' in r.request.path_url:
-            for one in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
-                self.sec = one.group(1)
+            for id in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
+                self.sec = id.group(1)
         else:
-            for one in Util.re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
-                self.sec = one.group(1)
-
+            for id in Util.re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
+                self.sec = id.group(1)
         print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
+        Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
 
         # 用户主页
         self.homepage = "https://www.douyin.com/user/" + self.sec
 
-        # 输出日志
-        Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
-
         # 旧接口于22/12/23失效
         # post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
         #     self.sec)
-        # 23/1/11
-        # 暂时使用不需要xg的接口
-        post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=35&max_cursor=0&aid=1128' % (
-            self.sec)
-        post_name_json = Util.json.loads(Util.requests.get(
-            url=post_url, headers=self.headers).content.decode())
+        # 23/02/09
+        # 获取xg参数
+        # datas 为元组 (params, xb)
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec))
+        response = Util.requests.get(
+            url=self.urls.USER_POST + datas.params, headers=self.headers, timeout=3)
+
+        if response.text == '':
+            input('[  提示  ]:获取用户数据失败，请从web端获取新ttwid填入配置文件\r')
+            exit()
+
+        post_name_json = Util.json.loads(response.content.decode())
         # 2022/09/05
         # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
         try:
             self.nickname = post_name_json['aweme_list'][0]['author']['nickname']
+            self.nickname = Util.replaceT(self.nickname)
             # self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/span/text()')[0]
             # self.nickname = html['aweme_list'][0]['author']['nickname']
         except Exception as e:
@@ -100,15 +109,16 @@ class Profile():
             exit()
 
         # 构造第一次访问链接
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec))
         if self.mode == 'post':
-            self.api_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128' % (
-                self.sec, 35, self.max_cursor)
+            self.api_post_url = self.urls.USER_POST + datas.params
         else:
-            self.api_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128' % (
-                self.sec, 35, self.max_cursor)
+            self.api_post_url = self.urls.USER_FAVORITE_A + datas.params
 
         # 创建用户文件夹
-        self.path = self.dir
+        self.path = "." + self.sprit + "Download" + self.sprit + \
+            param[2] + self.sprit + self.nickname + self.sprit
         if not Util.os.path.exists(self.path):
             Util.os.makedirs(self.path)
 
@@ -139,6 +149,11 @@ class Profile():
             Util.time.sleep(0.5)
             response = Util.requests.get(
                 url=api_post_url, headers=self.headers)
+            # 接口不稳定，有时会返回空数据
+            while response.text == '':
+                print('[  提示  ]:获取作品数据失败，正在重新获取\r')
+                response = Util.requests.get(
+                    url=api_post_url, headers=self.headers)
             html = Util.json.loads(response.content.decode())
             if self.Isend == False:
                 # 下一页值
@@ -173,14 +188,13 @@ class Profile():
     def getNextData(self):
         """获取下一页api数据
         """
+        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+            self.sec, self.max_cursor))
         # 构造下一次访问链接
-        # https://www.iesdouyin.com/aweme/v1/web/aweme/post/
         if self.mode == 'post':
-            api_naxt_post_url = 'https://www.iesdouyin.com/aweme/v1/web/aweme/post/?sec_user_id=%s&count=%s&max_cursor=%s&aid=1128' % (
-                self.sec, 35, self.max_cursor)
+            api_naxt_post_url = self.urls.USER_POST + datas.params
         else:
-            api_naxt_post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/like/?sec_uid=%s&count=%s&max_cursor=%s&aid=1128' % (
-                self.sec, 35, self.max_cursor)
+            api_naxt_post_url = self.urls.USER_FAVORITE_A + datas.params
 
         index = 0
         result = []
@@ -198,6 +212,11 @@ class Profile():
             Util.time.sleep(0.5)
             response = Util.requests.get(
                 url=api_naxt_post_url, headers=self.headers)
+            # 接口不稳定，有时会返回空数据
+            while response.text == '':
+                print('[  提示  ]:获取作品数据失败，正在重新获取\r')
+                response = Util.requests.get(
+                    url=api_naxt_post_url, headers=self.headers)
             html = Util.json.loads(response.content.decode())
             if self.Isend == False:
                 # 下一页值
@@ -233,7 +252,8 @@ class Profile():
             try:
                 # url_list < 4 说明是图集
                 # 2022/11/27 aweme_type是作品类型 2：图集 4：视频
-                if result[v]['aweme_type'] == 2:
+                # 2023/01/19 aweme_type是作品类型 68：图集 0：视频
+                if result[v]['aweme_type'] == 68:
                     # if len(result[v]['video']['play_addr']['url_list']) < 4:
                     self.image_list.append(result[v]['aweme_id'])
                 else:
@@ -252,27 +272,27 @@ class Profile():
             except Exception as e:
                 # 输出日志
                 Util.log.info('%s,因为每次不一定完全返回35条数据！' % (e))
-                print('[  🚩  ]:%s,因为每次不一定完全返回35条数据！' % (e))
+                print('[  🚩🚩  ]:%s,因为每次不一定完全返回35条数据！' % (e))
                 break
         if self.max_cursor == 0:
             return
         # 过滤视频文案和作者名中的非法字符
-        print('[  提示  ]:等待替换文案非法字符!\r')
+        print('[  提示  ]:正在替换当页所有作品非法字符，耐心等待!\r')
         self.author_list = Util.replaceT(self.author_list)
         # 输出日志
-        Util.log.info('[  提示  ]:等待替换文案非法字符!')
+        Util.log.info('[  提示  ]:正在替换当页所有作品非法字符，耐心等待!')
 
-        print('[  提示  ]:等待替换作者非法字符!\r')
+        print('[  提示  ]:正在替换作者非法字符，耐心等待!\r')
         self.nickname = Util.replaceT(self.nickname)
         # 输出日志
-        Util.log.info('[  提示  ]:等待替换作者非法字符!')
+        Util.log.info('[  提示  ]:正在替换作者非法字符，耐心等待!')
         # 下载主页所有图集
-        datas = Util.Images().get_all_images(self.image_list)
+        datas = Util.Images(self.headers).get_all_images(self.image_list)
         Util.Download().VideoDownload(self)
         Util.Download().ImageDownload(datas)
         self.getNextData()
         return  # self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
-
+    # 保存用户主页链接
     def s_homepage(self):
         with open(self.path + self.sprit + self.nickname + '.txt', 'w') as f:
             f.write(self.homepage)

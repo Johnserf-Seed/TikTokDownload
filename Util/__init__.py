@@ -4,7 +4,7 @@
 @Description:__init__.py
 @Date       :2022/07/29 23:20:56
 @Author     :JohnserfSeed
-@version    :1.3.0.43
+@version    :1.3.0.70
 @License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
@@ -12,6 +12,7 @@
 Change Log  :
 2022/07/29 23:20:56 : Init
 2022/08/16 18:34:27 : Add moudle Log
+2023/03/10 15:27:18 : Add rich download progress
 -------------------------------------------------
 '''
 
@@ -19,6 +20,8 @@ import re
 import os
 import json
 import time
+import rich
+import signal
 import random
 import asyncio
 import logging
@@ -29,87 +32,92 @@ import configparser
 
 from lxml import etree
 from TikTokUpdata import Updata
+from functools import partial
+from threading import Event
+from urllib.request import urlopen
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    Progress,
+    TaskID,
+    TextColumn,
+    TimeRemainingColumn,
+    TransferSpeedColumn,
+)
+from concurrent.futures import ThreadPoolExecutor
 
+from .XB import XBogus
 from .Log import Log
+from .Urls import Urls
 from .Lives import Lives
 from .Check import CheckInfo
 from .Config import Config
+from .Images import Images
 from .Command import Command
+from .Cookies import Cookies
 from .Profile import Profile
 from .Download import Download
-from .Images import Images
+
+
+progress = Progress(
+    TextColumn("[  提示  ]:[bold blue]{task.fields[filename]}", justify="left"),
+    BarColumn(bar_width=20),
+    "[progress.percentage]{task.percentage:>3.1f}%",
+    "•",
+    DownloadColumn(),
+    "•",
+    TransferSpeedColumn(),
+    "•",
+    TimeRemainingColumn(),
+)
+
+done_event = Event()
+
+
+def handle_sigint(signum, frame):
+    done_event.set()
+
+
+signal.signal(signal.SIGINT, handle_sigint)
+
+
+def copy_url(task_id: TaskID, url: str, name: str, path: str) -> None:
+    response = urlopen(url)
+    progress.update(task_id, total=int(
+        response.info()["Content-length"]))
+    with open(path, "wb") as dest_file:
+        progress.start_task(task_id)
+        for data in iter(partial(response.read, 32768), b""):
+            dest_file.write(data)
+            progress.update(task_id, advance=len(data))
+            if done_event.is_set():
+                return
+
 
 # 日志记录
 log = Log()
 
-
-def generate_random_str(randomlength=16):
-    """
-    根据传入长度产生随机字符串
-    """
-    random_str = ''
-    base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789='
-    length = len(base_str) - 1
-    for _ in range(randomlength):
-        random_str += base_str[random.randint(0, length)]
-    return random_str
-
-
-headers = {
-    'user-agent': 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66',
-    'Cookie': 'msToken=%s' % generate_random_str(107)
-}
-
-# 老版本替换
 def replaceT(obj):
     """
-    @description  : 替换文案非法字符
-    ---------
-    @param  : ojb 传入对象
-    -------
-    @Returns  : n 处理后的内容
-    -------
+    替换文案非法字符
+    Args:
+        obj (_type_): 传入对象
+    Returns:
+        new: 处理后的内容
     """
-    r = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    if len(obj) > 100:
+        obj = obj[:100]
+    reSub = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^#]"
     new = []
     if type(obj) == list:
         for i in obj:
             # 替换为下划线
-            retest = re.sub(r, "_", i)
+            retest = re.sub(reSub, "_", i)
             new.append(retest)
     elif type(obj) == str:
         # 替换为下划线
-        new = re.sub(r, "_", obj)
+        new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
     return new
-
-
-#新版本替换
-# def replaceT(obj):
-#     """替换文案非法字符
-#
-#     Args:
-#         obj (_type_): 传入对象
-#
-#     Returns:
-#         new: 处理后的内容
-#     """
-#     if len(obj) > 80:
-#         obj = obj[:80]
-#     # '/ \ : * ? " < > |'
-#     reSub = r"[^\u4e00-\u9fa5^a-z^A-Z^0-9^#]"  # '/ \ : * ? " < > |'
-#     new = []
-#     if type(obj) == list:
-#         for i in obj:
-#             # 替换为下划线
-#             retest = re.sub(reSub, "_", i)
-#             new.append(retest)
-#     elif type(obj) == str:
-#         # new = eval(repr(obj).replace('\\', '_').replace('/','_').replace(':','_').replace('*','_').replace('?','_').replace('<','_').replace('>','_').replace('|','_').replace('"','_'))
-#         # 替换为下划线
-#         new = re.sub(reSub, "_", obj, 0, re.MULTILINE)
-#     return new
-
-
 
 
 def Status_Code(code: int):
@@ -122,11 +130,10 @@ def Status_Code(code: int):
 
 
 def reFind(strurl):
-    """匹配分享的url地址
-
+    """
+    匹配分享的url地址
     Args:
         strurl (string): 带文案的分享链接
-
     Returns:
         result: url短链
     """
@@ -150,7 +157,7 @@ print('''
 print("#" * 120)
 print(
     """
-                                                TikTokTool V1.3.0.43
+                                                TikTokTool V1.3.0.70
         使用说明：
                 1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
                 2、命令行操作方法：1）将本程序路径添加到环境变量
@@ -161,6 +168,8 @@ print(
 
                 4、如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
                 5、GUI预览版本现已发布，操作更简单 https://github.com/Johnserf-Seed/TikTokDownload/tags 下载
+                6、TikTokLive 输入抖音直播间web端链接，例如 https://live.douyin.com/176819813905
+                7、新版工具fastdl正在开发中 ----> https://github.com/Johnserf-Seed/fastdl
 
         注意：  目前已经支持app内分享短链和web端长链识别。
         """
@@ -182,4 +191,4 @@ else:
     print('[   🍎   ]:MacOS平台')
 
 # 检查版本
-#Updata().get_Updata()
+Updata().get_Updata()

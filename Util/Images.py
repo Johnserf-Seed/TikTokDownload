@@ -19,9 +19,10 @@ import Util
 
 
 class Images():
-    def __init__(self):
+    def __init__(self, headers):
         # 作品接口
-        self.apiUrl = 'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'
+        self.apiUrl = Util.Urls().POST_DETAIL
+        # 'aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'        # 作品id
         # 作品id
         self.aweme_id = ''
         # 作者id
@@ -36,15 +37,24 @@ class Images():
         self.number = 0
         # 图集链接
         self.images = []
+        # headers
+        self.headers = headers
+
 
     def get_all_images(self, aweme_id):
         datas = []
         for id in aweme_id:
-            r = Util.requests.get(self.apiUrl.format(str(id)),
-                                    headers=Util.headers).text
+            jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
+                    f'aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
+
+            r = Util.requests.get(url=jx_url, headers=self.headers).text
+            # 防止接口多次返回空
+            while r == '':
+                r = Util.requests.get(url=jx_url, headers=self.headers).text
             js = Util.json.loads(r)
 
             self.nickname = js['aweme_detail']['author']['nickname']
+            self.nickname = Util.replaceT(self.nickname)
             self.desc = js['aweme_detail']['desc']
             self.create_time = js['aweme_detail']['create_time']
             self.number = len(js['aweme_detail']['images'])
