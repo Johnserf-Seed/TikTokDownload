@@ -79,7 +79,9 @@ class Profile():
         # 23/02/09
         # 获取xg参数
         # datas 为元组 (params, xb)
-        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+        # 23/04/20
+        # 接口参数更新，旧的拿不到1080p了
+        datas = Util.XBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
             self.sec))
         response = Util.requests.get(
             url=self.urls.USER_POST + datas.params, headers=self.headers, timeout=3)
@@ -109,7 +111,7 @@ class Profile():
             exit()
 
         # 构造第一次访问链接
-        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=0&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+        datas = Util.XBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
             self.sec))
         if self.mode == 'post':
             self.api_post_url = self.urls.USER_POST + datas.params
@@ -188,7 +190,7 @@ class Profile():
     def getNextData(self):
         """获取下一页api数据
         """
-        datas = Util.XBogus('sec_user_id=%s&count=35&max_cursor=%s&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333' % (
+        datas = Util.XBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=%s&cookie_enabled=true&platform=PC&downlink=10' % (
             self.sec, self.max_cursor))
         # 构造下一次访问链接
         if self.mode == 'post':
@@ -243,7 +245,9 @@ class Profile():
         # 作品id
         self.aweme_id = []
         # 唯一视频标识
-        self.uri_list = []
+        # self.uri_list = []
+        # 视频播放地址
+        self.url_list = []
         # 图集
         self.image_list = []
         # 封面大图
@@ -264,8 +268,12 @@ class Profile():
                     # 拼接到 aweme.snssdk.com/aweme/v1/play/?video_id=xxxx&radio=1080p 则获取到1080p清晰的
                     # self.video_list.append(
                     #     str(result[v]['video']['play_addr']['url_list'][0]))
-                    self.uri_list.append(
-                        str(result[v]['video']['play_addr']['uri']))
+                    # 2023/04/20 1080p不再通过拼接uri获取
+                    # self.uri_list.append(
+                    #     str(result[v]['video']['play_addr']['uri']))
+                    # 2023/04/20 这是最新的1080p路径
+                    self.url_list.append(
+                        str(result[v]['video']['bit_rate'][0]['play_addr']['url_list'][0]))
                     self.aweme_id.append(str(result[v]['aweme_id']))
                     # nickname.append(str(result[v]['author']['nickname']))
                     # self.dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))

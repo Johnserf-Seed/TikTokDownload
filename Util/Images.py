@@ -22,7 +22,7 @@ class Images():
     def __init__(self, headers):
         # 作品接口
         self.apiUrl = Util.Urls().POST_DETAIL
-        # 'aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333'        # 作品id
+        # 'aweme_id={id}&aid=6383&cookie_enabled=true&platform=PC&downlink=10'        # 作品id
         # 作品id
         self.aweme_id = ''
         # 作者id
@@ -45,7 +45,7 @@ class Images():
         datas = []
         for id in aweme_id:
             jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
-                    f'aweme_id={id}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
+                    f'aweme_id={id}&aid=6383&cookie_enabled=true&platform=PC&downlink=10').params
 
             r = Util.requests.get(url=jx_url, headers=self.headers).text
             # 防止接口多次返回空
