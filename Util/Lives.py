@@ -29,7 +29,6 @@ class Lives():
         # 获取headers
         headers = Util.Cookies(cmd.setting()).dyheaders
         response = Util.requests.request("GET", live_api, headers=headers)
-        print(headers)
         if response.text == '':
             input('[   🎦   ]:获取直播信息失败，请从web端获取新ttwid填入配置文件\r')
             exit()
