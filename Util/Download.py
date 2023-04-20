@@ -53,7 +53,7 @@ class Download():
         # self.v_info = profileData.v_info
         # self.profile = Profile()
         with Util.progress:
-            with Util.ThreadPoolExecutor(max_workers=10) as pool:
+            with Util.ThreadPoolExecutor(max_workers=5) as pool:
                 for i in range(len(self.author_list)):
                     # 获取单部视频接口信息
                     try:
@@ -160,7 +160,7 @@ class Download():
 
     def ImageDownload(self, datas):
         with Util.progress:
-            with Util.ThreadPoolExecutor(max_workers=10) as pool:
+            with Util.ThreadPoolExecutor(max_workers=5) as pool:
                 for i in range(len(datas)):
                     self.nickname = datas[i][0]
                     self.desc = Util.replaceT(datas[i][1])
