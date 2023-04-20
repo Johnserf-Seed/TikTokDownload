@@ -153,14 +153,19 @@ def pic_download(urlarg, headers):
     # 单作品接口 'aweme_detail'
     # 主页作品 'aweme_list'
     jx_url = Urls().POST_DETAIL + XBogus(
-        f'aweme_id={key}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
+        f'aweme_id={key}&aid=6383&cookie_enabled=true&platform=PC&downlink=10').params
 
-    js = json.loads(requests.get(
-        url=jx_url, headers=headers).text)
+    js = requests.get(
+        url=jx_url, headers=headers).text
 
-    if js == '':
-        input('[  提示  ]:获取图集数据失败，请从web端获取新ttwid填入配置文件\r')
-        exit()
+    # 防止接口多次返回空
+    while js == '':
+        js = requests.get(
+            url=jx_url, headers=headers).text
+
+    js = json.loads(js)
+
+    print('[  提示  ]:等待接口解析\r')
 
     try:
         creat_time = time.strftime("%Y-%m-%d %H.%M.%S", time.localtime(js['aweme_detail']['create_time']))
@@ -171,7 +176,7 @@ def pic_download(urlarg, headers):
         if not os.path.exists('Download\\' + 'pic\\' + nickname + '\\' + creat_time + pic_title):
             os.makedirs('Download\\' + 'pic\\' + nickname + '\\' + creat_time + pic_title)
         with Util.progress:
-            with Util.ThreadPoolExecutor(max_workers=10) as pool:
+            with Util.ThreadPoolExecutor(max_workers=5) as pool:
                 for i in range(len(js['aweme_detail']['images'])):
                     # 尝试下载图片
                     try:
