@@ -41,15 +41,15 @@ class Cookies:
             self.passport_csrf_token = '2f142a9bb5db1f81f249d6fc997fe4a1'
             self.dyheaders = {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-                'referer': 'https://www.douyin.com/',
-                # 获取用户数据失败就自行替换odin_tt和passport_csrf_token
+                # 'referer': 'https://www.douyin.com/',
+                # 获取用户数据失败就自行替换本地cookie值
                 'Cookie': f'msToken={self.generate_random_str(107)};ttwid={self.generate_ttwid()};odin_tt={self.odin_tt};passport_csrf_token={self.passport_csrf_token}'
             }
             return self.dyheaders
         else:
             self.dyheaders = {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-                'referer': 'https://www.douyin.com/',
+                # 'referer': 'https://www.douyin.com/',
                 'Cookie': self.conf[3]
             }
             return self.dyheaders
