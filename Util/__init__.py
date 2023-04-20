@@ -4,7 +4,7 @@
 @Description:__init__.py
 @Date       :2022/07/29 23:20:56
 @Author     :JohnserfSeed
-@version    :1.3.0.70
+@version    :1.3.0.80
 @License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
@@ -157,7 +157,7 @@ print('''
 print("#" * 120)
 print(
     """
-                                                TikTokTool V1.3.0.70
+                                                TikTokTool V1.3.0.80
         使用说明：
                 1、本程序目前支持命令行调用和配置文件操作，GUI预览版本已经发布
                 2、命令行操作方法：1）将本程序路径添加到环境变量
