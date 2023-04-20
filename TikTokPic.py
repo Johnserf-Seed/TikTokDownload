@@ -137,7 +137,12 @@ def pic_download(urlarg, headers):
 
     # 2022/05/31 抖音把图集更新为note
     # 2023/01/14 第一步解析出来的链接是share/video/{id}
-    key = re.findall('note/(\d+)?', str(r.url))[0]
+    # 2023/04/20 v.douyin.com/xxxxx     用video正则
+    #            douyin.com/note/{id}   用note正则
+    try:
+        key = re.findall('video/(\d+)?', str(r.url))[0]
+    except Exception as reError:
+        key = re.findall('note/(\d+)?', str(r.url))[0]
 
 
     # 官方接口
