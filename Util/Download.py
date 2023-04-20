@@ -41,7 +41,9 @@ class Download():
         self.author_list = profileData.author_list
         # self.video_list = profileData.video_list
         # 作品uri列表
-        self.uri_list = profileData.uri_list
+        # self.uri_list = profileData.uri_list
+        # 作品播放地址列表
+        self.url_list = profileData.url_list
         # 作品id列表
         self.aweme_id = profileData.aweme_id
         # 作者
@@ -66,7 +68,7 @@ class Download():
                         # 主页作品 'aweme_list'
                         # 23/02/09 更新xg参数
                         jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
-                            f'aweme_id={self.aweme_id[i]}&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333').params
+                            f'aweme_id={self.aweme_id[i]}&aid=6383&cookie_enabled=true&platform=PC&downlink=10').params
                         js = Util.requests.get(
                             url=jx_url, headers=self.headers).text
                         # 防止接口多次返回空
@@ -129,8 +131,10 @@ class Download():
                     # 尝试下载视频
                     try:
                         # 生成1080p视频链接
-                        self.new_video_list.append(
-                            self.uri_url % self.uri_list[i])
+                        # self.new_video_list.append(
+                        #     self.uri_url % self.uri_list[i])
+                        # 2023/04/20 1080p不再通过拼接uri获取，url_list为1080p
+                        self.new_video_list.append(self.url_list[i])
                         try:
                             v_url = self.path + self.sprit + creat_time + Util.re.sub(
                                 r'[\\/:*?"<>|\r\n] + ', "_", self.author_list[i]) + '.mp4'
