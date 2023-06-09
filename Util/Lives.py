@@ -23,7 +23,7 @@ class Lives():
         web_rid = live_url.replace('https://live.douyin.com/','')
         # 2023/02/06 https://live.douyin.com/webcast/room/web/enter/
 
-        live_api = Util.Urls().LIVE + Util.XBogus('aid=6383&device_platform=web&web_rid=%s' % (web_rid)).params
+        live_api = Util.Urls().LIVE + Util.XBogus().getXBogus('aid=6383&device_platform=web&web_rid=%s' % (web_rid))[0]
         # 获取命令行参数
         cmd = Util.Command()
         # 获取headers

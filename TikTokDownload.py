@@ -113,8 +113,8 @@ def video_download(url, music, name, headers):
     # 此ies domian暂时不需要xg参数
     # 单作品接口 'aweme_detail'
     # 主页作品 'aweme_list'
-    jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
-        f'aweme_id={key}&aid=6383&cookie_enabled=true&platform=PC&downlink=10').params
+    jx_url = Util.Urls().POST_DETAIL + Util.XBogus().getXBogus(
+        f'aweme_id={key}&aid=6383&cookie_enabled=true&platform=PC&downlink=10')[0]
 
     js = Util.requests.get(
         url=jx_url, headers=headers).text

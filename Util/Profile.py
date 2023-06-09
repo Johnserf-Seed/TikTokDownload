@@ -37,6 +37,8 @@ class Profile():
         Util.log.info(Util.platform.system())
         # 接口
         self.urls = Util.Urls()
+        # XB
+        self.XB = Util.XBogus()
 
     def getProfile(self, param):
         """判断个人主页api链接
@@ -81,10 +83,10 @@ class Profile():
         # datas 为元组 (params, xb)
         # 23/04/20
         # 接口参数更新，旧的拿不到1080p了
-        datas = Util.XBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
+        datas = self.XB.getXBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
             self.sec))
         response = Util.requests.get(
-            url=self.urls.USER_POST + datas.params, headers=self.headers, timeout=3)
+            url=self.urls.USER_POST + datas[0], headers=self.headers, timeout=3)
 
         if response.text == '':
             input('[  提示  ]:获取用户数据失败，请从web端获取新ttwid填入配置文件\r')
@@ -111,12 +113,12 @@ class Profile():
             exit()
 
         # 构造第一次访问链接
-        datas = Util.XBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
+        datas = self.XB.getXBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
             self.sec))
         if self.mode == 'post':
-            self.api_post_url = self.urls.USER_POST + datas.params
+            self.api_post_url = self.urls.USER_POST + datas[0]
         else:
-            self.api_post_url = self.urls.USER_FAVORITE_A + datas.params
+            self.api_post_url = self.urls.USER_FAVORITE_A + datas[0]
 
         # 创建用户文件夹
         self.path = "." + self.sprit + "Download" + self.sprit + \
@@ -190,13 +192,13 @@ class Profile():
     def getNextData(self):
         """获取下一页api数据
         """
-        datas = Util.XBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=%s&cookie_enabled=true&platform=PC&downlink=10' % (
+        datas = self.XB.getXBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=%s&cookie_enabled=true&platform=PC&downlink=10' % (
             self.sec, self.max_cursor))
         # 构造下一次访问链接
         if self.mode == 'post':
-            api_naxt_post_url = self.urls.USER_POST + datas.params
+            api_naxt_post_url = self.urls.USER_POST + datas[0]
         else:
-            api_naxt_post_url = self.urls.USER_FAVORITE_A + datas.params
+            api_naxt_post_url = self.urls.USER_FAVORITE_A + datas[0]
 
         index = 0
         result = []

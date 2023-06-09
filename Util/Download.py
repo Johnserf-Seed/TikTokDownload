@@ -22,6 +22,8 @@ class Download():
 
     def __init__(self):
         self.urls = Util.Urls()
+        # XB
+        self.XB = Util.XBogus()
 
     def VideoDownload(self, profileData):
         self.headers = profileData.headers
@@ -67,8 +69,8 @@ class Download():
                         # 单作品接口 'aweme_detail'
                         # 主页作品 'aweme_list'
                         # 23/02/09 更新xg参数
-                        jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
-                            f'aweme_id={self.aweme_id[i]}&aid=6383&cookie_enabled=true&platform=PC&downlink=10').params
+                        jx_url = Util.Urls().POST_DETAIL + self.XB.getXBogus(
+                            f'aweme_id={self.aweme_id[i]}&aid=6383&cookie_enabled=true&platform=PC&downlink=10')[0]
                         js = Util.requests.get(
                             url=jx_url, headers=self.headers).text
                         # 防止接口多次返回空

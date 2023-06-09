@@ -39,13 +39,15 @@ class Images():
         self.images = []
         # headers
         self.headers = headers
+        # XB
+        self.XB = Util.XBogus()
 
 
     def get_all_images(self, aweme_id):
         datas = []
         for id in aweme_id:
-            jx_url = Util.Urls().POST_DETAIL + Util.XBogus(
-                    f'aweme_id={id}&aid=6383&cookie_enabled=true&platform=PC&downlink=10').params
+            jx_url = Util.Urls().POST_DETAIL + self.XB.getXBogus(
+                    f'aweme_id={id}&aid=6383&cookie_enabled=true&platform=PC&downlink=10')[0]
 
             r = Util.requests.get(url=jx_url, headers=self.headers).text
             # 防止接口多次返回空
