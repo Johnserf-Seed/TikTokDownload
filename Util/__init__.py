@@ -60,7 +60,7 @@ from .Download import Download
 
 
 progress = Progress(
-    TextColumn("[  提示  ]:[bold blue]{task.fields[filename]}", justify="left"),
+    TextColumn("{task.description}[bold blue]{task.fields[filename]}", justify="left"),
     BarColumn(bar_width=20),
     "[progress.percentage]{task.percentage:>3.1f}%",
     "•",

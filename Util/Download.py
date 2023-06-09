@@ -120,7 +120,7 @@ class Download():
                             else:
                                 filename = creat_time[:10] + self.author_list[i]
                             task_id = Util.progress.add_task(
-                                "[  原声  ]:", filename=filename, start=False)
+                                description = "[  原声  ]:", filename=filename, start=False)
                             pool.submit(Util.copy_url, task_id,
                                         music_url, self.author_list[i], m_url)
                             Util.log.info(m_url)
@@ -145,7 +145,7 @@ class Download():
                             else:
                                 filename = creat_time[:10] + self.author_list[i]
                             task_id = Util.progress.add_task(
-                                "[  视频  ]:", filename=filename, start=False)
+                                description = "[  视频  ]:", filename=filename, start=False)
                             pool.submit(
                                 Util.copy_url, task_id, self.new_video_list[0], self.author_list[i], v_url)
                             Util.log.info(v_url)
@@ -201,7 +201,7 @@ class Download():
                             else:
                                 filename = self.create_time[:10] + self.desc
                             task_id = Util.progress.add_task(
-                                "[  原声  ]:", filename=filename, start=False)
+                                description = "[  图集  ]:", filename=filename, start=False)
                             pool.submit(Util.copy_url, task_id,
                                         self.images[i], self.desc, p_url)
                         except Exception as error:
