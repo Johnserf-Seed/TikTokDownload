@@ -179,9 +179,9 @@ def pic_download(urlarg, headers):
                 for i in range(len(js['aweme_detail']['images'])):
                     # 尝试下载图片
                     try:
-                        pic_url = str(js['aweme_detail']['images'][i]['url_list'][0])
+                        pic_url = str(js['aweme_detail']['images'][i]['url_list'][3])
                         p_url = 'Download\\' + 'pic\\' + nickname + '\\' + creat_time + \
-                            pic_title + '\\' + pic_title + '_' + str(i) + '.jpeg'  # + now2ticks()
+                            pic_title + '\\' + creat_time + pic_title + '_' + str(i) + '.jpeg'  # + now2ticks()
                         if len(pic_title) > 20:
                             filename = creat_time[:10] + pic_title[:20] + "..."
                         else:
