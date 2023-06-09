@@ -83,9 +83,9 @@ class Download():
                     except Exception as videoNotFound:
                         Util.log.warning(videoNotFound)
                         print('[  🚩🚩  ]:由于官方接口cdn缓存暂没过期，id:%s的视频已经不存在！\r' %
-                                self.aweme_id[i])
+                                self.author_list[i])
                         Util.log.warning(
-                            f'[  🚩🚩  ]: {self.nickname} 的视频 {self.aweme_id[i]} 下载失败')
+                            f'[  🚩🚩  ]: {self.nickname} 的视频 {self.author_list[i]} 下载失败')
                         continue
 
                     # Code From RobotJohns https://github.com/RobotJohns
