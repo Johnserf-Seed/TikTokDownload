@@ -59,6 +59,8 @@ from .Profile import Profile
 from .Download import Download
 
 
+os.environ['NO_PROXY'] = '127.0.0.1'
+
 progress = Progress(
     TextColumn("{task.description}[bold blue]{task.fields[filename]}", justify="left"),
     BarColumn(bar_width=20),
