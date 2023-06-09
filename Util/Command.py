@@ -79,7 +79,9 @@ class Command:
             self.update = args.update
             print('[  提示  ]:读取命令完成!\r')
             Util.log.info('[  提示  ]:读取命令完成!')
-        return [self.uid, self.music, self.mode, self.cookie, self.interval, self.update]
+        import ast
+        self.uid_list = ast.literal_eval(self.uid)
+        return [[f"[\"{uid}\"]", self.music, self.mode, self.cookie, self.interval, self.update] for uid in self.uid_list]
 
 
 if __name__ == '__main__':

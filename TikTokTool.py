@@ -24,11 +24,12 @@ class Tool():
 if __name__ == '__main__':
     # 获取命令行参数
     cmd = Util.Command()
-    # 获取headers
-    headers = Util.Cookies(cmd.setting()).dyheaders
-    # 获取主页内容
-    profile = Util.Profile(headers)
-    # 使用参数并下载
-    profile.getProfile(cmd.setting())
+    for user in cmd.setting():
+        # 获取headers
+        headers = Util.Cookies(user).dyheaders
+        # 获取主页内容
+        profile = Util.Profile(headers)
+        # 使用参数并下载
+        profile.getProfile(user)
 
     input('[  完成  ]:已完成批量下载，输入任意键后退出:')
