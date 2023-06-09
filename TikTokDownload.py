@@ -11,7 +11,6 @@
 
 import re
 import sys
-import json
 import Util
 import getopt
 import requests
@@ -38,13 +37,14 @@ def Find(string):
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
     return url
 
+
 def main():
     url = ""
     music = "yes"
     name = ""
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h:u:m:n:", [
-                                    "url=", "music=", "name="])
+                "url=", "music=", "name="])
     except getopt.GetoptError:
         printUsage()
         sys.exit(-1)
@@ -104,7 +104,7 @@ def download(video_url, music_url, video_title, music_title, headers, music, nam
 
 
 def video_download(url, music, name, headers):
-    r = requests.get(url=Find(url)[0])
+    r = requests.get(url=Find(url)[0], headers=headers)
     key = re.findall('video/(\d+)?', str(r.url))[0]
     # 官方接口
     # 旧接口22/12/23失效
