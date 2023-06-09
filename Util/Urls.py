@@ -10,7 +10,7 @@
 @Mail       :johnserf-seed@foxmail.com
 -------------------------------------------------
 Change Log  :
-2023/02/08 18:14:47 - Create Urls from https://langyue.cc/APIdocV1.0.html
+2023/02/08 18:14:47 - Create Urls from https://johnserf-seed.github.io/DouyinApiDoc/APIdocV1.0.html
 -------------------------------------------------
 '''
 
@@ -63,21 +63,21 @@ class Urls:
         self.LIVE = 'https://live.douyin.com/webcast/room/web/enter/?'
 
         # X-Bogus Path
-        self.GET_XB_PATH = 'http://127.0.0.1:8889/xg/path?url='
+        # self.GET_XB_PATH = 'http://127.0.0.1:8889/xg/path?url='
 
         # X-Bogus Login
-        self.GET_XB_LOGIN = 'http://47.115.200.238/login'
+        # self.GET_XB_LOGIN = 'http://47.115.200.238/login'
 
         # X-Bogus Register
-        self.GET_XB_REGISTER = 'http://47.115.200.238/register'
+        # self.GET_XB_REGISTER = 'http://47.115.200.238/register'
 
         # X-Bogus Token
-        self.GET_XB_TOKEN = 'http://47.115.200.238/token'
+        # self.GET_XB_TOKEN = 'http://47.115.200.238/token'
         #######################################################################################
 
         ######################################### APP #########################################
         # X-Gorgon Path
-        self.GET_XG_LOGIN = 'http://47.115.200.238/xog/path?url='
+        # self.GET_XG_LOGIN = 'http://47.115.200.238/xog/path?url='
 
         #######################################################################################
 
