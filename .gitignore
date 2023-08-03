@@ -137,6 +137,6 @@ dmypy.json
 /Download/
 readconf.py
 .vscode
-/Util/node_modules/
+/Util/algorithm/node_modules/
 1.py
 test.py
