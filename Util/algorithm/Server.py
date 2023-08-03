@@ -1,4 +1,20 @@
-# import os
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@Description:Server.py
+@Date       :2023/02/25 17:03:32
+@Author     :JohnserfSeed
+@version    :0.0.1
+@License    :MIT License
+@Github     :https://github.com/johnserf-seed
+@Mail       :johnserf-seed@foxmail.com
+-------------------------------------------------
+Change Log  :
+2023/02/25 17:03:32 - Create Flask Server XB Gen
+2023/08/03 16:48:34 - Fix ttwid
+-------------------------------------------------
+'''
+
 import time
 import execjs
 # import sqlite3
@@ -76,7 +92,6 @@ class Server:
         print(tips)
         return jsonify(tips)
 
-
 if __name__ == "__main__":
     server = Server()
     # 首页
@@ -146,32 +161,5 @@ if __name__ == "__main__":
         else:
             return server.getxttparams(path)
 
-    # ttwid
-    @server.app.route('/xg/ttwid', methods=['GET', 'POST'])
-    def gen_ttwid(self) -> str:
-        """生成请求必带的ttwid
-        param :None
-        return:ttwid
-        """
-        url = 'https://ttwid.bytedance.com/ttwid/union/register/'
-        data = '{"region":"cn","aid":1768,"needFid":false,"service":"www.ixigua.com","migrate_info":{"ticket":"","source":"node"},"cbUrlProtocol":"https","union":true}'
-        response = requests.request("POST", url, data=data)
-        # j = ttwid  k = 1%7CfPx9ZM.....
-        for j, k in response.cookies.items():
-            tips = {
-                "status_code": "200",
-                "time": {
-                    "strftime": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-                    "timestamp": int(round(time.time() * 1000))
-                },
-                "result": [{
-                    "headers": {
-                        "user-agent": self.ua,
-                        "cookie": "ttwid=%s;" % k
-                    }
-                }]
-            }
-        print(tips)
-        return jsonify(tips)
 
     server.app.run(host='0.0.0.0',port='8889')
