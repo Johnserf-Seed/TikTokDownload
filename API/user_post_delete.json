@@ -1,0 +1,14 @@
+{
+    "aweme_detail": null,
+    "filter_detail": {
+        "aweme_id": "7223326284024139065",
+        "detail_msg": "因作品权限或已被删除，无法观看，去看看其他作品吧",
+        "filter_reason": "status_self_see",
+        "icon": "https://p3.douyinpic.com/aweme-server-static-resource/reflow_notice_icon1.png~tplv-obj.image",
+        "notice": "抱歉，作品不见了"
+    },
+    "log_pb": {
+        "impr_id": "20230721183110BAFBC650B1FCD50ACE6F"
+    },
+    "status_code": 0
+}

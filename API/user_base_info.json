@@ -1,0 +1,50 @@
+{
+    "status_code": 0,
+    "next_req_count": 0,
+    "data": [
+        {
+            "uid": "89964046416",
+            "short_id": "629064951",
+            "nickname": "蔓越莓烦恼",
+            "avatar_thumb": {
+                "uri": "100x100/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef",
+                "url_list": [
+                    "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef.jpeg?from=3782654143",
+                    "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef.jpeg?from=3782654143",
+                    "https://p11.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef.jpeg?from=3782654143"
+                ]
+            },
+            "signature": "风格多变的小🦁️\n🧣：yoki小蔓\n🍠：同名",
+            "follow_status": 1,
+            "enterprise_verify_reason": "",
+            "verification_type": 0,
+            "custom_verify": "",
+            "unique_id": "777_23",
+            "commerce_user_level": 0,
+            "with_commerce_entry": false,
+            "is_block": false,
+            "sec_uid": "MS4wLjABAAAADgOltsr_SYTX6VurKA1H3n61xlFvYD1y_FrrY1UhI-o",
+            "webcast_sp_info": {},
+            "has_e_account_role": false,
+            "follower_status": 0,
+            "avatar_small": {
+                "uri": "168x168/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef",
+                "url_list": [
+                    "https://p6.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef~c5_168x168.webp?from=3782654143",
+                    "https://p26.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef~c5_168x168.webp?from=3782654143",
+                    "https://p3.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef~c5_168x168.webp?from=3782654143",
+                    "https://p6.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_9c8aea4ba21f591774723a3820a07aef~c5_168x168.jpeg?from=3782654143"
+                ]
+            },
+            "gender": 2
+        }
+    ],
+    "extra": {
+        "fatal_item_ids": [],
+        "logid": "20230720194718A0B55C720A4E710A68EF",
+        "now": 1689853638000
+    },
+    "log_pb": {
+        "impr_id": "20230720194718A0B55C720A4E710A68EF"
+    }
+}
