@@ -16,297 +16,470 @@ Change Log  :
 
 import Util
 
-############ apis############
-# /aweme/v1/web/aweme/detail/       'aweme_detail'
-# /aweme/v1/web/aweme/post/         'aweme_list'
-###########################
 
 
-class Profile():
+XB = Util.XBogus()
+URLS = Util.Urls()
 
-    def __init__(self, headers):
+
+class Profile:
+
+    def __init__(self, config, dyheaders):
         # 抓获所有视频
         self.Isend = False
         # 第一次访问页码
         self.max_cursor = 0
         # 全局IOS头部
-        self.headers = headers
-        # 系统分隔符
-        self.sprit = Util.sprit
-        # 输出日志
-        Util.log.info(Util.platform.system())
-        # 接口
-        self.urls = Util.Urls()
-        # XB
-        self.XB = Util.XBogus()
+        self.headers = dyheaders
+        # 配置文件
+        self.config = config
+        # 记录配置文件
+        Util.log.info(f"配置文件：{config}")
+        # 昵称映射表
+        self.nick_mapper = Util.NickMapper('nickname_mapping.db')
+        # 连接数据库
+        self.nick_mapper.connect()
+        # 创建下载实例
+        self.download = Util.Download(self.config)
 
-    def getProfile(self, param):
-        """判断个人主页api链接
+    def create_user_folder(self, config: dict, nickname: Util.Union[str, int]) -> None:
+        """
+        根据提供的配置文件和昵称，创建对应的保存目录。
+        如果未在配置文件中指定路径，则默认为 "Download"。
+        仅支持相对路径。
 
         Args:
-            param (tuple): uid,music,mode | ('https://v.douyin.com/efrHYf2/', 'no', 'post')
-
-        Returns:
-            None
+            config (dict): 配置文件，字典格式。
+            nickname (Union[str, int]): 用户的昵称，允许字符串或整数。
+        Raises:
+            TypeError: 如果 config 不是字典格式，将引发 TypeError。
         """
-        self.music = param[1]
-        self.mode = param[2]
-        try:
-            r = Util.requests.post(url=Util.reFind(param[0])[0])
-        except:
-            print('[  提示  ]:请检查你的配置链接填写是否正确!\r')
-            input('[  提示  ]：按任意键退出程序!\r')
-            exit()
 
-        print('[  提示  ]:批量获取所有视频中!\r')
-        Util.log.info('[  提示  ]:批量获取所有视频中!')
+        # 确定函数参数是否正确
+        if not isinstance(config, dict):
+            raise TypeError("config 参数必须是字典。")
 
-        # 获取用户sec_uid
-        # 2022/08/24: 直接采用request里的path_url，用user\/([\d\D]*)([?])过滤出sec
-        if '?' in r.request.path_url:
-            for id in Util.re.finditer(r'user\/([\d\D]*)([?])', str(r.request.path_url)):
-                self.sec = id.group(1)
-        else:
-            for id in Util.re.finditer(r'user\/([\d\D]*)', str(r.request.path_url)):
-                self.sec = id.group(1)
-        print('[  提示  ]:用户的sec_id=%s\r' % self.sec)
-        Util.log.info('[  提示  ]:用户的sec_id=%s' % self.sec)
+        # 获取相对路径
+        path = Util.os.path.join(".", config.get('path', 'Download'), config['mode'], nickname)
 
-        # 用户主页
-        self.homepage = "https://www.douyin.com/user/" + self.sec
+        # 获取绝对路径
+        path = Util.os.path.abspath(path)
+        if not Util.os.path.exists(path):
+            # 创建用户文件夹
+            Util.os.makedirs(path)
 
-        # 旧接口于22/12/23失效
-        # post_url = 'https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=%s&count=35&max_cursor=0&aid=1128&_signature=PDHVOQAAXMfFyj02QEpGaDwx1S&dytk=' % (
-        #     self.sec)
-        # 23/02/09
-        # 获取xg参数
-        # datas 为元组 (params, xb)
-        # 23/04/20
-        # 接口参数更新，旧的拿不到1080p了
-        datas = self.XB.getXBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
-            self.sec))
-        response = Util.requests.get(
-            url=self.urls.USER_POST + datas[0], headers=self.headers, timeout=3)
+        return path
 
-        if response.text == '':
-            input('[  提示  ]:获取用户数据失败，请从web端获取新cookie填入配置文件\r')
-            exit()
-
-        post_name_json = Util.json.loads(response.content.decode())
-        # 2022/09/05
-        # 因为抖音页面分离技术，最初获取的网页信息没有经过js渲染，无法获取like模式下的用户名，故均用post模式获取用户名
-        try:
-            self.nickname = post_name_json['aweme_list'][0]['author']['nickname']
-            self.nickname = Util.replaceT(self.nickname)
-            # self.nickname = Util.etree.HTML(r.text).xpath('//*[@id="douyin-right-container"]/div[2]/div/div/div[1]/div[2]/div[1]/h1/span/span/span/span/span/span/text()')[0]
-            # self.nickname = html['aweme_list'][0]['author']['nickname']
-        except Exception as e:
-            # 2022/10/19
-            # like模式需要保存该账户昵称的文件夹下，如果是空作品则最少需要发布一条作品方可获取该账户昵称
-            print('[  提示  ]：获取用户昵称失败! 请检查是否发布过作品，发布后请重新运行本程序！\r')
-            # 输出日志
-            Util.log.error('[  提示  ]：获取用户昵称失败! 请检查是否发布过作品，发布后请重新运行本程序！')
-            Util.log.error(e)
-            # ERROR: list index out of range
-            # {'status_code': 0, 'aweme_list': [], 'max_cursor': 0, 'min_cursor': xxx, 'extra': {'now': xxx, 'logid': 'xxx'}, 'has_more': False}
-            input('[  提示  ]：按任意键退出程序!\r')
-            exit()
-
-        # 构造第一次访问链接
-        datas = self.XB.getXBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=0&cookie_enabled=true&platform=PC&downlink=10' % (
-            self.sec))
-        if self.mode == 'post':
-            self.api_post_url = self.urls.USER_POST + datas[0]
-        else:
-            self.api_post_url = self.urls.USER_FAVORITE_A + datas[0]
-
-        # 创建用户文件夹
-        self.path = "." + self.sprit + "Download" + self.sprit + \
-            param[2] + self.sprit + self.nickname + self.sprit
-        if not Util.os.path.exists(self.path):
-            Util.os.makedirs(self.path)
-
-        # 保存用户主页地址
-        self.s_homepage()
-        # 获取用户数据
-        self.getData(self.api_post_url)
-        return  # self.api_post_url,self.max_cursor,self.sec
-
-    def getData(self, api_post_url):
-        """获取第一次api数据
+    async def re_match(self, session: Util.aiohttp.ClientSession, inputs: str) -> Util.Optional[Util.re.Match]:
+        """
+        根据传入的url，正则匹配sec_user_id
 
         Args:
-            api_post_url (str): 传入api链接
-
-        Returns:
-            result: api数据
+            session (aiohttp.ClientSession): HTTP session
+            inputs (str): 单条url
+        Return:
+            match (re.Match): 匹配到的结果
         """
-        # 尝试次数
-        times = 0
-        # 存储api数据
-        result = []
-        while result == []:
-            times += 1
-            print('[  提示  ]:正在进行第 %d 次尝试\r' % times)
-            # 输出日志
-            Util.log.info('[  提示  ]:正在进行第 %d 次尝试' % times)
-            Util.time.sleep(0.5)
-            response = Util.requests.get(
-                url=api_post_url, headers=self.headers)
-            # 接口不稳定，有时会返回空数据
-            while response.text == '':
-                print('[  提示  ]:获取作品数据失败，正在重新获取\r')
-                response = Util.requests.get(
-                    url=api_post_url, headers=self.headers)
-            html = Util.json.loads(response.content.decode())
-            if self.Isend == False:
-                # 下一页值
-                print('[  用户  ]:%s\r' % str(self.nickname))
-                # 输出日志
-                Util.log.info('[  用户  ]:%s\r' % str(self.nickname))
 
-                try:
-                    self.max_cursor = html['max_cursor']
-                except:
-                    input('[  提示  ]:该用户未开放喜欢页，请开放后重新运行!\r')
-                    Util.log.info('[  提示  ]:该用户未开放喜欢页，请开放后重新运行!\r')
-                    exit(0)
+        match = None
 
-                result = html['aweme_list']
-                print('[  提示  ]:抓获用户主页数据成功!\r')
-
-                # 输出日志
-                Util.log.info('[  提示  ]:抓获用户主页数据成功!')
-
-                # 处理第一页视频信息
-                self.getVideoInfo(result)
-            else:
-                self.max_cursor = html['max_cursor']
-                self.getNextData()
-                # self.Isend = True
-                # 输出日志
-                Util.log.info('[  提示  ]:此页无数据，为您跳过......')
-                print('[  提示  ]:此页无数据，为您跳过......\r')
-        return result
-
-    def getNextData(self):
-        """获取下一页api数据
-        """
-        datas = self.XB.getXBogus('aid=6383&sec_user_id=%s&count=35&max_cursor=%s&cookie_enabled=true&platform=PC&downlink=10' % (
-            self.sec, self.max_cursor))
-        # 构造下一次访问链接
-        if self.mode == 'post':
-            api_naxt_post_url = self.urls.USER_POST + datas[0]
-        else:
-            api_naxt_post_url = self.urls.USER_FAVORITE_A + datas[0]
-
-        index = 0
-        result = []
-
-        while self.Isend == False:
-            # 回到首页，则结束
-            if self.max_cursor == 0:
-                self.Isend = True
-                return
-            index += 1
-            print('[  提示  ]:正在对', self.max_cursor, '页进行第 %d 次尝试！\r' % index)
-            # 输出日志
-            Util.log.info('[  提示  ]:正在对 %s 页进行第 %d 次尝试！' %
-                            (self.max_cursor, index))
-            Util.time.sleep(0.5)
-            response = Util.requests.get(
-                url=api_naxt_post_url, headers=self.headers)
-            # 接口不稳定，有时会返回空数据
-            while response.text == '':
-                print('[  提示  ]:获取作品数据失败，正在重新获取\r')
-                response = Util.requests.get(
-                    url=api_naxt_post_url, headers=self.headers)
-            html = Util.json.loads(response.content.decode())
-            if self.Isend == False:
-                # 下一页值
-                self.max_cursor = html['max_cursor']
-                result = html['aweme_list']
-                # 输出日志
-                Util.log.info('[  提示  ]:第 %d 页抓获数据成功!' % self.max_cursor)
-                print('[  提示  ]:第 %d 页抓获数据成功!\r' % self.max_cursor)
-                # 处理下一页视频信息
-                self.getVideoInfo(result)
-            else:
-                self.Isend == True
-                # 输出日志
-                Util.log.info('[  提示  ]:%d页抓获数据失败!' % self.max_cursor)
-                print('[  提示  ]:%d页抓获数据失败!\r' % self.max_cursor)
-
-    def getVideoInfo(self, result):
-        """获取视频信息
-        """
-        # 作者信息
-        self.author_list = []
-        # 无水印视频链接
-        # self.video_list = []
-        # 作品id
-        self.aweme_id = []
-        # 唯一视频标识
-        # self.uri_list = []
-        # 视频播放地址
-        self.url_list = []
-        # 图集
-        self.image_list = []
-        # 封面大图
-        # self.dynamic_cover = []
-        for v in range(len(result)):
-            try:
-                # url_list < 4 说明是图集
-                # 2022/11/27 aweme_type是作品类型 2：图集 4：视频
-                # 2023/01/19 aweme_type是作品类型 68：图集 0：视频
-                if result[v]['aweme_type'] == 68:
-                    # if len(result[v]['video']['play_addr']['url_list']) < 4:
-                    self.image_list.append(result[v]['aweme_id'])
+        async with session.get(url=Util.reFind(inputs)[0],
+                                timeout=10,
+                                allow_redirects=True) as response:
+            # 检查响应状态码，如果不是200和444，会抛出异常
+            if response.status in {200, 444}:
+                if 'v.douyin.com' in inputs:
+                    pattern = r"sec_uid=([^&]*)"
+                    match = Util.re.search(pattern, response.url.path_qs)
                 else:
-                    self.author_list.append(str(result[v]['desc']))
-                    # 2022/04/22
-                    # 如果直接从 /web/api/v2/aweme/post 这个接口拿数据，那么只有720p的清晰度
-                    # 如果在 /web/api/v2/aweme/iteminfo/ 这个接口拿视频uri
-                    # 拼接到 aweme.snssdk.com/aweme/v1/play/?video_id=xxxx&radio=1080p 则获取到1080p清晰的
-                    # self.video_list.append(
-                    #     str(result[v]['video']['play_addr']['url_list'][0]))
-                    # 2023/04/20 1080p不再通过拼接uri获取
-                    # self.uri_list.append(
-                    #     str(result[v]['video']['play_addr']['uri']))
-                    # 2023/04/20 这是最新的1080p路径
-                    self.url_list.append(
-                        str(result[v]['video']['bit_rate'][0]['play_addr']['url_list'][0]))
-                    self.aweme_id.append(str(result[v]['aweme_id']))
-                    # nickname.append(str(result[v]['author']['nickname']))
-                    # self.dynamic_cover.append(str(result[v]['video']['dynamic_cover']['url_list'][0]))
-            except Exception as e:
-                # 输出日志
-                Util.log.info('%s,因为每次不一定完全返回35条数据！' % (e))
-                print('[  🚩🚩  ]:%s,因为每次不一定完全返回35条数据！' % (e))
-                break
-        if self.max_cursor == 0:
-            return
-        # 过滤视频文案和作者名中的非法字符
-        print('[  提示  ]:正在替换当页所有作品非法字符，耐心等待!\r')
-        self.author_list = Util.replaceT(self.author_list)
-        # 输出日志
-        Util.log.info('[  提示  ]:正在替换当页所有作品非法字符，耐心等待!')
+                    pattern = r"user/([^/?]*)"
+                    match = Util.re.search(pattern, response.url.path_qs)
 
-        print('[  提示  ]:正在替换作者非法字符，耐心等待!\r')
-        self.nickname = Util.replaceT(self.nickname)
-        # 输出日志
-        Util.log.info('[  提示  ]:正在替换作者非法字符，耐心等待!')
-        # 下载主页所有图集
-        datas = Util.Images(self.headers).get_all_images(self.image_list)
-        Util.Download().VideoDownload(self)
-        Util.Download().ImageDownload(datas)
-        self.getNextData()
-        return  # self,author_list,video_list,uri_list,aweme_id,nickname,max_cursor
-    # 保存用户主页链接
-    def s_homepage(self):
-        with open(self.path + self.sprit + self.nickname + '.txt', 'w') as f:
-            f.write(self.homepage)
+        return match
 
+    async def get_request_data(self, method: str, url: str, headers: dict, data: dict = None):
+        """
+        发送异步HTTP请求并获取返回的接口数据
 
-if __name__ == '__main__':
-    Profile()
+        Args:
+            method (str): HTTP请求的方法，如'GET', 'POST'等
+            url (str): 需要发送请求的URL
+            headers (dict): HTTP请求的头部
+            data (dict, optional): 如果请求方法为'GET'，需要发送的数据。默认为None。
+
+        Returns:
+            Tuple[List[dict], int, bool]: 返回一个元组，包含三个元素：
+                                        1. 一个字典列表，每个字典代表一页作品信息
+                                        2. 一个整数，表示下次请求的页码
+                                        3. 一个布尔值，表示是否有更多作品
+        """
+
+        async with Util.aiohttp.ClientSession() as session:
+            async with session.request(method, url, headers=headers, data=data, timeout=10) as response:
+                if response.status == 200:
+                    if response.text != '':
+                        api_data = await response.json()
+                        info_status_code = api_data.get("status_code", None)
+                        # 确保接口返回数据正常
+                        if info_status_code == 0:
+                            # 接口相关(逆天，收藏接口完全不一样)
+                            if method == "POST":
+                                max_cursor = api_data.get("cursor", 0)
+                            else:
+                                max_cursor = api_data.get("max_cursor", 0)
+                            has_more = api_data.get("has_more")
+                            aweme_list = api_data.get("aweme_list", [])
+                            return aweme_list, max_cursor, has_more
+                        else:
+                            raise RuntimeError(f"接口返回异常: status_code={info_status_code}")
+                    else:
+                        raise RuntimeError('获取接口数据失败，请从删除配置文件中的cookie，重新扫码登录并检查是否触发人机验证\r')
+                else:
+                    raise Util.aiohttp.ClientError()
+
+    async def get_all_sec_user_id(self, inputs: Util.Union[str, list]) -> Util.Union[str, list]:
+        """
+        获取用户SECUID，传入单条url或者列表url都可以解析出sec_user_id。
+
+        Args:
+            inputs (Union[str, list]): 单条url或者列表url
+        Return:
+            sec_user_id (Union[str, list]): 用户的唯一标识，返回字符串或列表
+        """
+
+        # 进行参数检查
+        if not isinstance(inputs, (str, list)):
+            raise TypeError("输入参数必须是字符串或列表。")
+
+        # 从字符串提取
+        if isinstance(inputs, str):
+            try:
+                async with Util.aiohttp.ClientSession() as session:
+                    match = await self.re_match(session, inputs)
+                    if match:
+                        return match.group(1)
+                    else:
+                        raise ValueError("链接错误,无法提取用户ID.")
+            except Util.aiohttp.ClientError as e:
+                raise RuntimeError(f"网络连接异常，异常：{e}")
+
+        # 从列表提取
+        elif isinstance(inputs, list):
+            try:
+                # 处理列表
+                sec_user_id_list = []
+                async with Util.aiohttp.ClientSession() as session:
+                    tasks = []
+                    for url in inputs:
+                        task = Util.asyncio.ensure_future(self.re_match(session, url))
+                        tasks.append(task)
+                    responses = await Util.asyncio.gather(*tasks)
+                    for match in responses:
+                        if match:
+                            sec_user_id_list.append(match.group(1))
+                        else:
+                            raise ValueError("链接错误,无法提取用户ID.")
+            except ValueError:
+                raise ValueError("列表url非字符串。")
+            except Util.aiohttp.ClientError as e:
+                raise RuntimeError(f"网络连接异常，异常：{e}")
+
+        return sec_user_id_list
+
+    async def get_diff_type_url(self, config: dict, sec_user_id: Util.Union[str, None], count = 20, cursor = 0) -> str:
+        """
+        根据传入配置文件中的mode和用户sec_user_id,生成不同作品类型的接口链接。
+
+        Args:
+            config (dict): 字典配置文件
+            sec_user_id (str): 用户唯一标识
+            count (int): 作品数
+            cursor (long): 作品页码
+        Return:
+            domain + params[0] (str): 拼接接口链接
+        """
+
+        # 确定函数参数是否正确
+        if not isinstance(config, dict):
+            raise TypeError("config 参数必须是字典.")
+        if not isinstance(sec_user_id, str):
+            raise TypeError("sec_user_id 参数必须是字符串.")
+
+        # 生成接口链接,收藏夹的接口麻烦点的
+        mode = config.get('mode', 'post').lower()
+        if mode == "post" and sec_user_id is not None:
+            params = XB.getXBogus(f'aid=6383&sec_user_id={sec_user_id}&count={count}&max_cursor={cursor}&cookie_enabled=true&platform=PC&downlink=10')
+            domain = URLS.USER_POST
+            self.type_data = None
+        elif mode == "like" and sec_user_id is not None:
+            params = XB.getXBogus(f'aid=6383&sec_user_id={sec_user_id}&count={count}&max_cursor={cursor}&cookie_enabled=true&platform=PC&downlink=10')
+            domain = URLS.USER_FAVORITE_A
+            self.type_data = None
+        elif mode == "listcollection":
+            params = XB.getXBogus(f'aid=6383&cookie_enabled=true&platform=PC&downlink=1.5')
+            domain = URLS.USER_COLLECTION
+            self.type_data = f'count={count}&cursor={cursor}'
+
+        return domain + params[0]
+
+    async def get_user_base_info(self, headers: dict, sec_user_id: Util.Union[str, list]) -> dict:
+        """
+        根据 sec_user_id 来获取用户im基本数据
+
+        Args:
+            headers (dict): 包含 Cookie、User-Agent、Referer 等请求头信息
+            sec_user_id (Union[str, list]): 用户的唯一标识，可以是字符串或列表
+        Return:
+            data (dict): 返回该用户的基本信息
+        """
+
+        # 确定函数参数是否正确
+        if not isinstance(headers, dict):
+            raise TypeError("headers 参数必须是字典.")
+        if not isinstance(sec_user_id, (str, list)):
+            raise TypeError("sec_user_id 参数必须是字符串或列表.")
+
+        params = XB.getXBogus("aid=6383&platform=PC&downlink=1.25")
+        domain = URLS.USER_SHORT_INFO
+
+        # 该接口的参数是列表
+        if isinstance(sec_user_id, str):
+            sec_user_id_json = Util.json.dumps([sec_user_id])
+        else:
+            sec_user_id_json = Util.json.dumps(sec_user_id)
+
+        request_data = 'sec_user_ids=%s' % Util.parse.quote(str(sec_user_id_json))
+        data = {}
+
+        try:
+            async with Util.aiohttp.ClientSession() as session:
+                async with session.get(url=domain + params[0],
+                                        headers=headers,
+                                        data=request_data,
+                                        proxy=None, timeout=10) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        info_status_code = data.get("status_code", None)
+                        # 确保接口返回数据正常
+                        """
+                        info_status_code == 0 说明接口返回正常
+                        info_status_code == 5 说明接口参数异常
+                        info_status_code == 8 说明用户未登录
+                        """
+                        if info_status_code == 0:
+                            data = data.get("data", {})
+                        else:
+                            raise RuntimeError(f"接口返回异常: {info_status_code}")
+        except Util.aiohttp.ClientError as e:
+            raise RuntimeError(f"请求异常: {str(e)}")
+
+        return data
+
+    async def get_user_profile_info(self, headers: dict, sec_user_id: str) -> dict:
+        """
+        根据 sec_user_id 来获取用户完整信息
+
+        Args:
+            headers (dict): 包含 Cookie、User-Agent、Referer 等请求头信息
+            sec_user_id (str): 用户的唯一标识，可以是字符串或列表
+        Return:
+            data (dict): 返回该用户的完整信息
+        """
+
+        # 确定函数参数是否正确
+        if not isinstance(headers, dict):
+            raise TypeError("headers 参数必须是字典.")
+        if not isinstance(sec_user_id, str):
+            raise TypeError("sec_user_id 参数必须是字符串.")
+
+        params = XB.getXBogus(f"device_platform=webapp&aid=6383&sec_user_id={sec_user_id}&cookie_enabled=true&platform=PC&downlink=10")
+        domain = URLS.USER_DETAIL
+
+        data = {}
+
+        try:
+            async with Util.aiohttp.ClientSession() as session:
+                async with session.get(url=domain + params[0],
+                                        headers=headers,
+                                        proxy=None, timeout=10) as response:
+                    if response.status == 200:
+                        if response.text != '':
+                            data = await response.json()
+                            info_status_code = data.get("status_code", None)
+                            # 确保接口返回数据正常
+                            if info_status_code == 0:
+                                data = data.get("user", {})
+                            else:
+                                raise RuntimeError(f"接口内容返回异常: status_code={info_status_code}")
+                        else:
+                            raise RuntimeError("接口返回空，检查cookie是否过期以及是否出现人机验证，解决不了请重新扫码登录\r")
+                    else:
+                        raise RuntimeError(f"请检查网络状况。 状态码: {response.status}, 响应体: {response.text}")
+        except Util.aiohttp.ClientError as e:
+            raise RuntimeError(f"本地网络请求异常。 异常: {e}\r") from e
+
+        return data
+
+    async def get_user_post_info(self, headers: dict, url: str) -> dict:
+        """
+        获取指定用户的作品信息
+
+        Args:
+            headers (dict): HTTP请求的头部
+            url (str): 需要发送请求的URL
+
+        Returns:
+            List[dict]: 返回一个字典列表，每个字典包含一个作品的所有信息，如作品类型，作品ID，作品描述，作者信息，音乐信息等
+        """
+
+        aweme_data = []
+
+        try:
+            if self.config['mode'] != 'listcollection':
+                aweme_list, max_cursor, has_more = await self.get_request_data('GET', url, headers)
+            else:
+                headers['Content-Type'] = 'application/x-www-form-urlencoded'
+                aweme_list, max_cursor, has_more = await self.get_request_data('POST', url, headers, self.type_data)
+        except Util.aiohttp.ClientError as e:
+            raise RuntimeError(f"本地请求异常, 异常: {e}") from e
+
+        if aweme_list == []:
+            data = {}
+            # 作品相关
+            data['max_cursor'] = max_cursor
+            data['has_more'] = has_more
+            aweme_data.append(data)
+        else:
+            for item in aweme_list:
+                data = {}
+                # 类别相关
+                author = item.get("author", {})
+                music = item.get("music", {})
+                video = item.get("video", {})
+                aweme_type = item.get("aweme_type", None)
+
+                if aweme_type == 0:
+                    # 视频相关
+                    bit_rate = video.get("bit_rate", [])
+                    try:
+                        data['video_uri'] = bit_rate[0].get("play_addr", {}).get("uri", None)
+                        data['video_url_list'] = bit_rate[0].get("play_addr", {}).get("url_list", [])
+                    except IndexError:
+                        # raise RuntimeError("该视频已被下架，无法下载。")
+                        continue
+
+                elif aweme_type == 68:
+                    # 图集相关
+                    data['images'] = item.get("images", [])
+
+                # 作品相关
+                data['max_cursor'] = max_cursor
+                data['has_more'] = has_more
+                data['aweme_type'] = aweme_type
+                data['aweme_id'] = item.get("aweme_id", None)
+                data['desc'] = Util.replaceT(item.get("desc", None))
+                data['create_time'] = item.get("create_time", None)
+
+                # 作者相关
+                data['uid'] = author.get("uid", None)
+                # 判断昵称映射表中是否已经存在该用户
+                if self.nick_mapper.get_nickname(author['sec_uid']) is None:
+                    # 如果不存在，添加昵称映射
+                    self.nick_mapper.add_mapping(author['sec_uid'], author['nickname'])
+                    # 关闭索引
+                    # self.nick_mapper.close()
+                # 获取昵称映射
+                data['nickname'] = self.nick_mapper.get_nickname(author['sec_uid'])
+                data['aweme_count'] = author.get("aweme_count", None)
+
+                # 原声相关
+                data['music_title'] = music.get("title", None)
+                data['music_play_url'] = music.get("play_url", None)
+
+                # 保存路径相关
+                data['path'] = self.path
+
+                aweme_data.append(data)
+
+        return aweme_data
+
+    async def get_Profile(self, count: int = 20) -> None:
+        """
+        获取用户的Profile并设置相应的实例变量。
+
+        首先获取用户的唯一标识和昵称，然后根据 mode 和其他配置来生成 profile_URL，并创建用户的文件夹。
+        如果 mode 是 'listcollection'，则 params 将不包含 sec_user_id，否则包含 sec_user_id。
+        生成的 profile_URL 将用于后续的数据获取，最后保存用户的主页链接。
+
+        Raises:
+            Exception: 如果在获取用户信息过程中出现错误，则会抛出异常。
+        """
+
+        try:
+            # 获取sec_user_id
+            self.sec_user_id = await self.get_all_sec_user_id(inputs=self.config['uid'])
+
+            # 用户详细信息
+            user_profile_info = await self.get_user_profile_info(self.headers, self.sec_user_id)
+
+            # 用户昵称,需要替换非法字符防止因为昵称字符问题导致报错,api参考API目录
+            self.nickname = Util.replaceT(user_profile_info.get("nickname"))
+            # 判断昵称映射表中是否已经存在该用户
+            if self.nick_mapper.get_nickname(self.sec_user_id) is None:
+                # 如果不存在，添加昵称映射
+                self.nick_mapper.add_mapping(self.sec_user_id, self.nickname)
+                # 根据映射表中的唯一标识获取用户的昵称，即使用户修改昵称也不会影响文件目录
+                self.nickname = self.nick_mapper.get_nickname(self.sec_user_id)
+            Util.console.print(f'[  用户  ]:用户的昵称：{self.nickname}，用户唯一标识：{self.sec_user_id}')
+            Util.log.info(f'[  用户  ]:用户的昵称：{self.nickname}，用户唯一标识：{self.sec_user_id}')
+
+            # 用户初始接口URL生成
+            self.profile_URL = await self.get_diff_type_url(self.config, self.sec_user_id, count, 0)
+
+            # 创建用户文件夹
+            self.path = self.create_user_folder(self.config, self.nickname)
+
+            # 保存用户主页链接
+            with open(Util.os.path.join(self.path,
+                                        self.nickname + '.txt'),
+                                        'w') as f:
+                f.write(f"https://www.douyin.com/user/{self.sec_user_id}")
+
+            Util.console.print('[  提示  ]:批量获取所有视频中!\r')
+            Util.log.info('[  提示  ]:批量获取所有视频中!')
+
+            aweme_data = await self.get_user_post_info(self.headers, self.profile_URL)
+            self.has_more = aweme_data[0].get("has_more")
+            self.max_cursor = aweme_data[0].get("max_cursor")
+            Util.console.print(f'[  提示  ]:抓获第1页数据成功! 该页共{len(aweme_data)}个作品。\r')
+            Util.log.info(f'[  提示  ]:抓获第1页数据成功! 该页共{len(aweme_data)}个作品。')
+
+            while True:
+                if self.has_more == 0:
+                    if 'aweme_id' not in aweme_data[0]:
+                        Util.console.print(f'[  提示  ]:{self.nickname}的{self.config["mode"]}作品到底了。\r')
+                        Util.log.info(f'[  提示  ]:{self.nickname}的{self.config["mode"]}作品到底了。')
+                        break
+                else:
+                    if 'aweme_id' not in aweme_data[0]:
+                        # 空数据时直接跳过下载
+                        Util.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。\r')
+                        Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。')
+                    else:
+                        # 下载作品
+                        with self.download.progress:
+                            await self.download.AwemeDownload(aweme_data)
+                        Util.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。\r')
+                        Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。')
+                    self.profile_URL = await self.get_diff_type_url(self.config,
+                                                                            self.sec_user_id,
+                                                                            count,
+                                                                            self.max_cursor)
+                    aweme_data = await self.get_user_post_info(self.headers, self.profile_URL)
+                    self.has_more = aweme_data[0].get("has_more")
+                    self.max_cursor = aweme_data[0].get("max_cursor")
+        except Exception as e:
+            Util.console.print(f'[  提示  ]:异常，{e}')
+            Util.log.error(f'[  提示  ]:异常，{e}')
+            input('[  提示  ]：按任意键退出程序!\r')
+            exit(0)
