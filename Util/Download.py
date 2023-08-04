@@ -5,7 +5,7 @@
 @Date       :2022/08/11 22:02:49
 @Author     :JohnserfSeed
 @version    :1.0
-@License    :(C)Copyright 2019-2022, Liugroup-NLPR-CASIA
+@License    :MIT License
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
 -------------------------------------------------

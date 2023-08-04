@@ -1,4 +1,5 @@
 import Util
+@License    :MIT License
 import random
 import requests
 
