@@ -9,7 +9,15 @@
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserfseed@gmail.com
 -------------------------------------------------
-Change Log  :22/11/30 通过版本文件检查是否有更新
+Change Log  :
+2022/11/30 : 通过版本文件检查是否有更新
+2023/08/04 : 完成了以下更新：
+    - 引入了 "update" 参数来决定是否每次进行版本更新
+    - 自定义URL常量，方便修改
+    - 使用 os.path.join() 代替手动拼接路径，以提高跨平台兼容性
+    - 提取了进度条显示功能，简化了 zip_Download 方法
+    - 优化了对用户输入的处理，改用循环重新询问，直到用户输入有效值为止
+    - 使用 shutil.move() 和 shutil.rmtree() 代替 os.rename() 和 os.removedirs()，以解决部分情况下无法移动或删除文件的问题
 -------------------------------------------------
 '''
 
@@ -17,121 +25,126 @@ import os
 import sys
 import shutil
 import zipfile
-import platform
 import requests
 
-# from retrying import retry
+from rich.console import Console
+
+# 在文件顶部定义 URL 和其他常量，方便修改
+VERSION_URL = 'https://gitee.com/johnserfseed/TikTokDownload/raw/main/version'
+ZIP_DOWNLOAD_URL = 'https://ghps.cc/https://github.com/Johnserf-Seed/TikTokDownload/archive/master.zip'
+VERSION_FILE_NAME = 'version'
+ZIP_FILE_NAME = 'TikTokDownload-main.zip'
+EXTRACT_DIR_NAME = 'TikTokDownload-main'
 
 
 class Updata:
-    # 防止网络问题导致获取更新版本号失败
-    # 但是会重复下载
-    # @retry(stop_max_attempt_number=3)
-    def __init__(self) -> None:
-        # 根据操作系统生成文件分隔符
-        if (platform.system() == 'Windows'):
-            self.sprit = '\\'
-        elif (platform.system() == 'Linux'):
-            self.sprit = '/'
+    def __init__(self, update: str) -> None:
+        # 使用rich打印输出
+        self.console = Console()
+        # 检查更新参数
+        if update.lower() != 'yes':
+            self.console.print('[   🚩   ]:更新已被禁止')
+            return
+
+        # 检查版本文件是否存在
+        if os.path.exists(VERSION_FILE_NAME):
+            try:
+                with open(VERSION_FILE_NAME, 'r') as file:
+                    version_str = file.read()
+                self.l_Version = int(version_str)
+            except:
+                self.console.print('[   🌋   ]:获取本地版本号失败!')
+                self.zip_Download()  # 如果获取本地版本号失败，则直接下载新版本
+                return
         else:
-            self.sprit = '/'
+            self.zip_Download()  # 如果版本文件不存在，直接下载新版本
+            return
 
-        # 本地版本
         try:
-            with open('version', 'r') as file:
-                self.l_Version = int(file.read())
+            self.console.print('[   🗻   ]:获取最新版本号中!')
+            self.g_Version = int(requests.get(VERSION_URL).text)
         except:
-            print('[   🌋   ]:获取本地版本号失败!')
-            # 获取失败则使用网络版本-1
-            self.l_Version = int(requests.get(
-                'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload@main/version').text) - 1
-            # 获取失败强制升级
-            # self.get_Updata()
-            # 本地没有版本文件则生成当前版本的文件
-            with open('version', 'w') as file:
-                file.write(str(self.l_Version))
-
-        # 仓库版本
-        try:
-            print('[   🗻   ]:获取最新版本号中!')
-            self.g_Version = int(requests.get(
-                'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload@main/version').text)
-        except:
-            print('[   🌋   ]:获取网络版本号失败!')
+            self.console.print('[   🌋   ]:获取网络版本号失败!')
             self.g_Version = self.l_Version
 
+        self.get_Updata()
+
     def get_Updata(self):
-        if self.l_Version == self.g_Version:
-            print('[   🚩   ]:目前 %i 版本已是最新' % self.l_Version)
-            return
-        elif self.l_Version < self.g_Version:
-            isUpdata = input('[   🌋   ]:当前不是最新版本,需要升级吗? (y/n) :')
-            if isUpdata == 'Y' or isUpdata == 'y':
-                print('[   🚩   ]:正在为你下载 %i 版本中，升级前请确保关闭所有打开的项目文件' %
-                        self.g_Version)
-                self.zip_Download()
-            if isUpdata == 'N' or isUpdata == 'n':
-                print('[   🚩   ]:取消升级,旧版可能会出现没有修复的bug')
+        while True:
+            if self.l_Version == self.g_Version:
+                self.console.print('[   🚩   ]:目前 %i 版本已是最新' % self.l_Version)
                 return
-            else:
-                self.get_Updata()
+            elif self.l_Version < self.g_Version:
+                isUpdata = input('[   🌋   ]:当前不是最新版本,需要升级吗? (y/n) :')
+                if isUpdata.lower() == 'y':
+                    self.console.print('[   🚩   ]:正在为你下载 %i 版本中，升级前请确保关闭所有打开的项目文件' % self.g_Version)
+                    self.zip_Download()
+                    return
+                elif isUpdata.lower() == 'n':
+                    self.console.print('[   🚩   ]:取消升级,旧版可能会出现没有修复的bug')
+                    return
+                else:
+                    self.console.print('[   🌋   ]:无法识别的输入，请重新输入')
+            elif self.l_Version > self.g_Version:
+                self.console.print('[   🚩   ]:本地版本异常，即将更新')
+                self.zip_Download()
+                return
 
-    # @retry(stop_max_attempt_number=3)
     def zip_Download(self):
-        # 删除加速下载
-        url = 'https://github.com/Johnserf-Seed/TikTokDownload/archive/master.zip'
         try:
-            zip = requests.get(url, stream=True)
-            filesize = int(zip.headers['content-length'])
-        except:
-            input('[   🚧   ]:网络不太通畅，请重新运行')
-            sys.exit(0)
+            response = requests.get(ZIP_DOWNLOAD_URL, stream=True)
+            response.raise_for_status()  # 检查请求是否成功
+            filesize = int(response.headers['content-length'])
+        except requests.RequestException:
+            self.console.print('[   🚧   ]:下载文件失败，请检查网络连接并重试')
+            return
+        except KeyError:
+            self.console.print('[   🚧   ]:无法获取文件大小，请检查 URL 是否正确')
+            return
 
-        with open('TikTokDownload-main.zip', 'wb') as f:
-            # 写入文件
+        def progress_bar(done):
+            self.console.print("\r[下载进度]:[{0}{1}] {2:.1f}%".format(
+                '>' * int(done * 50 / filesize), ' ' * (50-int(done * 50 / filesize)), done / filesize * 100), end='')
+
+        with open(ZIP_FILE_NAME, 'wb') as f:
             offset = 0
-            for chunk in zip.iter_content(chunk_size=512):
+            for chunk in response.iter_content(chunk_size=512):
                 if not chunk:
                     break
-                f.seek(offset)
                 f.write(chunk)
-                offset = offset + len(chunk)
-                proess = offset / int(filesize) * 100
-                print('\r' + '[下载进度]:%s%.2f%%' % (
-                    '>' * int(offset * 50 / filesize), proess), end=' ')
-        print('\r')
-        # 解压缩升级包
+                offset += len(chunk)
+                progress_bar(offset)
+        self.console.print('\r')
         self.zip_Extract()
 
     def zip_Extract(self):
-        zip_file = zipfile.ZipFile('TikTokDownload-main.zip')
-        print('[  提示  ]:开始解压缩升级包')
+        zip_file = zipfile.ZipFile(ZIP_FILE_NAME)
+        self.console.print('[  提示  ]:开始解压缩升级包')
         zip_file.extractall()
-        # 目标文件夹
         target = os.getcwd()
-        # 需要移动的目录
-        last = os.getcwd() + self.sprit + 'TikTokDownload-main' + self.sprit
-        # 移动更新文件
+        last = os.path.join(os.getcwd(), EXTRACT_DIR_NAME)
         self.move_File(last, target)
 
     def move_File(self, oripath, tardir):
-        # 判断原始文件路劲是否存在
         if not os.path.exists(oripath):
-            print('[   🚩   ]:升级目录不存在,请重新运行' % oripath)
+            self.console.print('[   🚩   ]:升级目录不存在,请重新运行')
             status = 0
         else:
-            # 移动文件
             for i in os.listdir(oripath):
+                ori_file_path = os.path.join(oripath, i)
+                tar_file_path = os.path.join(tardir, i)
                 try:
-                    print('[  删除  ]:' + tardir + self.sprit + i)
-                    shutil.rmtree(tardir + self.sprit + i)
-                except:
-                    pass
-                print('[  移动  ]:' + oripath + i)
-                print('[  移到  ]:' + tardir + self.sprit + i)
-                shutil.move(oripath + i, tardir + self.sprit + i)
-            print('[   🚩   ]:删除更新临时目录')
-            # 重新读取本地版本
+                    self.console.print('[  删除  ]:' + tar_file_path)
+                    if os.path.isdir(tar_file_path):
+                        shutil.rmtree(tar_file_path)
+                    else:
+                        os.remove(tar_file_path)
+                except Exception as e:
+                    self.console.print(f'[  异常  ]: {e}')
+                self.console.print('[  移动  ]:' + ori_file_path)
+                self.console.print('[  移到  ]:' + tar_file_path)
+                shutil.move(ori_file_path, tar_file_path)
+            self.console.print('[   🚩   ]:删除更新临时目录')
             with open('version', 'r') as file:
                 self.l_Version = int(file.read())
             shutil.rmtree(oripath)
@@ -140,4 +153,5 @@ class Updata:
 
 
 if __name__ == '__main__':
-    Updata().get_Updata()
+    # 根据需要，向 Updata 实例传入 "yes" 或 "no"
+    Updata('yes')
