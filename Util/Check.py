@@ -16,13 +16,33 @@ Change Log  :
 
 import Util
 
-class CheckInfo():
+class Check():
 
-    def __init__(self):
-        pass
 
     # 检测视频是否已经下载过
-    def test(self, path, creat_time, file_name, file_type):
-        return Util.os.path.exists(path + creat_time + file_name + file_type)
-if __name__ == '__main__':
-    CheckInfo()
+    def file_exists(self, save_dir: str, file_name: str, file_type: str) -> bool:
+        """
+        检测文件是否已经存在
+
+        Args:
+            save_dir (str): 保存的目录，应为绝对路径
+            file_name (str): 文件名
+            file_type (str): 文件类型
+
+        Return:
+            bool: 如果文件存在则返回True，否则返回False
+        """
+        try:
+            # 验证输入
+            if not all(isinstance(i, str) for i in [save_dir, file_name, file_type]):
+                Util.console.print("所有参数必须是字符串。")
+                return False, None
+
+            # 使用os.path.join()来进行路径拼接
+            full_path = Util.os.path.join(save_dir, file_name) + file_type
+            # 检查文件是否存在
+            return Util.os.path.isfile(full_path), full_path
+
+        except Exception as e:
+            Util.console.print(f"[  异常  ]: {e}")
+            return False, None
