@@ -29,6 +29,9 @@ class Urls:
         # 用户详细信息
         self.USER_DETAIL = 'https://www.douyin.com/aweme/v1/web/user/profile/other/?'
 
+        # 作品基本
+        self.BASE_AWEME = 'https://www.douyin.com/aweme/v1/web/aweme/'
+
         # 用户作品
         self.USER_POST = 'https://www.douyin.com/aweme/v1/web/aweme/post/?'
 
@@ -62,6 +65,37 @@ class Urls:
         # 直播信息接口
         self.LIVE = 'https://live.douyin.com/webcast/room/web/enter/?'
 
+        # SSO登录
+        self.SSO_LOGIN_GET_QR = 'https://sso.douyin.com/get_qrcode/?'
+
+        self.SSO_LOGIN_CHECK_QR = 'https://sso.douyin.com/check_qrconnect/?'
+
+        self.SSO_LOGIN_CHECK_LOGIN = 'https://sso.douyin.com/check_login/?' # set-Cookie有passport_csrf_token
+
+        self.SSO_LOGIN_REDIRECT = 'https://www.douyin.com/login/?'
+
+        self.SSO_LOGIN_CALLBACK = 'https://www.douyin.com/passport/sso/login/callback/?'
+
+        # 作品评论
+        self.POST_COMMENT = 'https://www.douyin.com/aweme/v1/web/comment/list/?'
+
+        # 回复评论
+        self.POST_COMMENT_PUBLISH = 'https://www.douyin.com/aweme/v1/web/comment/publish?'
+
+        # 删除评论
+        self.POST_COMMENT_DELETE = 'https://www.douyin.com/aweme/v1/web/comment/delete/?'
+
+        # 点赞评论
+        self.POST_COMMENT_DIGG = 'https://www.douyin.com/aweme/v1/web/comment/digg?'    # 1点赞 2取消点赞 3踩 4取消踩
+
+        # 展开评论
+        self.POST_COMMENT_REPLY = 'https://www.douyin.com/aweme/v1/web/comment/list/reply/?'
+
+
+        # 消息通知
+        self.NOTICE = 'https://www.douyin.com/aweme/v1/web/notice/?'
+
+
         # X-Bogus Path
         # self.GET_XB_PATH = 'http://127.0.0.1:8889/xg/path?url='
 
@@ -80,6 +114,3 @@ class Urls:
         # self.GET_XG_LOGIN = 'http://47.115.200.238/xog/path?url='
 
         #######################################################################################
-
-if __name__ == '__main__':
-    Urls()
