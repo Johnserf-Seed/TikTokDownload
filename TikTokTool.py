@@ -12,23 +12,18 @@
 Change Log  :
 2022/07/29 23:19:14 : Init
 2023/03/10 16:22:19 : gen dyheaders
+2023/08/04 02:09:31 : async download
 -------------------------------------------------
 '''
 
 import Util
 
-class Tool():
-    def __init__(self):
-        pass
-
 if __name__ == '__main__':
-    # 获取命令行参数
+    # 获取命令行和配置文件
     cmd = Util.Command()
-    # 获取headers
-    headers = Util.Cookies(cmd.setting()).dyheaders
-    # 获取主页内容
-    profile = Util.Profile(headers)
-    # 使用参数并下载
-    profile.getProfile(cmd.setting())
+    config = cmd.config_dict
+    dyheaders = cmd.dyheaders
 
-    input('[  完成  ]:已完成批量下载，输入任意键后退出:')
+    # 异步下载作品
+    Util.asyncio.run(Util.Profile(config, dyheaders).get_Profile())
+    input("[  提示  ]:下载完成，输入任意键退出。")
