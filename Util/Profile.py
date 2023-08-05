@@ -83,7 +83,7 @@ class Profile:
 
         match = None
 
-        async with session.get(url=Util.reFind(inputs)[0],
+        async with session.get(url=Util.reFind(inputs),
                                 timeout=10,
                                 allow_redirects=True) as response:
             # 检查响应状态码，如果不是200和444，会抛出异常

@@ -33,6 +33,7 @@ import argparse
 import base64
 from urllib import parse
 from urllib.request import urlopen
+from urllib.parse import urlparse
 from functools import partial
 from typing import Union, Optional
 from concurrent.futures import ThreadPoolExecutor
@@ -103,20 +104,33 @@ def replaceT(obj):
     return new
 
 
-def reFind(strurl):
+def reFind(strurl: str) -> str:
     """
     匹配分享的url地址
     Args:
-        strurl (string): 带文案的分享链接
+        strurl (str): 带文案的分享链接
     Returns:
-        result: url短链
+        str: 验证url是否有效，如果不是url类型则返回空
     """
-    # 空数据判断
-    if strurl == '':
-        return strurl
-    result = re.findall(
+
+    # 确保输入是字符串
+    if not isinstance(strurl, str):
+        return ''
+
+    results = re.findall(
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', strurl)
-    return result
+
+    if not results:
+        return ''
+
+    # 验证url
+    for url in results:
+        try:
+            parts = urlparse(url)
+            if parts.scheme in ['http', 'https'] and parts.netloc != '':
+                return url
+        except ValueError:
+            return ''
 
 
 table = Table.grid(padding=1, pad_edge=True)
