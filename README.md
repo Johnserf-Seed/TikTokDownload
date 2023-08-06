@@ -1,266 +1,339 @@
+
+![项目图](https://tvax2.sinaimg.cn/large/006908GAly1hgn9zod1yuj30zk0hstmf.jpg)
+
+<h1 align="center">✨ 抖音去水印作品下载 ✨</h1>
 <div align="center">
-<img width="450px" src="https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg"/>
+
+[English](README-EN.md) | 简体中文
+
+[![License: MIT](https://img.shields.io/github/license/johnserf-seed/tiktokdownload?style=for-the-badge)](https://github.com/Johnserf-Seed/TikTokDownload/blob/main/LICENSE)
+![Release Download](https://img.shields.io/github/downloads/Johnserf-Seed/TikTokDownload/total?style=for-the-badge)
+![GitHub Repo size](https://img.shields.io/github/repo-size/Johnserf-Seed/TikTokDownload?style=for-the-badge&color=3cb371)
+[![GitHub Repo Languages](https://img.shields.io/github/languages/top/Johnserf-Seed/TikTokDownload?style=for-the-badge)](https://github.com/BeyondDimension/SteamTools/search?l=c%23)
+[![Python v3.11.1](https://img.shields.io/badge/python-v3.11.1-orange?style=for-the-badge)](https://github.com/Johnserf-Seed/TikTokDownload)
+![Terminal: wt](https://img.shields.io/badge/Terminal-wt-blue?style=for-the-badge)
+
+[![GitHub Stars](https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+[![GitHub Forks](https://img.shields.io/github/forks/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+[![GitHub Issues](https://img.shields.io/github/issues/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+[![GitHub Closed Issues](https://img.shields.io/github/issues-closed/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+
+[![jsDelivr monthly hits](https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge)](https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Discord](https://img.shields.io/discord/1070512513889878067?color=5865F2&logo=discord&logoColor=white?style=for-the-badge)](https://discord.gg/q3hA8qQZbG)
+[![Patreon](https://img.shields.io/badge/Patreon-RMBGAME-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
+
 </div>
 
-<h1 align="center">TikTokDownload</h1>
-
-<p align="center">✨ 抖音去水印视频下载 ✨</p>
-
-<p align="center">
-<a href="https://github.com/Johnserf-Seed/TikTokDownload/blob/main/LICENSE">
-<img src="https://img.shields.io/github/license/johnserf-seed/tiktokdownload">
-</a>
-<a href="https://discord.gg/q3hA8qQZbG">
-<img src="https://img.shields.io/discord/1070512513889878067?color=5865F2&logo=discord&logoColor=white" alt="Discord server" />
-</a>
-<a href="https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload" title="jsDelivr monthly hits"><img alt="jsDelivr monthly hits badge" src="https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge">
-</a>
-<a href="https://hits.seeyoufarm.com">
-<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false"/>
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/badge/python-v3.11.1-orange">
-</a></p>
-<p align="center">
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social">
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/github/forks/johnserf-seed/tiktokdownload?style=social">
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/github/issues/johnserf-seed/tiktokdownload?style=social">
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/github/issues-closed/johnserf-seed/tiktokdownload?style=social">
-</a></p>
-
-[English](README-EN.md)   [简体中文](README.md)
-
-## 使用教程
-
-运行软件前先打开目录下``conf.ini`` 文件按照要求进行配置
-
-  批量下载使用<a href="https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.3.0-beta">TikTokTool</a>，直接修改配置文件；单一视频下载推荐<a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a>项目在线解析；**TikTokMulti不再维护**。
-
-<table>
-    <tr>
-    <td><center>TikTokTool</td>
-    <td><center>TikTokMulti</td>
-    </tr>
-    <tr>
-        <td><center><img src="https://tvax1.sinaimg.cn/large/006908GAly1hbuwr9m0g0j30j90iik18.jpg"></center></td>
-        <td><center><img src="https://tvax2.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg"></center></td>
-    </tr>
-    <tr>
-    	<td><center>新版配置文件conf.ini</td>
-    	<td><center>旧版配置文件conf.conf</td>
-    </tr>
-</table>
-
-### 遇到的问题和开发者更新说明贴
-[更新说明贴#311](https://github.com/Johnserf-Seed/TikTokDownload/issues/311)  其他issues里的第三方个人信息请注意甄别
-
-- 以下是我和[@Evil0ctal](https://github.com/Evil0ctal) 合作的仓库 <a href="https://github.com/TikHubIO">
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1hcml2ovowyj304b01sdfp.jpg" alt="TikHub-horiz-aero" width="78" data-width="155" height="32"></a>
-
-- 这是我们的Discord开发官方频道  <a href="https://discord.gg/q3hA8qQZbG">
-<img src="https://discordapp.com/api/guilds/1070512513889878067/widget.png?style=shield" alt="Discord server" /></a>
-
-### 安装及启动
-1、在项目文件夹控制台输入```pip install -r requirements.txt```安装本项目依赖 (确保本地安装Python  -> <a target="_blank" href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-v3.11.1-orange"></a>)
-
-进入```Util```文件夹，控制台输入```npm i```安装node依赖
-
-2、运行```./server.bat```启动本地接口解析 (确保本地安装Node.js  -> <a target="_blank" href="https://nodejs.cn/download/"><img src="https://img.shields.io/badge/Nodejs-v18.12.1-blue"></a>)
-
-<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwyukr4sj30ka07q0uo.jpg" alt="image" width="600" data-width="600" data-height="278">
-
-3、运行```./tiktoktool.py```批量下载
-
-### 包使用方法：
-   ```python
-   # example.py
-   import TikTokDownload as TK
-   import Util
-   
-   # 单视频下载
-   # TK.video_download(*TK.main())
-   
-   # 批量下载
-   if __name__ == '__main__':
-       # 获取命令行参数
-       cmd = Util.Command()
-       # 获取headers
-       headers = Util.Cookies(cmd.setting()).dyheaders
-       # 获取主页内容
-       profile = Util.Profile(headers)
-       # 使用参数并下载
-       profile.getProfile(cmd.setting())
-       input('[  完成  ]:已完成批量下载，输入任意键后退出:')
-   
-   ```
 
-   ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+## 🚀 环境准备/Environment
+
+> [![Microsoft 应用商店](https://tvax1.sinaimg.cn/large/006908GAly1hgn87jhad8j305001qa9y.jpg)](https://aka.ms/terminal)
+> 
+> 旧的控制台无法很好适配，推荐使用Windows Terminal。
+> 
+> [![Python v3.11.1](https://www.python.org/static/img/python-logo.png)](https://www.python.org/ftp/python/3.11.1/python-3.11.1-amd64.exe)
+> 
+> Python3.11.1 低于该版本可能会有意外的错误
+> 
+> [![GitHub 发行版](https://tvax1.sinaimg.cn/large/006908GAly1hgn7xm5fawj309k020wes.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
+> 
+> 发行版下载 每次Commits之后会重新打包
 
-   ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+<details><summary> ⚙ Windows Terminal 设置（必看） </summary>
 
-   ***``example.py``需确保``Util``目录与``TikTokDownload.py``文件都在相同目录中***
+![wt配置](https://github.com/Johnserf-Seed/TikTokDownload/assets/40727745/997b6fc2-586e-4268-bee8-43bb8d68622c)
 
-**重要的话说三遍**
+</details>
 
-### 如何编译
 
-   运行根目录下```./build.bat```文件按控制台提示即可，生成的```exe```在```./dist```目录中
+## 🧰 功能/Features
 
-### 批量下载
+- DouYin 接口信息
+	- ✅ 详细用户信息。
+	- ✅ 下载发布作品。
+	- ✅ 下载收藏作品。
+	- ✅ 下载喜欢作品。
+	- ✅ 下载图集作品。
+	- ✅ 下载作品原声。
+	- ✅ 提取直播链接。
+	- ⌛  下载关注作品。
+	- ⌛  下载好友作品。
+	- ⌛  下载推荐作品。
+	- ❌ 下载合集作品。
+	- ❌ 提取评论。
 
-- 下载录制
-	<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuw5vez15g30wu0jfnpe.gif" alt="image" width="800" data-width="808" data-height="224">
-	
-- 直播推流
-	<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
-	
-- 跳过已下载
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224">
-	
-- 图文下载
-	<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224">
-	
-- 全部下载
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224">
-	
-- 资源文件夹
-<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224">
+- 异步下载
+	- ✅ 同时下载和处理多个作品，提高效率。
+	- ❌ 调节异步线程，减轻系统压力减少接口出错。
 
-### issues反馈
-如有您有任何bug或者意见反馈请在 https://github.com/Johnserf-Seed/TikTokDownload/issues 发起
+- Cookie 管理
+	- ✅ 生成web所需 cookie 值，便于访问需要登录的接口。
+	- ✅ 处理 SetCookie。
 
-### 下载模式 
-单视频下载``TikTokDownload``;批量下载``TikTokTool``;图文下载 ``TikTokPic``;测试版图形界面 ``TikTokMultiGUI``
+- 配置文件操作
+    - ✅ 长短链解析。
+	- ✅ 自定义保存目录。
+	- ✅ 是否下载原声。
+	- ✅ 是否自动更新。
+	- ⌛  指定下载时间区间。
+	- ❌ 设定下载作品点赞阈值。
+	- ❌ 设定下载作品播放阈值。
 
-**注意（常见错误）：**
+- 版本更新
+	- ✅ 提供自动检查和下载新版本的功能。
 
-1. 单个视频链接与用户主页链接要分清，软件闪退可以通过终端运行查看报错信息（一般是链接弄错的问题）
+- 文件检查
+	- ✅ 下载文件前检查文件是否已经存在，避免重复下载。
 
-   如：
+- 命令行交互
+	- ✅ 提供命令行选项和全局 headers，便于用户操作。
+	- ⌛  提供webui模式
 
-    - <img src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dofvcc7j309800k3y9.jpg" alt="image" width="700" data-width="808" data-height="224">
+- 扫码登录
+	- ✅ 提供扫码登录的功能，无需手动填写 cookie。
 
-    - <img src="https://tvax2.sinaimg.cn/large/006908GAly1gn1dpoiqhzj306d0193ya.jpg" alt="image" width="700" data-width="808" data-height="224">
+- 自动重命名
+	- ✅ 使用昵称映射表确保不重复下载改名作者的作品。
+	- ⌛  使用作品文案映射表确保不重复下载改文案的作品。
 
-   链接一定要输入仔细,配置文件只支持***用户主页***
-   
-   - <img src="https://tvax3.sinaimg.cn/large/006908GAly1h7aq83zn1wj30mc04dwi5.jpg" alt="image" width="700" data-width="804" data-height="157">
-   
-   ***出现报用户昵称错误的情况需要在主页发布一条视频，原因见 [获取用户昵称失败————主页若空作品则无法下载喜欢页](https://github.com/Johnserf-Seed/TikTokDownload/issues/236)***
+- 本地加密参数调用
+	- ✅ XBogus
+	- ✅ verifyFp
+	- ✅ s_v_web_id
+	- ✅ ttwid
+	- ✅ x-tt-params
+	- 🔘 msToken
 
-2. 配置文件一定要**UTF-8**格式
 
-   **正确：**
+## 💡 待办/ToDo
 
-<img src="https://tva1.sinaimg.cn/large/006908GAly1gn1dl6jv3hj30ib09tq3k.jpg" alt="image" width="700" data-width="808" data-height="224">
+- 适配TikTok
+- 创建自动化任务
+- 多用户解析
+- [更多请查看项目板](https://github.com/users/Johnserf-Seed/projects/1/views/1)
 
-   **错误：**
 
-<img src="https://tva1.sinaimg.cn/large/006908GAly1gn1dmakebqj30qh03lmx8.jpg" alt="image" width="700" data-width="808" data-height="224">
+## 🖥 支持的操作系统/Supported Operating Systems
 
-   挺抽风的，另存为的**UTF-8**有时候居然不可以会闪退，玄学
+<details>
+<summary> 1.4.0.0 支持的操作系统列表 </summary>
 
-3. 如果出现长时间的api抓取可能是姿势不对（抖音api服务器会抽）
-4. 现在新增了日志功能，可以在logs中找到所有的日志文件，汇报issue的时候可以附上
+- Windows 11
+- Windows 10 版本 1809（OS 内部版本 17763）或更高版本
+- macOS Monterey（12.0）或更高版本
+- macOS Big Sur（11.0）或更高版本
+- macOS Catalina（10.15）或更高版本
+- Ubuntu 20.04 LTS 或更高版本
+- Debian 10 或更高版本
+- CentOS 7 或更高版本
+- Fedora 34 或更高版本
+- Deepin (UOS) 20 或更高版本
+
+</details>
+
+
+## 📸 运行过程/Running Process
+
+<details>
+  <summary> 🎬 无配置文件扫码登录 </summary>
+
+https://user-images.githubusercontent.com/40727745/fc1e6c46-d0c3-4f2a-a4a5-ca3d781e7d11
+
+ </details>
+
+<details>
+  <summary> 🎬 主页作品下载 </summary>
+
+https://user-images.githubusercontent.com/40727745/12c21d55-b629-485a-b904-54d86341c371
+
+ </details>
+
+
+## 📥 安装与运行/Installation and Running
+
+1. **📦 安装/Installation**
+
+   描述如何安装你的项目。例如，如果是一个Python项目，可以使用pip安装：
+
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+2. **▶️ 运行/Running**
+
+
+```python
+import Util
+
+if __name__ == '__main__':
+	# 获取命令行和配置文件
+	cmd = Util.Command()
+	config = cmd.config_dict
+	dyheaders = cmd.dyheaders
+
+	# 异步下载作品
+	Util.asyncio.run(Util.Profile(config, dyheaders).get_Profile())
+	input("[  提示  ]:下载完成，输入任意键退出。")
+```
+
+3. **🔬 测试/Test**
+
+```bash
+python example.py
+```
+
+
+## 🗂️ 项目结构/Folder
+
+<details>
+<summary>📁 目录</summary>
+
+```bash
+├─ .github
+│   └─ ISSUE_TEMPLATE
+│       ├── --------.md
+│       └── -------.md
+│
+├─ API
+│   ├── API.js
+│   ├── API参考.md
+│   ├── Server.txt
+│   ├── TikTokAPI.py
+│   ├── TikTokDownloadVersion.txt
+│   ├── TikTokGUIVersion.txt
+│   ├── TikTokLive.txt
+│   ├── TikTokMultiVersion.txt
+│   ├── TikTokPicVersion.txt
+│   ├── TikTokTool.txt
+│   ├── TikTokUpdata.txt
+│   ├── user_base_info.json
+│   ├── user_post_delete.json
+│   ├── user_post_detail.json
+│   ├── user_post_info_image.json
+│   ├── user_post_info_video.json
+│   └── user_profile_info.json
+│
+├─ Collection
+│   ├── CopyWritingHomePage_1.json
+│   ├── GirlHomePage_1.json
+│   └── MusicHomePage_1.json
+│
+├─ DB
+│   └── create.sql
+│
+├─ GUI
+│   ├── Main.ui
+│   ├── preview.png
+│   ├── README-EN.md
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── resource.py
+│   └── Resource.qrc
+│
+└─ Util
+    ├── Check.py
+    ├── Command.py
+    ├── Config.py
+    ├── Cookies.py
+    ├── Download.py
+    ├── Lives.py
+    ├── Log.py
+    ├── Login.py
+    ├── NickMapper.py
+    ├── Profile.py
+    ├── Resource.py
+    ├── Urls.py
+    ├── XB.py
+    ├── __init__.py
+    ├── __version__.py
+    └─ algorithm
+        ├── package.json
+        ├── Server.py
+        ├── s_v_web_id.js
+        ├── s_v_web_id.py
+        ├── x-bogus.js
+        └── x-tt-params.js
+│
+├─ .gitignore
+├─ Banner.png
+├─ build-win.bat
+├─ conf.conf
+├─ conf.ini
+├─ Dockerfile
+├─ example.py
+├─ info.db
+├─ LICENSE
+├─ Logo.ico
+├─ README-EN.md
+├─ README.md
+├─ requirements.txt
+├─ server.bat
+├─ server.sh
+├─ TikTokLive.py
+├─ TikTokMultiGUI.py
+├─ TikTokTool.py
+├─ TikTokUpdata.py
+├─ version
+└─ _config.yml
 
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h5beyv1f13j30gk07pgqg.jpg" width="700">
+```
 
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5bf16rylfj310q0ijb29.jpg" width="700">
+</details>
 
-## New
 
-**23/03/10 异步下载、进度条美化**
+## 💖 赞赏/Sponsor
 
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1hbuwahkadyj30tw0dckf8.jpg" alt="image" width="800" data-width="800" data-height="480">
+![赞赏](https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png)
 
-**本地接口参数解析服务**
+感谢对本项目的支持！如果您觉得这个项目有帮助，欢迎赞助。您可以直接访问我们的 [![Patreon](https://img.shields.io/badge/Patreon-RMBGAME-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 
-<img src="https://tvax2.sinaimg.cn/large/006908GAly1hbuwbw316nj30ux0hedti.jpg" alt="image" width="800" data-width="800" data-height="626">
 
+## 📧 联系/Contact
 
+如果有任何问题或者建议，可以通过邮箱联系我：
 
-**22/09/15 支持获取抖音直播推流解析**
+- 邮箱：[johnserf-seed@foxmail.com](mailto:johnserf-seed@foxmail.com)
 
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h7aqbjrw9hj30uw06nq4g.jpg" alt="image" width="800" data-width="800" data-height="239">
 
+## 🙏 鸣谢/Acknowledgments
 
+- [Windows Terminal](https://aka.ms/terminal)
+- [aiohttp](https://github.com/aio-libs/aiohttp)
+- [requests](https://github.com/psf/requests)
+- [Pillow (PIL Fork)](https://github.com/python-pillow/Pillow)
+- [lxml](https://github.com/lxml/lxml)
+- [rich](https://github.com/willmcgugan/rich)
+- [qrcode](https://github.com/lincolnloop/python-qrcode)
+- [ConfigObj](https://github.com/DiffSK/configobj)
 
-**22/08/30 支持批量下载时自动下载主页所有图集内容**
+对于他们的贡献和努力，我们表示由衷的感谢。
 
-<img src="https://tvax1.sinaimg.cn/large/006908GAly1h5olxy83pcj30n304mac3.jpg" alt="image" width="800" data-width="831" data-height="166">
 
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5olz436xrj30lr06g43z.jpg" alt="image" width="800" data-width="783" data-height="232">
+## ⚖️ 免责声明/Disclaimer
 
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5om3r87lzj30uw0kzjyh.jpg" alt="image" width="800" data-width="1112" data-height="755">
+此项目不出售、共享、加密、上传、研究任何个人信息。此项目及其相关代码仅供学习与研究使用，不构成任何明示或暗示的保证。使用者因使用此项目及其代码可能造成的任何形式的损失，作者不承担任何责任。
 
 
+## 📜 版权声明/LICENSE
 
-**05/01 更新了无水印图集下载功能 ->TikTokPic.py**
+MIT License
 
-<img src="https://tvax2.sinaimg.cn/large/006908GAly1h1s8uky10aj30us0gh0ym.jpg" alt="image" width="800" data-width="1108" data-height="593">
+Copyright (c) 2021 JohnserfSeed
 
-<img src="https://tva4.sinaimg.cn/large/006908GAly1h1s8pryq7rj30mg068tdn.jpg" alt="image" width="800" data-width="808" data-height="224">
+此项目的源代码在 MIT 许可证下授权，有关详细信息，请参阅 [LICENSE](LICENSE) 文件。
 
 
+## 📝 贡献者守则/CoC
 
-**04/23 后的新版支持解析1080p分辨率视频（*注，虽然下载的是1080p，但是原视频不满足1080p的情况下，即使下载到本地也还是原本的分辨率***）
+此项目欢迎所有的贡献者。我们希望能够创建一个友好的环境，让每个人都能在尊重和理解的氛围中共同工作。在参与贡献之前，请参阅我们的 [贡献者守则](CODE_OF_CONDUCT.md)。
 
-**720p对比1080p**
 
-<img src="https://tva4.sinaimg.cn/large/006908GAly1h1iwtyrqyij30id073q52.jpg" alt="image" width="800" data-width="808" data-height="224">
+## 👨‍💻贡献者/Contributors
 
-**GUI版**
+我们欢迎任何形式的贡献，无论是提交错误报告，提出改进意见，或者是提供代码和文档。我们都欣赏你的帮助。
 
-<img src="https://tva3.sinaimg.cn/large/006908GAly1h5bf3snbfij30sm0gzwhc.jpg" alt="image" width="800" data-width="808" data-height="224">
+![Contributors](https://contributors-img.web.app/image?repo=Johnserf-Seed/TikTokDownload)
 
-***可自行在GUI文件夹内编译ui -> pyuic5 -o Main.py Main.ui***
-
-
-
-**V1.3.0控制台界面版本**
-
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1hbuwf9bvtej30ux0kx0zf.jpg" alt="image" width="800" data-width="808" data-height="224">
-
-**uTools插件同步开发中...**
-
-<img src="https://tva4.sinaimg.cn/large/006908GAgy1gtbtg4t2n3j30ma02y40d.jpg" alt="image" width="800" data-width="808" data-height="224">
-
-<img src="https://tvax1.sinaimg.cn/large/006908GAgy1gtbtgut1njj30ma02ygmk.jpg" alt="image" width="800" data-width="808" data-height="224">
-
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h5bf4dvde0j30m00gnwij.jpg" alt="image" width="800" data-width="808" data-height="224">
-
-## ToDo
-- [x] 无水印图集下载功能
-- [x] 可视化界面
-- [x] 直播推流保存
-- [ ] 支持多平台视频解析
-- [ ] 记录作品详细信息到本地数据库
-- [ ] 本地服务检测抖音关注用户作品的更新情况 ***(并推送)***
-- [ ] 所有已关注用户主页的视频批量下载的可选功能
-- [ ] 收藏作品与搜索作品下载
-- [x] 制作本地接口解析服务
-
-
-## Web版项目
-
-[Johnserf-Seed/TikTokWeb](https://github.com/Johnserf-Seed/TikTokWeb)
-
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1h1e6e0mjmbj30m217a168.jpg" alt="image" width="800" data-width="808" data-height="224">
-
-
-
-## 赞赏
-
-<img src="https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png" alt="赞赏" width="1000" data-width="808" data-height="224">
-https://www.patreon.com/TikTokDownload713
-
-
-# 声明
-<h1>本项目只做个人学习研究之用，不得用于商业用途！</h1>
