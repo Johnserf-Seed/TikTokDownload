@@ -154,7 +154,6 @@ https://user-images.githubusercontent.com/40727745/12c21d55-b629-485a-b904-54d86
 
 1. **📦 安装/Installation**
 
-   描述如何安装你的项目。例如，如果是一个Python项目，可以使用pip安装：
 
 ```bash
 python -m venv venv
