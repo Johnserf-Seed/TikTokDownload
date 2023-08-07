@@ -167,14 +167,25 @@ class Login():
             qrcode_url (str): 登录二维码链接
         """
 
-        # 创建QR码图像
-        qr_code_img = Util.qrcode.make(qrcode_url)
+        # # 创建QR码图像
+        # qr_code_img = Util.qrcode.make(qrcode_url)
 
-        # 显示QR码图像
-        qr_code_img.show()
+        # # 显示QR码图像
+        # qr_code_img.show()
 
-        Util.console.print("[  登录  ]:请扫描弹出的登录二维码。\r")
-        Util.log.info("[  登录  ]:请扫描弹出的登录二维码。")
+        qr = Util.qrcode.QRCode()
+
+        # 添加数据
+        qr.add_data(qrcode_url)
+
+        # 生成二维码
+        qr.make(fit=True)
+
+        # 在控制台以 ASCII 形式打印二维码
+        qr.print_ascii(invert=True)
+
+        Util.console.print("[  登录  ]:请扫描登录二维码。\r")
+        Util.log.info("[  登录  ]:请扫描登录二维码。")
 
 
     def log_and_print(self, status):
