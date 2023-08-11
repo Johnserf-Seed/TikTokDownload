@@ -113,6 +113,9 @@ class Download:
             aweme_data (list): 抖音数据列表，列表的每个元素都是一个字典，字典包含了抖音的各种信息，如aweme_type, path, desc等。
         """
 
+        # 用于存储作者本页所有的下载任务, 最后会等待本页所有作品下载完成才结束本函数
+        download_tasks = []
+
         # 遍历aweme_data中的每一个aweme字典
         for aweme in aweme_data:
             # 将UNIX时间戳转换为格式化的字符串
@@ -152,7 +155,9 @@ class Download:
                                                         filename=self.trim_filename(music_file_path, 50),
                                                         start=False)
                         Util.log.info(f"New task created with ID: {task_id}")
-                        Util.asyncio.create_task(self.download_file(task_id, music_url, music_full_path))
+                        download_task = Util.asyncio.create_task(self.download_file(task_id, music_url, music_full_path))
+                        # 将任务添加到任务列表中
+                        download_tasks.append(download_task) 
                 except IndexError:
                     # 如果无法提取音乐URL，则跳过下载该音乐
                     Util.console.print("[  提示  ]：该原声不可用，无法下载。")
@@ -185,7 +190,9 @@ class Download:
                                                         filename=self.trim_filename(video_file_path, 50),
                                                         start=False)
                         Util.log.info(f"New task created with ID: {task_id}")
-                        Util.asyncio.create_task(self.download_file(task_id, video_url, video_full_path))
+                        download_task = Util.asyncio.create_task(self.download_file(task_id, video_url, video_full_path))
+                        # 将任务添加到任务列表中
+                        download_tasks.append(download_task) 
                 except IndexError:
                     # 如果无法提取视频URL，则跳过下载该音乐
                     Util.console.print("[  提示  ]：该视频不可用，无法下载。")
@@ -218,9 +225,14 @@ class Download:
                                                             filename=self.trim_filename(image_file_path, 50),
                                                             start=False)
                             Util.log.info(f"New task created with ID: {task_id}")
-                            Util.asyncio.create_task(self.download_file(task_id, image_url, image_full_path))
+                            download_task = Util.asyncio.create_task(self.download_file(task_id, image_url, image_full_path))
+                            # 将任务添加到任务列表中
+                            download_tasks.append(download_task) 
                 except IndexError:
                     # 如果无法提取图集URL，则跳过下载该音乐
                     Util.console.print("[  提示  ]：该图片不可用，无法下载。")
                     Util.log.warning(f"[  提示  ]：该图片不可用，无法下载。{IndexError}")
                     pass
+
+        # 等待本页所有的下载任务完成, 如果不等待的话就会还没等下完就去下载下一页了, 并发下载多了会被服务器断开连接
+        await Util.asyncio.gather(*download_tasks)
