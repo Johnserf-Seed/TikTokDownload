@@ -28,6 +28,8 @@ class Download:
         self.config = config
         # 文件检查是否存在
         self.check = Util.Check()
+        # 异步的任务数
+        self.semaphore = Util.asyncio.Semaphore(int(self.config['max_tasks']))
 
     def trim_filename(self, filename: str, max_length: int = 50) -> str:
         """
@@ -56,22 +58,33 @@ class Download:
             url (str): 要下载的文件的 URL。
             path (str): 文件保存的本地路径.
         """
+        try:
+            async with self.semaphore:
+                connector = Util.aiohttp.TCPConnector(limit=int(self.config['max_connections']))
 
-        async with Util.aiohttp.ClientSession() as session:
-            try:
-                async with session.get(url) as response:
-                    self.progress.update(task_id, total=int(response.headers["Content-length"]))
-                    with open(path, "wb") as dest_file:
-                        self.progress.start_task(task_id)
-                        chunk_size = 32768
-                        while not self.done_event.is_set():
-                            chunk = await response.content.read(chunk_size)
-                            if not chunk:
-                                break
-                            dest_file.write(chunk)
-                            self.progress.update(task_id, advance=len(chunk))
-            except Exception as e:
-                return
+                async with Util.aiohttp.ClientSession(connector=connector) as session:
+                    async with session.get(url) as response:
+                        if response.status != 200:
+                            raise ValueError(f"HTTP连接意外: {response.status}")
+
+                        Util.progress.update(task_id, total=int(response.headers["Content-length"]))
+                        with open(path, "wb") as dest_file:
+                            Util.progress.start_task(task_id)
+                            chunk_size = 32768
+                            while not Util.done_event.is_set():
+                                chunk = await response.content.read(chunk_size)
+                                if not chunk:
+                                    break
+                                dest_file.write(chunk)
+                                Util.progress.update(task_id, advance=len(chunk))
+
+        except Util.aiohttp.ClientError as e:
+            Util.progress.console.print(f"[  失败  ]：网络连接出错。异常：{e}")
+        except ValueError as e:
+            Util.progress.print(f"[  失败  ]：该链接可能无法访问。 异常：{e}")
+        except FileNotFoundError:
+            Util.progress.print(f"[  失败  ]：文件路径 {path} 无效或无法访问。")
+        except Exception as e:
             Util.progress.print(f"[  失败  ]：下载失败，未知错误。异常：{e}")
 
     async def AwemeDownload(self, aweme_data):
