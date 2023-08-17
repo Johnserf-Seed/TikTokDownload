@@ -149,6 +149,37 @@ class Download:
                 # 更新进度条以显示任务完成
                 Util.progress.update(task_id, completed=100)
 
+        async def initiate_download(file_type: str, file_url: str, file_suffix: str, base_path: str, file_name: str) -> None:
+            """
+            初始化下载任务。如果文件已经存在，则跳过下载。否则，创建一个新的异步下载任务。
+
+            Args:
+                file_type (str): 文件类型描述，如“音乐”、“视频”或“封面”。
+                file_url (str): 要下载的文件的URL。
+                file_suffix (str): 文件的后缀名，如“.mp3”或“.mp4”。
+                base_path (str): 文件保存的基础目录路径。
+                file_name (str): 文件的主要名称，不包含后缀。
+
+            Note:
+                这个函数会检查文件是否已经在指定的路径存在。如果存在，跳过该任务。否则，将创建一个新的下载任务。
+            """
+
+            file_path = f'{file_name}{file_suffix}'
+            full_path = Util.os.path.join(base_path, file_path)
+            if Util.os.path.exists(full_path):
+                task_id = Util.progress.add_task(description=f"[  跳过  ]:",
+                                                filename=self.trim_filename(file_path, 50),
+                                                total=1, completed=1)
+                Util.progress.update(task_id, completed=1)
+            else:
+                task_id = Util.progress.add_task(description=f"[  {file_type}  ]:",
+                                                filename=self.trim_filename(file_path, 50),
+                                                start=False)
+                download_task = Util.asyncio.create_task(self.download_file(task_id, file_url, full_path))
+                download_tasks.append(download_task)
+                # 这将使事件循环继续进行，允许任务立即开始
+                await Util.asyncio.sleep(0)
+
         # 用于存储作者本页所有的下载任务, 最后会等待本页所有作品下载完成才结束本函数
         download_tasks = []
 
@@ -170,112 +201,40 @@ class Download:
             # 确保子目录存在，如果不存在，os.makedirs会自动创建
             Util.os.makedirs(desc_path, exist_ok=True)
 
-            # 如果配置文件设置为下载音乐
+            # 原声下载
             if self.config['music'].lower() == 'yes':
                 try:
-                    # 尝试获取音乐的URL
                     music_url = aweme['music_play_url']['url_list'][0]
-                    # 创建音乐文件名
-                    music_file_name = f'{ctime_f}_{aweme["desc"]}_music'
-                    # 创建相对路径的文件名
-                    music_file_path = f'{music_file_name}.mp3'
-                    # 创建绝对路径的文件名
-                    music_full_path = Util.os.path.join(desc_path, music_file_path)
-                    # 检查音乐文件是否已经存在
-                    music_state = Util.os.path.exists(music_full_path)
-                    # 如果音乐文件存在，则创建一个已完成的任务
-                    if music_state:
-                        task_id = self.progress.add_task(description="[  跳过  ]:",
-                                                        filename=self.trim_filename(music_file_path, 50),
-                                                        total=1, completed=1)
-                        Util.log.info(f"repeat task created with ID: {task_id}")
-                        self.progress.update(task_id, completed=1)
-                    else:
-                        # 如果音乐文件不存在，则创建一个新的下载任务
-                        task_id = self.progress.add_task(description="[  音乐  ]:",
-                                                        filename=self.trim_filename(music_file_path, 50),
-                                                        start=False)
-                        Util.log.info(f"New task created with ID: {task_id}")
-                        download_task = Util.asyncio.create_task(self.download_file(task_id, music_url, music_full_path))
-                        # 将任务添加到任务列表中
-                        download_tasks.append(download_task) 
-                except IndexError:
-                    # 如果无法提取音乐URL，则跳过下载该音乐
-                    pass
-
-            # 根据aweme的类型下载视频或图集
-            if aweme['aweme_type'] == 0:  # 如果aweme类型为0，下载视频
+                    music_name = f"{await format_file_name(aweme, self.config['naming'])}_music"
                     await initiate_download("音乐", music_url, ".mp3", desc_path, music_name)
+                except Exception:
                     Util.progress.console.print("[  失败  ]：该原声不可用，无法下载。")
                     Util.log.warning(f"[  失败  ]：该原声不可用，无法下载。{aweme} 异常：{Exception}")
-                try:
-                    # 获取视频的URL
-                    video_url = aweme['video_url_list'][0]
-                    # 创建视频文件名
-                    video_file_name = f'{ctime_f}_{aweme["desc"]}_video'
-                    # 创建相对路径的文件名
-                    video_file_path = f'{video_file_name}.mp4'
-                    # 创建绝对路径的文件名
-                    video_full_path = Util.os.path.join(desc_path, video_file_path)
-                    # 检查视频文件是否已经存在
-                    video_state = Util.os.path.exists(video_full_path)
-                    # 如果视频文件存在，则创建一个已完成的任务
-                    if video_state:
-                        task_id = self.progress.add_task(description="[  跳过  ]:",
-                                                        filename=self.trim_filename(video_file_path, 50),
-                                                        total=1, completed=1)
-                        Util.log.info(f"repeat task created with ID: {task_id}")
-                        self.progress.update(task_id, completed=1)
-                    # 如果视频文件不存在，则创建一个新的下载任务
-                    else:
-                        task_id = self.progress.add_task(description="[  视频  ]:",
-                                                        filename=self.trim_filename(video_file_path, 50),
-                                                        start=False)
-                        Util.log.info(f"New task created with ID: {task_id}")
-                        download_task = Util.asyncio.create_task(self.download_file(task_id, video_url, video_full_path))
-                        # 将任务添加到任务列表中
-                        download_tasks.append(download_task) 
-                except IndexError:
-                    # 如果无法提取视频URL，则跳过下载该音乐
-                    pass
 
-            elif aweme['aweme_type'] == 68:  # 如果aweme类型为68，下载图集
+            # 视频下载
+            if aweme['aweme_type'] == 0:
+                try:
+                    video_url = aweme['video_url_list'][0]
+                    video_name = f"{await format_file_name(aweme, self.config['naming'])}_video"
                     await initiate_download("视频", video_url, ".mp4", desc_path, video_name)
+                except Exception:
+                    Util.progress.console.print("[  失败  ]:该视频不可用，无法下载。")
+                    Util.log.warning(f"[  失败  ]:该视频不可用，无法下载。{aweme} 异常：{Exception}")
+
                         await initiate_download("封面", cover_url, ".gif", desc_path, cover_name)
                         Util.progress.console.print(f"[  失败  ]:该视频封面不可用，无法下载。")
                         Util.log.warning(f"[  失败  ]:该视频封面不可用，无法下载。{aweme} 异常：{Exception}")
+            # 图集下载
+            elif aweme['aweme_type'] == 68:
                 try:
                     for i, image_dict in enumerate(aweme['images']):
-                        # 提取每个图集的 url_list 的第一项
                         image_url = image_dict.get('url_list', [None])[0]
-                        # 创建图片文件名
-                        image_file_name = f'{ctime_f}_{aweme["desc"]}_image_{i + 1}'
-                        # 创建相对路径的文件名
-                        image_file_path = f'{image_file_name}.jpg'
-                        # 创建绝对路径的文件名
-                        image_full_path = Util.os.path.join(desc_path, image_file_path)
-                        # 检查图片文件是否已经存在
-                        image_state = Util.os.path.exists(image_full_path)
-                        # 如果图片文件存在，则创建一个已完成的任务
-                        if image_state:
-                            task_id = self.progress.add_task(description="[  跳过  ]:",
-                                                            filename=self.trim_filename(image_file_path, 50),
-                                                            total=1, completed=1)
-                            Util.log.info(f"repeat task created with ID: {task_id}")
-                            self.progress.update(task_id, completed=1)
-                        # 如果图片文件不存在，则创建一个新的下载任务
-                        else:
-                            task_id = self.progress.add_task(description="[  图集  ]:",
-                                                            filename=self.trim_filename(image_file_path, 50),
-                                                            start=False)
-                            Util.log.info(f"New task created with ID: {task_id}")
-                            download_task = Util.asyncio.create_task(self.download_file(task_id, image_url, image_full_path))
-                            # 将任务添加到任务列表中
-                            download_tasks.append(download_task) 
-                except IndexError:
-                    # 如果无法提取图集URL，则跳过下载该音乐
-                    pass
+                        image_name = f"{await format_file_name(aweme, self.config['naming'])}_image_{i + 1}"
                         await initiate_download("图集", image_url, ".jpg", desc_path, image_name)
+                except Exception:
+                    Util.progress.console.print("[  失败  ]：该图片不可用，无法下载。")
+                    Util.log.warning(f"[  失败  ]：该图片不可用，无法下载。{aweme} 异常：{Exception}")
+
             # 文案保存
             if self.config['desc'].lower() == 'yes':
                 try:
