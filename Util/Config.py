@@ -122,9 +122,17 @@ class Config:
                 Util.log.error('[  配置  ]:配置文件写入失败! %s' % writeiniError)
                 self.download()
 
-        return self.cf
+        # 验证配置文件
+        is_valid, message = validate_config(self.cf)
+        if is_valid:
             # 是否自动升级
             Util.Updata(self.cf['update'])
+            Util.progress.console.print(message)
+            return self.cf
+        else:
+            Util.progress.console.print(message)
+            input('[  配置  ]:按任意键退出。')
+            exit(0)
 
     def download(self) -> None:
         """
@@ -159,3 +167,65 @@ class Config:
             self.check()
 
         return self.cf
+
+def validate_config(config):
+    """
+    验证配置文件的有效性
+
+    Args:
+        config (dict): 从配置文件读取的键值对。
+
+    Returns:
+        tuple: (bool, str)。如果配置有效，返回(True, "[  配置  ]: 所有配置验证成功")。
+            如果配置无效，返回(False, 错误信息)。
+    """
+
+    # 错误信息
+    errors = []
+
+    # 验证 uid
+    uid = config.get('uid', '')
+    if not uid.startswith('https://') and not uid.startswith('http://'):
+        errors.append('[  配置  ]:uid 不是一个有效的网络链接')
+
+    # 验证 yes/no 设置
+    for key in ['music', 'cover', 'desc', 'folderize', 'update']:
+        value = config.get(key, '').lower()
+        if value not in ['yes', 'no']:
+            errors.append(f'[  配置  ]:{key} 应该为 "yes" 或 "no"')
+
+    # 验证 path
+    path = config.get('path', '')
+    if path.startswith('/') or ':' in path:
+        errors.append('[  配置  ]:path 只能是相对路径')
+
+    # 验证 mode
+    mode = config.get('mode', '')
+    if mode not in ['post', 'like', 'listcollection', 'wix']:
+        errors.append('[  配置  ]:mode 应为 "post"、"like"、"listcollection"或 "wix"之一')
+
+    # 验证 naming
+    naming = config.get('naming', '')
+    if not any(tag in naming for tag in ['{create}', '{desc}', '{id}']):
+        errors.append('[  配置  ]:naming 应至少包含 {create}、{desc} 或 {id} 中的一个。')
+    else:
+        stripped_naming = naming.replace('{create}', '').replace('{desc}', '').replace('{id}', '')
+        if any(ch for ch in stripped_naming if ch not in ('_', '-')):
+            errors.append('[  配置  ]:naming 只允许下划线_ 减号- 作为文件名间隔符')
+
+    # 验证 interval
+    interval = config.get('interval', '')
+    if interval != 'all' and '|' not in interval:
+        errors.append('[  配置  ]:interval 应为 "all" 或使用"|"来间隔范围，如 "2022-01-01|2023-01-01"')
+
+    # 验证 max_connections 和 max_tasks
+    for key in ['max_connections', 'max_tasks']:
+        value = config.get(key, '')
+        if not value.isdigit():
+            errors.append(f'[  配置  ]:{key} 应该为数字')
+
+    # 如果没有错误，则配置验证成功
+    if not errors:
+        return True, "[  配置  ]:配置验证成功!"
+    else:
+        return False, "\n".join(errors)
