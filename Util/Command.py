@@ -45,17 +45,30 @@ class Command:
         # parser.add_argument('--single', '-s', type=str, help='单条视频链接，非必要参数，与--user参数冲突')
         parser.add_argument('--music', '-m', type=str,
                             help='是否下载视频原声， 默认no 可选yes', default='no')
-        # parser.add_argument('--count', '-c', type=int, help='单页下载的数量，默认参数 35 无须修改', default=35)
+        parser.add_argument('--cover', type=str,
+                            help='是否下载视频封面， 默认no 可选yes', default='no')
+        parser.add_argument('--desc', type=str,
+                            help='是否保存视频文案， 默认no 可选yes', default='no')
+        parser.add_argument('--folderize', type=str,
+                            help='是否将作品保存到单独的文件夹，默认yes 可选no', default='yes')
         parser.add_argument('--mode', '-M', type=str,
-                            help='下载模式选择，默认post:发布的视频 like:点赞视频(需要开放权限) collection:收藏夹视频(需要登录账号详情看cookie帮助)', default='post')
+                            help='下载模式选择，默认post 可选post|like|listcollection|wix', default='post')
+        parser.add_argument('--naming', type=str,
+                            help='作品文件命名格式，默认为{create}_{desc}', default='{create}_{desc}')
         parser.add_argument('--cookie', '-cookie', type=str,
-                            help='请求大部分接口需要cookie，请调用扫码登录填写cookie', default='', required=False)
+                            help='大部分请求需要cookie，请调用扫码登录填写cookie', default='', required=False)
         parser.add_argument('--interval', '-I', type=str,
-                            help='根据作品发布日期区间下载作品，例如2022-01-01|2023-01-01下载的是2022年所有作品，0为下载全部', default='0')
+                            help='根据作品发布日期区间下载作品，例如2022-01-01|2023-01-01', default='all')
         parser.add_argument('--update', '-U', type=str,
                             help='选择是否自动升级，由于更新频率快，默认yes 可选no', default='yes')
-        args = parser.parse_args()
-        return args
+        parser.add_argument('--limit', type=str,
+                            help='仅下载多少个视频，填all即是下载全部。实际比设置多3倍', default='all')
+        parser.add_argument('--max_connections', type=int,
+                            help='网络请求的并发连接数，不宜设置过大', default=10)
+        parser.add_argument('--max_tasks', type=int,
+                            help='异步的任务数，不宜设置过大', default=10)
+
+        return parser.parse_args()
 
     def setting(self):
         """
