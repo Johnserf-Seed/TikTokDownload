@@ -1,176 +1,324 @@
+![Project Image](https://tvax2.sinaimg.cn/large/006908GAly1hgn9zod1yuj30zk0hstmf.jpg)
+
+<h1 align="center">✨ TikTok Watermark-Free Video Downloader ✨</h1>
 <div align="center">
-<img width="450px" src="https://tva1.sinaimg.cn/large/006908GAly1gqg5fvxuutj30dw0dwt99.jpg"/>
+
+[简体中文](README.md) | English
+
+[![License: MIT](https://img.shields.io/github/license/johnserf-seed/tiktokdownload?style=for-the-badge)](https://github.com/Johnserf-Seed/TikTokDownload/blob/main/LICENSE)
+![Release Download](https://img.shields.io/github/downloads/Johnserf-Seed/TikTokDownload/total?style=for-the-badge)
+![GitHub Repo size](https://img.shields.io/github/repo-size/Johnserf-Seed/TikTokDownload?style=for-the-badge&color=3cb371)
+[![GitHub Repo Languages](https://img.shields.io/github/languages/top/Johnserf-Seed/TikTokDownload?style=for-the-badge)](https://github.com/BeyondDimension/SteamTools/search?l=c%23)
+[![Python v3.11.1](https://img.shields.io/badge/python-v3.11.1-orange?style=for-the-badge)](https://github.com/Johnserf-Seed/TikTokDownload)
+![Terminal: wt](https://img.shields.io/badge/Terminal-wt-blue?style=for-the-badge)
+
+[![GitHub Stars](https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+[![GitHub Forks](https://img.shields.io/github/forks/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+[![GitHub Issues](https://img.shields.io/github/issues/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+[![GitHub Closed Issues](https://img.shields.io/github/issues-closed/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
+
+[![jsDelivr monthly hits](https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge)](https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Discord](https://img.shields.io/discord/1070512513889878067?color=5865F2&logo=discord&logoColor=white?style=for-the-badge)](https://discord.gg/q3hA8qQZbG)
+[![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 </div>
 
-<h1 align="center">TikTokDownload</h1>
+## 🚀 Environmental Preparation/Environment
 
-<p align="center">✨  Jitterbug watermark video download  ✨</p>
+> [![Microsoft App Store](https://tvax1.sinaimg.cn/large/006908GAly1hgn87jhad8j305001qa9y.jpg)](https://aka.ms/terminal)
+> 
+> The old console doesn't adapt well; using Windows Terminal is recommended.
+> 
+> [![Python v3.11.1](https://www.python.org/static/img/python-logo.png)](https://www.python.org/ftp/python/3.11.1/python-3.11.1-amd64.exe)
+> 
+> Unexpected errors might arise with versions below Python3.11.1.
+> 
+> [![GitHub Release Version](https://tvax1.sinaimg.cn/large/006908GAly1hh068efvt0j309k02074l.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
+> 
+> Download the release version. It gets repackaged after every commit.
 
-<p align="center">
-<a href="https://github.com/Johnserf-Seed/TikTokDownload/blob/main/LICENSE">
-<img src="https://img.shields.io/github/license/johnserf-seed/tiktokdownload">
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/badge/python-v3.8.5-green">
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/github/stars/johnserf-seed/tiktokdownload?style=social">
-</a>
-<a href="https://github.com/Johnserf-Seed/TikTokDownload">
-<img src="https://img.shields.io/github/forks/johnserf-seed/tiktokdownload?style=social">
-</a>
-<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PFZTVFJPWU5aEU9ZWVh8WlNEUV1VUBJfU1E" style="text- decoration:none;">
-<img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/>
-</a>
-</p>
-[English](README-EN.md) [Simplified Chinese](README.md)
+<details><summary> ⚙ Windows Terminal Settings (Must-read) </summary>
 
-## Tutorial
+![wt configuration](https://github.com/Johnserf-Seed/TikTokDownload/assets/40727745/997b6fc2-586e-4268-bee8-43bb8d68622c)
 
-1. Before running the software, open the conf.ini file in the directory and configure it as required
+</details>
 
-Batch download can directly modify the configuration file, single video download recommended <a href="https://github.com/Johnserf-Seed/TikTokWeb">TikTokWeb</a> project online parsing
+## 🧰 Features
 
-​                                          **Older profiles**                                                                     *** New profiles***
-​                                          **conf.ini                                                                                ** ***conf.conf***
+- DouYin API Information:
+    - ✅ Detailed user information.
+    - ✅ Download published content.
+    - ✅ Download favorite content.
+    - ✅ Download liked content.
+    - ✅ Download picture sets.
+    - ✅ Download cover images of the content.
+    - ✅ Download content description.
+    - ✅ Download original sound.
+    - ✅ Extract live stream links.
+    - ⌛  Download content from following.
+    - ⌛  Download content from friends.
+    - ⌛  Download recommended content.
+    - ❌ Download collection content.
+    - ❌ Extract comments.
 
-<figure class="half" align="center">
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h5be5mhf5wj30am0bcabz.jpg" width="380">
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1h5be2em4ovj30ad0ba77s.jpg" width="380">
-</figure>
+- Asynchronous Downloads:
+    - ✅ Download and process multiple content simultaneously to enhance efficiency.
+    - ✅ Adjust asynchronous threads to reduce system pressure and reduce API errors.
+    - ✅ Adjust network concurrency to reduce server verification.
 
-2. This project created pip package, you can enter `` pip install TikTokDownload==1.2.3 `` to install ~~
-(1.2.3 is not updated to 1.3.0 in time, please do not install)
+- Cookie Management:
+    - ✅ Generate the cookie value needed for the web, facilitating the access of login-required APIs.
+    - ✅ Handle SetCookie.
 
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1gqg4j7ppuij30w60nnmxz.jpg" alt="image" width="800" data-width="808" data-height="224">
+- Configuration Operations:
+    - ✅ URL shortening and parsing.
+    - ✅ Custom save directory.
+    - ✅ Option to download original sound.
+    - ✅ Option for automatic updates.
+    - ✅ Specify download time interval.
+    - ❌ Set download content likes threshold.
+    - ❌ Set download content play threshold.
 
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1gqg4jfswmxj30ul08xmy8.jpg" alt="image" width="800" data-width="808" data-height="224">
+- Version Updates:
+    - ✅ Features to automatically check and download new versions.
 
-**Package usage:**
+- File Checking:
+    - ✅ Check if a file exists before downloading to avoid redundancy.
 
-   ```python
-   #example.py
-   import TikTokDownload as TK
-   import TikTokMulti as MTK
-   # Delete comments to use the corresponding file
-   
-   # user home page batch download
-   # MTK.TikTok()
-   
-   # Single video download
-   # TK.video_download(*TK.main())
-   ```
+- Command Line Interaction:
+    - ✅ Provide command line options and global headers for easy operation.
+    - ⌛  Provide web UI mode.
 
-   ***example.py needs to make sure that both TikTokMulti.py and TikTokDownload.py files are in the same directory***
+- Scan Code to Login:
+    - ✅ Feature for scan code login, no manual cookie entry required.
 
-3. How to compile
+- Automatic Renaming:
+    - ✅ Use a nickname mapping table to ensure content from renamed authors isn't downloaded again.
+    - ⌛  Use content description mapping table to ensure content with edited descriptions isn't downloaded again.
 
-   Run the ``build.bat`` file in the root directory and follow the console prompts, the resulting ``exe`` will be in the ``. /dist``` directory
+- Local Encrypted Parameter Call:
+    - ✅ XBogus
+    - ✅ verifyFp
+    - ✅ s_v_web_id
+    - ✅ ttwid
+    - ✅ x-tt-params
+    - 🔘 msToken
 
-4. Batch save
+## 💡 To Do
 
-	- Download the recording
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5bel0gf8ng319r0g3qvc.gif" alt="image" width="800" data-width="808" data-height="224 ">
-   
-	- Skip Downloaded
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1h5beq5uq0qg313m0ktdl5.gif" alt="image" width="800" data-width="808" data-height="224 ">
-	
-	- Graphic Download
-	<img src="https://tva4.sinaimg.cn/large/006908GAly1h5bevy693qg313m0kt41g.gif" alt="image" width="800" data-width="808" data-height="224 ">
-   
-	- Download All
-	<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4dk7fiyj31cw0mo4qp.jpg" alt="image" width="800" data-width="808" data-height="224 ">
+- Adapt for TikTok.
+- Set up automation tasks.
+- Multi-user parsing.
+- [For more, check the project board](https://github.com/users/Johnserf-Seed/projects/1/views/1)
 
-	- Resource Folder
-	<img src="https://tva2.sinaimg.cn/large/006908GAly1gn1dim1oojj30q30ertaz.jpg" alt="image" width="800" data-width="808" data-height="224 ">
-   
-5. issues feedback
-    If you have any bugs or feedback, please post them at https://github.com/Johnserf-Seed/TikTokDownload/issues
+## 🖥 Supported Operating Systems
 
-<img src="https://tva3.sinaimg.cn/large/006908GAly1gqg4f0b9kgj31hc0qwmz6.jpg" alt="image" width="800" data-width="808" data-height="224 ">
+<details>
+<summary> List of Operating Systems supported by version 1.4.2.0 </summary>
 
-6. single download mode TikTokDownload batch download mode TikTokMulti
-	Graphic Download TikTokPic Beta GUI TikTokMultiGUI
+- Windows 11
+- Windows 10 Version 1809 (OS Build 17763) or later
+- macOS Monterey (12.0) or later
+- macOS Big Sur (11.0) or later
+- macOS Catalina (10.15) or later
+- Ubuntu 20.04 LTS or later
+- Debian 10 or later
+- CentOS 7 or later
+- Fedora 34 or later
+- Deepin (UOS) 20 or later
 
-**Note (common errors):**
+</details>
 
-1. a single video link and the user home page link to distinguish, the software flashback can be run through the terminal to view the error message (usually the problem of the wrong link)
+## 📸 Running Process
 
-   Such as.
+<details>
+  <summary> 🎬 Running without configuration file and scan code login </summary>
 
-    - <img src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dofvcc7j309800k3y9.jpg" alt="image" width="800" data-width="808" data-height=" 224">
+https://user-images.githubusercontent.com/40727745/fc1e6c46-d0c3-4f2a-a4a5-ca3d781e7d11
 
-    - <img src="https://tvax2.sinaimg.cn/large/006908GAly1gn1dpoiqhzj306d0193ya.jpg" alt="image" width="800" data-width="808" data-height=" 224">
+</details>
 
-   *** link must be entered carefully Oh ~***
+<details>
+  <summary> 🎬 Downloading from the homepage </summary>
 
-2. configuration file must pay attention to the encoding format (Notepad++ is recommended)
+https://user-images.githubusercontent.com/40727745/12c21d55-b629-485a-b904-54d86341c371
 
-   **Correct:**
+</details>
 
-<img src="https://tva1.sinaimg.cn/large/006908GAly1gn1dl6jv3hj30ib09tq3k.jpg" alt="image" width="700" data-width="808" data-height="224 ">
+## 📥 Installation and Running
 
-   **Error:**
+1. **📦 Installation**
 
-<img src="https://tva1.sinaimg.cn/large/006908GAly1gn1dmakebqj30qh03lmx8.jpg" alt="image" width="700" data-width="808" data-height="224 ">
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-   quite jerky, save as UTF-8 actually can not be flashback, metaphysics
+2. **▶️ Running**
 
-3. if there is a long time api crawl may be the wrong posture (shake api more strange)
-4. now the new log function, you can find all the log files in the logs, when reporting issues can be attached
+```python
+import Util
 
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h5beyv1f13j30gk07pgqg.jpg" width="700">
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1h5bf16rylfj310q0ijb29.jpg">
+if __name__ == '__main__':
+    # Get command line and configuration file
+    cmd = Util.Command()
+    config = cmd.config_dict
+    dyheaders = cmd.dyheaders
 
+    # Asynchronously download content
+    Util.asyncio.run(Util.Profile(config, dyheaders).get_Profile())
+    input("[  Prompt  ]: Download completed, press any key to exit.")
 
-## New
+```
 
-**05/01 Updated with watermark-free gallery download ->TikTokPic.py**
+3. **🔬 Test**
 
-<img src="https://tvax2.sinaimg.cn/large/006908GAly1h1s8uky10aj30us0gh0ym.jpg" alt="image" width="800" data-width="1108" data-height="593">
+```bash
+python example.py
+```
 
-<img src="https://tva4.sinaimg.cn/large/006908GAly1h1s8pryq7rj30mg068tdn.jpg" alt="image" width="800" data-width="808" data-height="224">
+## 🗂️ Folder
 
-**04/23 after the new version supports the resolution of 1080p video** (***Note, although the download is 1080p, but the original video does not meet the case of 1080p, even if downloaded to the local is still the original resolution***)
+<details>
+<summary>📁 directory</summary>
 
-**720p compared to 1080p**
+```bash
+├─ .github
+│   └─ ISSUE_TEMPLATE
+│       ├── --------.md
+│       └── -------.md
+│
+├─ API
+│   ├── API.js
+│   ├── API参考.md
+│   ├── Server.txt
+│   ├── TikTokAPI.py
+│   ├── TikTokDownloadVersion.txt
+│   ├── TikTokGUIVersion.txt
+│   ├── TikTokLive.txt
+│   ├── TikTokMultiVersion.txt
+│   ├── TikTokPicVersion.txt
+│   ├── TikTokTool.txt
+│   ├── TikTokUpdata.txt
+│   ├── user_base_info.json
+│   ├── user_post_delete.json
+│   ├── user_post_detail.json
+│   ├── user_post_info_image.json
+│   ├── user_post_info_video.json
+│   └── user_profile_info.json
+│
+├─ Collection
+│   ├── CopyWritingHomePage_1.json
+│   ├── GirlHomePage_1.json
+│   └── MusicHomePage_1.json
+│
+├─ DB
+│   └── create.sql
+│
+├─ GUI
+│   ├── Main.ui
+│   ├── preview.png
+│   ├── README-EN.md
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── resource.py
+│   └── Resource.qrc
+│
+└─ Util
+    ├── Check.py
+    ├── Command.py
+    ├── Config.py
+    ├── Cookies.py
+    ├── Download.py
+    ├── Lives.py
+    ├── Log.py
+    ├── Login.py
+    ├── NickMapper.py
+    ├── Profile.py
+    ├── Resource.py
+    ├── Urls.py
+    ├── XB.py
+    ├── __init__.py
+    ├── __version__.py
+    └─ algorithm
+        ├── package.json
+        ├── Server.py
+        ├── s_v_web_id.js
+        ├── s_v_web_id.py
+        ├── x-bogus.js
+        └── x-tt-params.js
+│
+├─ .gitignore
+├─ Banner.png
+├─ build-win.bat
+├─ conf.conf
+├─ conf.ini
+├─ Dockerfile
+├─ example.py
+├─ info.db
+├─ LICENSE
+├─ Logo.ico
+├─ README-EN.md
+├─ README.md
+├─ requirements.txt
+├─ server.bat
+├─ server.sh
+├─ TikTokLive.py
+├─ TikTokMultiGUI.py
+├─ TikTokTool.py
+├─ TikTokUpdata.py
+├─ version
+└─ _config.yml
 
-**GUI version to be released soon**
+```
 
-<img src="https://tva4.sinaimg.cn/large/006908GAly1h1iwtyrqyij30id073q52.jpg" alt="image" width="800" data-width="808" data-height="224">
+</details>
 
-***You can compile ui by yourself in the GUI folder -> pyuic5 -o Main.py Main.ui***
+## 💖 Sponsorship
 
-**V1.3.0 console interface version**
+![Sponsorship Image](https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png)
 
-<img src="https://tvax1.sinaimg.cn/large/006908GAly1h5bf5oylooj30ui0m20zn.jpg" alt="image" width="800" data-width="808" data-height="224">
+Thank you for supporting this project! If you find this project helpful, please consider sponsoring. You can directly visit our [![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 
-**Utools plug-in synchronous development**
+## 📧 Contact
 
-<img src="https://tva4.sinaimg.cn/large/006908GAgy1gtbtg4t2n3j30ma02y40d.jpg" alt="image" width="800" data-width="808" data-height="224">
+If you have any questions or suggestions, you can contact me via email:
 
-<img src="https://tvax1.sinaimg.cn/large/006908GAgy1gtbtgut1njj30ma02ygmk.jpg" alt="image" width="800" data-width="808" data-height="224">
+- Email: [johnserf-seed@foxmail.com](mailto:johnserf-seed@foxmail.com)
 
-<img src="https://tva2.sinaimg.cn/large/006908GAly1h5bf4dvde0j30m00gnwij.jpg" alt="image" width="800" data-width="808" data-height="224">
+## 🙏 Acknowledgments
 
-## ToDo
+- [Windows Terminal](https://aka.ms/terminal)
+- [aiohttp](https://github.com/aio-libs/aiohttp)
+- [requests](https://github.com/psf/requests)
+- [Pillow (PIL Fork)](https://github.com/python-pillow/Pillow)
+- [lxml](https://github.com/lxml/lxml)
+- [rich](https://github.com/willmcgugan/rich)
+- [qrcode](https://github.com/lincolnloop/python-qrcode)
+- [ConfigObj](https://github.com/DiffSK/configobj)
 
-- [x] Watermark-free gallery download function
-- [x] Visualization interface
-- [ ] Support multi-platform video parsing
-- [ ] Record work details to local database
-- [ ] Local service detects updates of ShakeYin followed users' works***(and push)***
-- [ ] Optional function for batch download of videos from all followed users' homepages
-- [ ] Live streaming push stream saving
-- [ ] Make local interface parsing service
+We genuinely appreciate their contributions and efforts.
 
+## ⚖️ Disclaimer
 
-## Web version project
+This project does not sell, share, encrypt, upload, or study any personal information. This project and its associated code are for learning and research purposes only and do not constitute any explicit or implicit warranty. The author assumes no responsibility for any form of loss caused by the use of this project and its code.
 
+## 📜 License Statement
 
-[Johnserf-Seed/TikTokWeb](https://github.com/Johnserf-Seed/TikTokWeb)
+MIT License
 
-<img src="https://tvax3.sinaimg.cn/large/006908GAly1h1e6e0mjmbj30m217a168.jpg">
+Copyright (c) 2021 JohnserfSeed
 
+The source code of this project is licensed under the MIT License. For detailed information, please refer to the [LICENSE](LICENSE) file.
 
-<img src="https://tvax4.sinaimg.cn/large/006908GAly1gn1dxspeqeg302s02sdgf.gif">
+## 📝 Contributor Code of Conduct
+
+All contributors are welcome to this project. We hope to create a friendly environment where everyone can work together in an atmosphere of respect and understanding. Please review our [Contributor Code of Conduct](CODE_OF_CONDUCT.md) before participating.
+
+## 👨‍💻 Contributors
+
+We welcome all kinds of contributions, be it error reporting, improvement suggestions, or provision of code and documentation. We appreciate your help.
+
+![Contributors](https://contributors-img.web.app/image?repo=Johnserf-Seed/TikTokDownload)
+
