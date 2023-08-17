@@ -42,7 +42,7 @@ class Config:
             # 用utf-8防止出错
             self.cf = Util.ConfigObj('conf.ini', encoding='utf-8')
         else:
-            Util.console.print('[  提示  ]:没有检测到配置文件，生成中!\r')
+            Util.progress.console.print('[  提示  ]:没有检测到配置文件，生成中!\r')
             Util.log.info('[  提示  ]:没有检测到配置文件，生成中!')
             try:
                 # 实例化读取配置文件
@@ -95,16 +95,16 @@ class Config:
         下载配置文件
         """
         try:
-            Util.console.print('[  提示  ]:从GitHub为您下载配置文件!\r')
+            Util.progress.console.print('[  提示  ]:从GitHub为您下载配置文件!\r')
             Util.log.info('[  提示  ]:从GitHub为您下载配置文件!')
             r = Util.requests.get(
                 'https://cdn.jsdelivr.net/gh/Johnserf-Seed/TikTokDownload@main/conf.ini')
             with open("conf.ini", "w") as f:
                 f.write(r.content)
-            Util.console.print('[  提示  ]:下载配置成功!\r')
+            Util.progress.console.print('[  提示  ]:下载配置成功!\r')
             Util.log.info('[  提示  ]:下载配置成功!')
         except Exception as iniError:
-            Util.console.print('[  提示  ]:下载失败，请检查网络!\r')
+            Util.progress.console.print('[  提示  ]:下载失败，请检查网络!\r')
             Util.log.info('[  提示  ]:下载失败，请检查网络!')
             Util.log.error(iniError)
 

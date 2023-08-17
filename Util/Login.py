@@ -146,11 +146,11 @@ class Login():
             self.loginHeaders['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
             # 写入配置文件
             Util.Config().save(self.loginHeaders['Cookie'])
-            Util.console.print('[  登录  ]:重定向登录成功\r')
+            Util.progress.console.print('[  登录  ]:重定向登录成功\r')
             Util.log.info('[  登录  ]:重定向登录成功')
             return True
         else:
-            Util.console.print('[  登录  ]:重定向登录失败\r')
+            Util.progress.console.print('[  登录  ]:重定向登录失败\r')
             if login_response:
                 error_message = f"网络异常: 重定向登录失败。 状态码: {login_response.status_code}, 响应体: {login_response.text}"
             else:
@@ -184,7 +184,7 @@ class Login():
         # 在控制台以 ASCII 形式打印二维码
         qr.print_ascii(invert=True)
 
-        Util.console.print("[  登录  ]:请扫描登录二维码。\r")
+        Util.progress.console.print("[  登录  ]:请扫描登录二维码。\r")
         Util.log.info("[  登录  ]:请扫描登录二维码。")
 
 
@@ -198,5 +198,5 @@ class Login():
         data = self.status_mapping.get(status, {})
         message = data.get("message", "")
         log_func = data.get("log", Util.log.info)
-        Util.console.print(message)
+        Util.progress.console.print(message)
         log_func(message)

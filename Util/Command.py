@@ -81,9 +81,9 @@ class Command:
         if len(Util.sys.argv) > 1:  # 如果命令行参数列表的长度大于1，说明有提供命令行参数
             args = self.argument()
             self.config_dict = vars(args)
-            Util.console.print('[  配置  ]:获取命令行完成!\r')
+            Util.progress.console.print('[  配置  ]:获取命令行完成!\r')
             Util.log.info('[  配置  ]:获取命令行完成!')
         else:
             self.config_dict = cfg
-            Util.console.print('[  配置  ]:读取本地配置完成!\r')
+            Util.progress.console.print('[  配置  ]:读取本地配置完成!\r')
             Util.log.info('[  配置  ]:读取本地配置完成!')

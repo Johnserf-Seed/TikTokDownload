@@ -403,6 +403,10 @@ class Profile:
 
         return aweme_data
 
+            Util.progress.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。\r')
+            Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。')
+        Util.progress.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。\r')
+        Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。')
     async def get_Profile(self, count: int = 20) -> None:
         """
         获取用户的Profile并设置相应的实例变量。
@@ -445,32 +449,26 @@ class Profile:
                                         'w') as f:
                 f.write(f"https://www.douyin.com/user/{self.sec_user_id}")
 
-            Util.console.print('[  提示  ]:批量获取所有视频中!\r')
+            Util.progress.console.print('[  提示  ]:批量获取所有视频中!\r')
             Util.log.info('[  提示  ]:批量获取所有视频中!')
 
             aweme_data = await self.get_user_post_info(self.headers, self.profile_URL)
             self.has_more = aweme_data[0].get("has_more")
             self.max_cursor = aweme_data[0].get("max_cursor")
-            Util.console.print(f'[  提示  ]:抓获第1页数据成功! 该页共{len(aweme_data)}个作品。\r')
-            Util.log.info(f'[  提示  ]:抓获第1页数据成功! 该页共{len(aweme_data)}个作品。')
+            Util.progress.console.print(f'[  提示  ]:抓获首页数据成功! 该页共{len(aweme_data)}个作品。\r')
+            Util.log.info(f'[  提示  ]:抓获首页数据成功! 该页共{len(aweme_data)}个作品。')
 
             while True:
                 if self.has_more == 0:
                     if 'aweme_id' not in aweme_data[0]:
-                        Util.console.print(f'[  提示  ]:{self.nickname}的{self.config["mode"]}作品到底了。\r')
-                        Util.log.info(f'[  提示  ]:{self.nickname}的{self.config["mode"]}作品到底了。')
                         break
                 else:
                     if 'aweme_id' not in aweme_data[0]:
                         # 空数据时直接跳过下载
-                        Util.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。\r')
-                        Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。')
                     else:
                         # 下载作品
                         with self.download.progress:
                             await self.download.AwemeDownload(aweme_data)
-                        Util.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。\r')
-                        Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。')
                     self.profile_URL = await self.get_diff_type_url(self.config,
                                                                             self.sec_user_id,
                                                                             count,
@@ -479,7 +477,7 @@ class Profile:
                     self.has_more = aweme_data[0].get("has_more")
                     self.max_cursor = aweme_data[0].get("max_cursor")
         except Exception as e:
-            Util.console.print(f'[  提示  ]:异常，{e}')
+            Util.progress.console.print(f'[  提示  ]:异常，{e}')
             Util.log.error(f'[  提示  ]:异常，{e}')
             input('[  提示  ]：按任意键退出程序!\r')
             exit(0)

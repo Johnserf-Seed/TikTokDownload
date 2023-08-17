@@ -35,7 +35,7 @@ class Check():
         try:
             # 验证输入
             if not all(isinstance(i, str) for i in [save_dir, file_name, file_type]):
-                Util.console.print("所有参数必须是字符串。")
+                Util.progress.console.print("[  提示  ]: 所有参数必须是字符串。")
                 return False, None
 
             # 使用os.path.join()来进行路径拼接
@@ -44,5 +44,5 @@ class Check():
             return Util.os.path.isfile(full_path), full_path
 
         except Exception as e:
-            Util.console.print(f"[  异常  ]: {e}")
+            Util.progress.console.print(f"[  异常  ]: {e}")
             return False, None

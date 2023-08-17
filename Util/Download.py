@@ -94,8 +94,8 @@ class Download:
                             dest_file.write(chunk)
                             self.progress.update(task_id, advance=len(chunk))
             except Exception as e:
-                Util.console.print(f"[  失败  ]：下载失败，异常：{e}")
                 return
+            Util.progress.print(f"[  失败  ]：下载失败，未知错误。异常：{e}")
 
     async def AwemeDownload(self, aweme_data):
         """
@@ -120,6 +120,7 @@ class Download:
         for aweme in aweme_data:
             # 将UNIX时间戳转换为格式化的字符串
             ctime_f = Util.time.strftime('%Y-%m-%d %H.%M.%S', Util.time.localtime((aweme['create_time'])))
+                Util.progress.console.print("[  提示  ]: 中断该页下载")
             # 获取文件的基础路径，这里的aweme['path']是到用户目录的绝对路径
             base_path = aweme['path']
             # 创建子目录名称
@@ -160,12 +161,12 @@ class Download:
                         download_tasks.append(download_task) 
                 except IndexError:
                     # 如果无法提取音乐URL，则跳过下载该音乐
-                    Util.console.print("[  提示  ]：该原声不可用，无法下载。")
-                    Util.log.warning(f"[  提示  ]：该原声不可用，无法下载。{IndexError}")
                     pass
 
             # 根据aweme的类型下载视频或图集
             if aweme['aweme_type'] == 0:  # 如果aweme类型为0，下载视频
+                    Util.progress.console.print("[  失败  ]：该原声不可用，无法下载。")
+                    Util.log.warning(f"[  失败  ]：该原声不可用，无法下载。{aweme} 异常：{Exception}")
                 try:
                     # 获取视频的URL
                     video_url = aweme['video_url_list'][0]
@@ -195,11 +196,11 @@ class Download:
                         download_tasks.append(download_task) 
                 except IndexError:
                     # 如果无法提取视频URL，则跳过下载该音乐
-                    Util.console.print("[  提示  ]：该视频不可用，无法下载。")
-                    Util.log.warning(f"[  提示  ]：该视频不可用，无法下载。{IndexError}")
                     pass
 
             elif aweme['aweme_type'] == 68:  # 如果aweme类型为68，下载图集
+                        Util.progress.console.print(f"[  失败  ]:该视频封面不可用，无法下载。")
+                        Util.log.warning(f"[  失败  ]:该视频封面不可用，无法下载。{aweme} 异常：{Exception}")
                 try:
                     for i, image_dict in enumerate(aweme['images']):
                         # 提取每个图集的 url_list 的第一项
@@ -230,9 +231,9 @@ class Download:
                             download_tasks.append(download_task) 
                 except IndexError:
                     # 如果无法提取图集URL，则跳过下载该音乐
-                    Util.console.print("[  提示  ]：该图片不可用，无法下载。")
-                    Util.log.warning(f"[  提示  ]：该图片不可用，无法下载。{IndexError}")
                     pass
+                    Util.progress.console.print(f"[  失败  ]:保存文案失败。异常：{Exception}")
+                    Util.log.warning(f"[  失败  ]:保存文案失败。{aweme} 异常：{Exception}")
 
         # 等待本页所有的下载任务完成, 如果不等待的话就会还没等下完就去下载下一页了, 并发下载多了会被服务器断开连接
         await Util.asyncio.gather(*download_tasks)
