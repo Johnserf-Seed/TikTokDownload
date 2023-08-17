@@ -36,7 +36,7 @@
 > 
 > Python3.11.1 低于该版本可能会有意外的错误
 > 
-> [![GitHub 发行版](https://tvax1.sinaimg.cn/large/006908GAly1hgn7xm5fawj309k020wes.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
+> [![GitHub 发行版](https://tvax1.sinaimg.cn/large/006908GAly1hh068efvt0j309k02074l.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
 > 
 > 发行版下载 每次Commits之后会重新打包
 
@@ -55,6 +55,8 @@
 	- ✅ 下载收藏作品。
 	- ✅ 下载喜欢作品。
 	- ✅ 下载图集作品。
+	- ✅ 下载作品封面。
+	- ✅ 下载作品文案。
 	- ✅ 下载作品原声。
 	- ✅ 提取直播链接。
 	- ⌛  下载关注作品。
@@ -65,7 +67,8 @@
 
 - 异步下载
 	- ✅ 同时下载和处理多个作品，提高效率。
-	- ❌ 调节异步线程，减轻系统压力减少接口出错。
+	- ✅ 调节异步线程，减轻系统压力减少接口出错。
+	- ✅ 调节网络并发数，减少被服务器校验
 
 - Cookie 管理
 	- ✅ 生成web所需 cookie 值，便于访问需要登录的接口。
@@ -76,7 +79,7 @@
 	- ✅ 自定义保存目录。
 	- ✅ 是否下载原声。
 	- ✅ 是否自动更新。
-	- ⌛  指定下载时间区间。
+	- ✅ 指定下载时间区间。
 	- ❌ 设定下载作品点赞阈值。
 	- ❌ 设定下载作品播放阈值。
 
@@ -168,14 +171,14 @@ pip install -r requirements.txt
 import Util
 
 if __name__ == '__main__':
-	# 获取命令行和配置文件
-	cmd = Util.Command()
-	config = cmd.config_dict
-	dyheaders = cmd.dyheaders
+    # 获取命令行和配置文件
+    cmd = Util.Command()
+    config = cmd.config_dict
+    dyheaders = cmd.dyheaders
 
-	# 异步下载作品
-	Util.asyncio.run(Util.Profile(config, dyheaders).get_Profile())
-	input("[  提示  ]:下载完成，输入任意键退出。")
+    # 异步下载作品
+    Util.asyncio.run(Util.Profile(config, dyheaders).get_Profile())
+    input("[  提示  ]:下载完成，输入任意键退出。")
 ```
 
 3. **🔬 测试/Test**
