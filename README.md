@@ -117,7 +117,7 @@
 ## 🖥 支持的操作系统/Supported Operating Systems
 
 <details>
-<summary> 1.4.0.0 支持的操作系统列表 </summary>
+<summary> 1.4.2.0 支持的操作系统列表 </summary>
 
 - Windows 11
 - Windows 10 版本 1809（OS 内部版本 17763）或更高版本
