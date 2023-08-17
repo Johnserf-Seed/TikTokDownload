@@ -103,6 +103,21 @@ class Download:
             aweme_data (list): 抖音数据列表，列表的每个元素都是一个字典，字典包含了抖音的各种信息，如aweme_type, path, desc等。
         """
 
+        async def format_file_name(aweme: list, naming_template: str) -> str:
+            """
+            根据配置文件的全局格式化文件名。
+
+            Args:
+            - aweme (dict): 抖音数据的字典。
+            - naming_template (str): 文件的命名模板，如 "{create}_{desc}"。
+
+            Returns:
+            - str: 格式化的文件名。
+            """
+
+            # 使用给定的命名模板格式化文件名
+            return naming_template.format(create=aweme['create_time'], desc=aweme['desc'], id=aweme['aweme_id'])
+
         # 用于存储作者本页所有的下载任务, 最后会等待本页所有作品下载完成才结束本函数
         download_tasks = []
 
@@ -159,6 +174,7 @@ class Download:
 
             # 根据aweme的类型下载视频或图集
             if aweme['aweme_type'] == 0:  # 如果aweme类型为0，下载视频
+                    await initiate_download("音乐", music_url, ".mp3", desc_path, music_name)
                     Util.progress.console.print("[  失败  ]：该原声不可用，无法下载。")
                     Util.log.warning(f"[  失败  ]：该原声不可用，无法下载。{aweme} 异常：{Exception}")
                 try:
@@ -193,6 +209,8 @@ class Download:
                     pass
 
             elif aweme['aweme_type'] == 68:  # 如果aweme类型为68，下载图集
+                    await initiate_download("视频", video_url, ".mp4", desc_path, video_name)
+                        await initiate_download("封面", cover_url, ".gif", desc_path, cover_name)
                         Util.progress.console.print(f"[  失败  ]:该视频封面不可用，无法下载。")
                         Util.log.warning(f"[  失败  ]:该视频封面不可用，无法下载。{aweme} 异常：{Exception}")
                 try:
@@ -226,6 +244,7 @@ class Download:
                 except IndexError:
                     # 如果无法提取图集URL，则跳过下载该音乐
                     pass
+                        await initiate_download("图集", image_url, ".jpg", desc_path, image_name)
                     Util.progress.console.print(f"[  失败  ]:保存文案失败。异常：{Exception}")
                     Util.log.warning(f"[  失败  ]:保存文案失败。{aweme} 异常：{Exception}")
 
