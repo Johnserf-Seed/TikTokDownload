@@ -23,12 +23,19 @@ class Config:
     def __init__(self):
         self.default = {
             'uid': 'https://v.douyin.com/k9NXNcH/',
-            'music': 'yes',
+            'music': 'no',
+            'cover': 'no',
+            'desc': 'no',
             'path': 'Download',
+            'folderize': 'yes',
             'mode': 'post',
+            'naming': '{create}_{desc}',
             'cookie':'请扫码登录，cookie会自动保存',
-            'interval':'0',
-            'update':'yes'
+            'interval':'all',
+            'update':'yes',
+            'limit': 'all',
+            'max_connections': 10,
+            'max_tasks': 10
         }
 
     def check(self):
@@ -55,36 +62,63 @@ class Config:
                 self.cf['music'] = 'yes'
                 self.cf.comments['music'] = ['',
                                             '视频原声保存(yes|no)']
+                self.cf['cover'] = 'no'
+                self.cf.comments['cover'] = ['',
+                                            '视频封面保存(yes|no)']
+                self.cf['desc'] = 'no'
+                self.cf.comments['desc'] = ['',
+                                            '视频文案保存(yes|no)']
                 self.cf['path'] = 'Download'
                 self.cf.comments['path'] = ['',
                                             '作品保存位置，只支持相对路径',
                                             '不了解不用修改']
+                self.cf['folderize'] = 'yes'
+                self.cf.comments['folderize'] = ['',
+                                            '作品保存到单独的文件夹(yes|no)',
+                                            '如果设置了保存原声、封面、文案的建议开启该选项']
                 self.cf['mode'] = 'post'
                 self.cf.comments['mode'] = ['',
-                                            '下载模式(post|like|listcollection)',
-                                            '下载喜欢、收藏视频请确保开放所有人可见']
+                                            '下载模式(post|like|listcollection|wix合集暂未更新)',
+                                            '下载他人喜欢页、收藏视频请确保是开放所有人可见',
+                                            '如果是扫码登陆的下载自己的喜欢与收藏则无需设置所有人可见']
+                self.cf['naming'] = '{create}_{desc}'
+                self.cf.comments['naming'] = ['',
+                                            '全局作品文件命名',
+                                            '{create}发布时间、{desc}作品文案、{id}作品id',
+                                            '只允许下划线_ 减号- 作为文件名间隔符',
+                                            '该配置会影响folderize中的作品文件夹命名']
                 self.cf['cookie'] = ''
                 self.cf.comments['cookie'] = ['',
                                             '置空该选项本程序会自动打开二维码获取cookie',
                                             '本程序不会共享、存储、处理、加密、上传你的cookie配置',
                                             '请妥善保管你个人的cookie信息，发issues贴log文件的时候注意脱敏，防止泄露！']
-                self.cf['interval'] = '0'
+                self.cf['interval'] = 'all'
                 self.cf.comments['interval'] = ['',
                                             '根据作品发布日期区间下载作品',
                                             '例如2022-01-01|2023-01-01下载的是2022年所有作品',
-                                            '填0即是下载全部时间']
+                                            '填all即是下载全部时间']
                 self.cf['update'] = 'yes'
                 self.cf.comments['update'] = ['',
-                                            '选择是否自动更新(yes|no)',
-                                            '由于更新频率快，默认yes可以保持最新版本']
+                                            '自动更新(yes|no)',
+                                            '由于更新频率快，默认yes可以保持最新版本',
+                                            '关闭后仅提示有新版可下载']
+                self.cf['max_connections'] = 10
+                self.cf.comments['max_connections'] = ['',
+                                            '网络请求并发连接数',
+                                            '不宜设置过大，如遇错误可适当降低']
+                self.cf['max_tasks'] = 10
+                self.cf.comments['max_tasks'] = ['',
+                                            '异步的任务数',
+                                            '不宜设置过大，如遇错误可适当降低']
+
                 # 写入到文件
                 self.cf.filename = 'conf.ini'
                 self.cf.write()
-                Util.console.print('[  配置  ]:配置文件生成成功!\r')
+                Util.progress.console.print('[  配置  ]:配置文件生成成功!\r')
                 Util.log.info('[  配置  ]:配置文件生成成功!')
 
             except Exception as writeiniError:
-                Util.console.print('[  配置  ]:配置文件写入失败!\r')
+                Util.progress.console.print('[  配置  ]:配置文件写入失败!\r')
                 Util.log.error('[  配置  ]:配置文件写入失败! %s' % writeiniError)
                 self.download()
 
@@ -118,7 +152,7 @@ class Config:
             # 写入到文件
             self.cf.filename = 'conf.ini'
             self.cf.write()
-            Util.console.print('[  配置  ]:cookie更新成功!\r')
+            Util.progress.console.print('[  配置  ]:cookie更新成功!\r')
             Util.log.info('[  配置  ]:cookie更新成功!')
             Util.log.info(cookie)
         else:
