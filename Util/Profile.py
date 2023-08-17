@@ -365,9 +365,14 @@ class Profile:
                 if aweme_type == 0:
                     # 视频相关
                     bit_rate = video.get("bit_rate", [])
+                    # 封面相关
+                    cover = video.get("cover", {})
+                    dynamic_cover = video.get("dynamic_cover", {})
                     try:
                         data['video_uri'] = bit_rate[0].get("play_addr", {}).get("uri", None)
                         data['video_url_list'] = bit_rate[0].get("play_addr", {}).get("url_list", [])
+                        data['cover'] = cover.get("url_list",[])
+                        data['dynamic_cover'] = dynamic_cover.get("url_list",[])
                     except IndexError:
                         # raise RuntimeError("该视频已被下架，无法下载。")
                         continue
@@ -375,6 +380,8 @@ class Profile:
                 elif aweme_type == 68:
                     # 图集相关
                     data['images'] = item.get("images", [])
+                    data['cover'] = ''
+                    data['dynamic_cover'] = ''
 
                 # 作品相关
                 data['max_cursor'] = max_cursor
@@ -382,7 +389,8 @@ class Profile:
                 data['aweme_type'] = aweme_type
                 data['aweme_id'] = item.get("aweme_id", None)
                 data['desc'] = Util.replaceT(item.get("desc", None))
-                data['create_time'] = item.get("create_time", None)
+                # 将UNIX时间戳转换为格式化的字符串
+                data['create_time'] = Util.time.strftime('%Y-%m-%d %H.%M.%S', Util.time.localtime(item.get("create_time", None)))
 
                 # 作者相关
                 data['uid'] = author.get("uid", None)
