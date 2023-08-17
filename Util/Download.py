@@ -183,10 +183,24 @@ class Download:
         # 用于存储作者本页所有的下载任务, 最后会等待本页所有作品下载完成才结束本函数
         download_tasks = []
 
+        # 作品发布时间区间
+        should_check_interval = False
+        start_date, end_date = (None, None)
+        if self.config['interval'] != 'all':
+            should_check_interval = True
+            start_str, end_str = self.config['interval'].split('|')
+            start_date = Util.time.strptime(start_str + " 00.00.00", '%Y-%m-%d %H.%M.%S')
+            end_date = Util.time.strptime(end_str + " 23.59.59", '%Y-%m-%d %H.%M.%S')
+
         # 遍历aweme_data中的每一个aweme字典
         for aweme in aweme_data:
-            # 将UNIX时间戳转换为格式化的字符串
-            ctime_f = Util.time.strftime('%Y-%m-%d %H.%M.%S', Util.time.localtime((aweme['create_time'])))
+            aweme_time = Util.time.strptime(aweme['create_time'], '%Y-%m-%d %H.%M.%S')
+            # 如果设置了日期区间并且作品的发布日期不在指定的日期范围内，则跳过
+            if should_check_interval:
+                # 如果 aweme_time 比不符合时间区间，跳过当前的作品
+                if aweme_time < start_date or aweme_time > end_date:
+                    continue
+
             # 如果设置了事件响应，则停止
             if Util.done_event.is_set():
                 Util.progress.console.print("[  提示  ]: 中断该页下载")
