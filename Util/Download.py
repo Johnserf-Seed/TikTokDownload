@@ -221,9 +221,16 @@ class Download:
                     Util.progress.console.print("[  失败  ]:该视频不可用，无法下载。")
                     Util.log.warning(f"[  失败  ]:该视频不可用，无法下载。{aweme} 异常：{Exception}")
 
+                # 封面下载
+                if self.config['cover'].lower() == 'yes':
+                    try:
+                        cover_url = aweme['dynamic_cover'][0]
+                        cover_name = f"{await format_file_name(aweme, self.config['naming'])}_cover"
                         await initiate_download("封面", cover_url, ".gif", desc_path, cover_name)
+                    except Exception:
                         Util.progress.console.print(f"[  失败  ]:该视频封面不可用，无法下载。")
                         Util.log.warning(f"[  失败  ]:该视频封面不可用，无法下载。{aweme} 异常：{Exception}")
+
             # 图集下载
             elif aweme['aweme_type'] == 68:
                 try:
