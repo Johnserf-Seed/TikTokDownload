@@ -118,6 +118,37 @@ class Download:
             # 使用给定的命名模板格式化文件名
             return naming_template.format(create=aweme['create_time'], desc=aweme['desc'], id=aweme['aweme_id'])
 
+        async def initiate_desc(file_type: str, desc_content: str, file_suffix: str, base_path: str, file_name: str) -> None:
+            """
+            初始化文案保存。如果文案文件已经存在，则跳过保存。否则，直接将文案内容写入文件。
+
+            Args:
+                file_type (str): 文件类型描述，通常是"文案"。
+                desc_content (str): 要保存的文案内容。
+                base_path (str): 文案文件保存的基础目录路径。
+                file_name (str): 文案文件的主要名称，不包含后缀。
+
+            Note:
+                这个函数会检查文案文件是否已经在指定的路径存在。如果存在，跳过该任务。否则，将直接将文案内容写入文件。
+            """
+
+            file_path = f'{file_name}{file_suffix}'
+            full_path = Util.os.path.join(base_path, file_path)
+            if Util.os.path.exists(full_path):
+                task_id = Util.progress.add_task(description=f"[  跳过  ]:",
+                                                filename=self.trim_filename(file_path, 50),
+                                                total=1, completed=1)
+                Util.progress.update(task_id, completed=1)
+            else:
+                task_id = Util.progress.add_task(description=f"[  {file_type}  ]:",
+                                                filename=self.trim_filename(file_path, 50),
+                                                start=False)
+                Util.progress.start_task(task_id)
+                with open(full_path, 'w', encoding='utf-8') as desc_file:
+                    desc_file.write(desc_content)
+                # 更新进度条以显示任务完成
+                Util.progress.update(task_id, completed=100)
+
         # 用于存储作者本页所有的下载任务, 最后会等待本页所有作品下载完成才结束本函数
         download_tasks = []
 
@@ -245,6 +276,12 @@ class Download:
                     # 如果无法提取图集URL，则跳过下载该音乐
                     pass
                         await initiate_download("图集", image_url, ".jpg", desc_path, image_name)
+            # 文案保存
+            if self.config['desc'].lower() == 'yes':
+                try:
+                    desc_name = f"{await format_file_name(aweme, self.config['naming'])}_desc"
+                    await initiate_desc("文案", aweme['desc'], ".txt", desc_path, desc_name)
+                except Exception:
                     Util.progress.console.print(f"[  失败  ]:保存文案失败。异常：{Exception}")
                     Util.log.warning(f"[  失败  ]:保存文案失败。{aweme} 异常：{Exception}")
 
