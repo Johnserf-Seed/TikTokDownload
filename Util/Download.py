@@ -28,29 +28,6 @@ class Download:
         self.config = config
         # 文件检查是否存在
         self.check = Util.Check()
-        # 进度控制台
-        self.progress_console = Util.Console(width=150)
-        # 进度条
-        self.progress = Util.Progress(
-            Util.TextColumn("{task.description}[bold blue]{task.fields[filename]}", justify="left"),
-            Util.BarColumn(bar_width=20),
-            "[progress.percentage]{task.percentage:>3.1f}%",
-            "•",
-            Util.DownloadColumn(),
-            "•",
-            Util.TransferSpeedColumn(),
-            "•",
-            Util.TimeRemainingColumn(),
-            console=self.progress_console
-        )
-
-        self.done_event = Util.asyncio.Event()
-
-        def handle_sigint(signum, frame):
-            self.done_event.set()
-
-        Util.signal.signal(Util.signal.SIGINT, handle_sigint)
-
 
     def trim_filename(self, filename: str, max_length: int = 50) -> str:
         """
@@ -120,7 +97,11 @@ class Download:
         for aweme in aweme_data:
             # 将UNIX时间戳转换为格式化的字符串
             ctime_f = Util.time.strftime('%Y-%m-%d %H.%M.%S', Util.time.localtime((aweme['create_time'])))
+            # 如果设置了事件响应，则停止
+            if Util.done_event.is_set():
                 Util.progress.console.print("[  提示  ]: 中断该页下载")
+                return
+
             # 获取文件的基础路径，这里的aweme['path']是到用户目录的绝对路径
             base_path = aweme['path']
             # 创建子目录名称
