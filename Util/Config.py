@@ -89,6 +89,8 @@ class Config:
                 self.download()
 
         return self.cf
+            # 是否自动升级
+            Util.Updata(self.cf['update'])
 
     def download(self) -> None:
         """

@@ -30,8 +30,6 @@ class Command:
             'Referer':'https://www.douyin.com/'
         }
         self.setting()
-        # 是否自动升级
-        Util.Updata(self.config_dict['update'])
 
     def argument(self):
         """
