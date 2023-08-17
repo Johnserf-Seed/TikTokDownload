@@ -447,9 +447,9 @@ class Profile:
             if self.nick_mapper.get_nickname(self.sec_user_id) is None:
                 # 如果不存在，添加昵称映射
                 self.nick_mapper.add_mapping(self.sec_user_id, self.nickname)
-                # 根据映射表中的唯一标识获取用户的昵称，即使用户修改昵称也不会影响文件目录
-                self.nickname = self.nick_mapper.get_nickname(self.sec_user_id)
-            Util.console.print(f'[  用户  ]:用户的昵称：{self.nickname}，用户唯一标识：{self.sec_user_id}')
+            # 根据映射表中的唯一标识获取用户的昵称，即使用户修改昵称也不会影响文件目录
+            self.nickname = self.nick_mapper.get_nickname(self.sec_user_id)
+            Util.progress.console.print(f'[  用户  ]:用户的昵称：{self.nickname}，用户唯一标识：{self.sec_user_id}')
             Util.log.info(f'[  用户  ]:用户的昵称：{self.nickname}，用户唯一标识：{self.sec_user_id}')
 
             # 用户初始接口URL生成
