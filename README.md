@@ -21,7 +21,7 @@
 [![jsDelivr monthly hits](https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge)](https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false)](https://hits.seeyoufarm.com)
 [![Discord](https://img.shields.io/discord/1070512513889878067?color=5865F2&logo=discord&logoColor=white?style=for-the-badge)](https://discord.gg/q3hA8qQZbG)
-[![Patreon](https://img.shields.io/badge/Patreon-RMBGAME-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
+[![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 
 </div>
 
@@ -290,7 +290,7 @@ python example.py
 
 ![赞赏](https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png)
 
-感谢对本项目的支持！如果您觉得这个项目有帮助，欢迎赞助。您可以直接访问我们的 [![Patreon](https://img.shields.io/badge/Patreon-RMBGAME-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
+感谢对本项目的支持！如果您觉得这个项目有帮助，欢迎赞助。您可以直接访问我们的 [![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 
 
 ## 📧 联系/Contact
