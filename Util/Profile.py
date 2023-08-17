@@ -11,6 +11,7 @@
 -------------------------------------------------
 Change Log  :
 2022/08/11 23:13:22 : Init
+2023/08/17 17:46:08 : Fixes where downloads would be skipped when has_more was 0.
 -------------------------------------------------
 '''
 
@@ -403,10 +404,24 @@ class Profile:
 
         return aweme_data
 
+    async def process_aweme_data(self, aweme_data):
+        """
+        处理 aweme_data，执行下载等操作。
+
+        Args:
+            aweme_data
+        """
+        if 'aweme_id' not in aweme_data[0]:
+            # 如果数据为空，直接返回
             Util.progress.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。\r')
             Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据为空，已跳过。')
+            return
+        # 下载作品
+        with Util.progress:
+            await self.download.AwemeDownload(aweme_data)
         Util.progress.console.print(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。\r')
         Util.log.info(f'[  提示  ]:抓获{self.max_cursor}页数据成功! 该页共{len(aweme_data)}个作品。')
+
     async def get_Profile(self, count: int = 20) -> None:
         """
         获取用户的Profile并设置相应的实例变量。
@@ -459,23 +474,25 @@ class Profile:
             Util.log.info(f'[  提示  ]:抓获首页数据成功! 该页共{len(aweme_data)}个作品。')
 
             while True:
+                if Util.done_event.is_set():
+                    Util.progress.console.print("[  提示  ]: 中断本次下载")
+                    return
+
+                # 首先处理当前的 aweme_data
+                await self.process_aweme_data(aweme_data)
+
+                # 检查是否有更多作品需要请求
                 if self.has_more == 0:
-                    if 'aweme_id' not in aweme_data[0]:
-                        break
-                else:
-                    if 'aweme_id' not in aweme_data[0]:
-                        # 空数据时直接跳过下载
-                    else:
-                        # 下载作品
-                        with self.download.progress:
-                            await self.download.AwemeDownload(aweme_data)
-                    self.profile_URL = await self.get_diff_type_url(self.config,
-                                                                            self.sec_user_id,
-                                                                            count,
-                                                                            self.max_cursor)
-                    aweme_data = await self.get_user_post_info(self.headers, self.profile_URL)
-                    self.has_more = aweme_data[0].get("has_more")
-                    self.max_cursor = aweme_data[0].get("max_cursor")
+                    break
+
+                # 如果有更多作品，则更新URL并请求新的数据
+                self.profile_URL = await self.get_diff_type_url(self.config,
+                                                                self.sec_user_id,
+                                                                count,
+                                                                self.max_cursor)
+                aweme_data = await self.get_user_post_info(self.headers, self.profile_URL)
+                self.has_more = aweme_data[0].get("has_more")
+                self.max_cursor = aweme_data[0].get("max_cursor")
         except Exception as e:
             Util.progress.console.print(f'[  提示  ]:异常，{e}')
             Util.log.error(f'[  提示  ]:异常，{e}')
