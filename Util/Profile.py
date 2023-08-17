@@ -12,6 +12,7 @@
 Change Log  :
 2022/08/11 23:13:22 : Init
 2023/08/17 17:46:08 : Fixes where downloads would be skipped when has_more was 0.
+2023/08/17 17:46:08 : Added a signal that can interrupt the download.
 -------------------------------------------------
 '''
 
@@ -343,6 +344,8 @@ class Profile:
                 aweme_list, max_cursor, has_more = await self.get_request_data('POST', url, headers, self.type_data)
         except Util.aiohttp.ClientError as e:
             raise RuntimeError(f"本地请求异常, 异常: {e}") from e
+        except Exception as e:
+            raise RuntimeError(f"运行异常, 异常: {e}") from e
 
         if aweme_list == []:
             data = {}
