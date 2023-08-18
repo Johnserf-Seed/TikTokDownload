@@ -19,7 +19,7 @@ __description_cn__ = '基于[red]异步[/red]的抖音[bright_magenta]作品下�
 __description_en__ = 'An [yellow]asynchronous [/yellow]TikTok [dark_cyan]video downloader tool'
 __repo__ = 'TikTokDownload'
 __repourl__ = '[bright_white]https://github.com/Johnserf-Seed/TikTokDownload[/bright_white]'
-__version__ = '1.4.2.0'
+__version__ = '1.4.2.2'
 
 __help__ = """
 1. 程序支持命令行调用和配置文件操作，WebUI即将发布

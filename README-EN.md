@@ -33,7 +33,7 @@
 > 
 > Unexpected errors might arise with versions below Python3.11.1.
 > 
-> [![GitHub Release Version](https://tvax1.sinaimg.cn/large/006908GAly1hh068efvt0j309k02074l.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
+> [![GitHub Release Version](https://tvax2.sinaimg.cn/large/006908GAly1hh16psn51aj30a5020gly.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
 > 
 > Download the release version. It gets repackaged after every commit.
 
@@ -114,7 +114,7 @@
 ## 🖥 Supported Operating Systems
 
 <details>
-<summary> List of Operating Systems supported by version 1.4.2.0 </summary>
+<summary> List of Operating Systems supported by version 1.4.2.2 </summary>
 
 - Windows 11
 - Windows 10 Version 1809 (OS Build 17763) or later

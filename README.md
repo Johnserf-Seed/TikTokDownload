@@ -36,7 +36,7 @@
 > 
 > Python3.11.1 低于该版本可能会有意外的错误
 > 
-> [![GitHub 发行版](https://tvax1.sinaimg.cn/large/006908GAly1hh068efvt0j309k02074l.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
+> [![GitHub 发行版](https://tvax2.sinaimg.cn/large/006908GAly1hh16psn51aj30a5020gly.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
 > 
 > 发行版下载 每次Commits之后会重新打包
 
@@ -120,7 +120,7 @@
 ## 🖥 支持的操作系统/Supported Operating Systems
 
 <details>
-<summary> 1.4.2.0 支持的操作系统列表 </summary>
+<summary> 1.4.2.2 支持的操作系统列表 </summary>
 
 - Windows 11
 - Windows 10 版本 1809（OS 内部版本 17763）或更高版本
