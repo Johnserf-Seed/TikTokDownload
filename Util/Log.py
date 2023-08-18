@@ -30,7 +30,7 @@ class Log(object):
         self.logname = Util.os.path.join(log_path, '%s.log' % Util.time.strftime(
             "%Y-%m-%d_%H%M%S", Util.time.localtime()))
         Util.logging.basicConfig()
-        self.logger = Util.logging.getLogger("TikTokMultiDownloader")
+        self.logger = Util.logging.getLogger("TikTokDownload")
         self.logger.setLevel(Util.logging.INFO)
         self.logger.propagate = False
         # 日志输出格式
