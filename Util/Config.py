@@ -220,7 +220,7 @@ def validate_config(config):
 
     # 验证 max_connections 和 max_tasks
     for key in ['max_connections', 'max_tasks']:
-        value = config.get(key, '')
+        value = str(config.get(key, ''))
         if not value.isdigit():
             errors.append(f'[  配置  ]:{key} 应该为数字')
 
