@@ -31,6 +31,7 @@ import logging
 import platform
 import argparse
 import base64
+import traceback
 from urllib import parse
 from urllib.request import urlopen
 from urllib.parse import urlparse
