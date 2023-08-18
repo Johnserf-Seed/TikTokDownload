@@ -100,7 +100,7 @@ class Updata:
             self.console.print('[   🚧   ]:下载文件失败，请检查网络连接并重试')
             return
         except KeyError:
-            self.console.print('[   🚧   ]:无法获取文件大小，请检查 URL 是否正确')
+            self.console.print('[   🚧   ]:获取文件大小失败，请检查网络连接并重试')
             return
 
         with Progress() as progress:
