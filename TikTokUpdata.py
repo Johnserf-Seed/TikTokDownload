@@ -28,6 +28,7 @@ import zipfile
 import requests
 
 from rich.console import Console
+from rich.progress import Progress
 
 # 在文件顶部定义 URL 和其他常量，方便修改
 VERSION_URL = 'https://gitee.com/johnserfseed/TikTokDownload/raw/main/version'
@@ -102,19 +103,14 @@ class Updata:
             self.console.print('[   🚧   ]:无法获取文件大小，请检查 URL 是否正确')
             return
 
-        def progress_bar(done):
-            self.console.print("\r[下载进度]:[{0}{1}] {2:.1f}%".format(
-                '>' * int(done * 50 / filesize), ' ' * (50-int(done * 50 / filesize)), done / filesize * 100), end='')
-
-        with open(ZIP_FILE_NAME, 'wb') as f:
-            offset = 0
-            for chunk in response.iter_content(chunk_size=512):
-                if not chunk:
-                    break
-                f.write(chunk)
-                offset += len(chunk)
-                progress_bar(offset)
-        self.console.print('\r')
+        with Progress() as progress:
+            task = progress.add_task("[cyan][  下载  ]", total=filesize)
+            with open(ZIP_FILE_NAME, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=512):
+                    if not chunk:
+                        break
+                    f.write(chunk)
+                    progress.update(task, advance=len(chunk))
         self.zip_Extract()
 
     def zip_Extract(self):
