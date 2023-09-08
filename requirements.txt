@@ -1,6 +1,6 @@
 aiohttp==3.8.4
 configobj==5.0.8
-Flask==2.2.2
+Flask==2.2.5
 gradio==3.39.0
 lxml==4.9.2
 Pillow==10.0.0
