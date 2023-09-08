@@ -1,4 +1,4 @@
-aiohttp==3.8.4
+aiohttp==3.8.5
 configobj==5.0.8
 Flask==2.2.5
 gradio==3.39.0
