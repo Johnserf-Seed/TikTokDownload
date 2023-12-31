@@ -18,9 +18,11 @@
 [![GitHub Issues](https://img.shields.io/github/issues/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
 [![GitHub Closed Issues](https://img.shields.io/github/issues-closed/johnserf-seed/tiktokdownload?style=social)](https://github.com/Johnserf-Seed/TikTokDownload)
 
+[![F2 Downloads](https://pepy.tech/badge/f2/month)](https://pepy.tech/project/f2)
+[![PyPI version](https://badge.fury.io/py/f2.svg)](https://badge.fury.io/py/f2)
 [![jsDelivr monthly hits](https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge)](https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false)](https://hits.seeyoufarm.com)
-[![Discord](https://img.shields.io/discord/1070512513889878067?color=5865F2&logo=discord&logoColor=white?style=for-the-badge)](https://discord.gg/q3hA8qQZbG)
+[![Discord](https://img.shields.io/discord/1146473603450282004?color=5865F2&logo=discord&logoColor=white?style=for-the-badge)](https://discord.gg/3PhtPmgHf8)
 [![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 
 </div>
@@ -29,15 +31,15 @@
 ## 🚀 环境准备/Environment
 
 > [![Microsoft 应用商店](https://tvax1.sinaimg.cn/large/006908GAly1hgn87jhad8j305001qa9y.jpg)](https://aka.ms/terminal)
-> 
+>
 > 旧的控制台无法很好适配，推荐使用Windows Terminal。
-> 
+>
 > [![Python v3.11.1](https://www.python.org/static/img/python-logo.png)](https://www.python.org/ftp/python/3.11.1/python-3.11.1-amd64.exe)
-> 
+>
 > Python3.11.1 低于该版本可能会有意外的错误
-> 
+>
 > [![GitHub 发行版](https://tvax2.sinaimg.cn/large/006908GAly1hh16psn51aj30a5020gly.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
-> 
+>
 > 发行版下载 每次Commits之后会重新打包
 
 <details><summary> ⚙ Windows Terminal 设置（必看） </summary>
@@ -49,8 +51,7 @@
 
 ## 🧰 功能/Features
 
-- DouYin 接口信息
-	- ✅ 详细用户信息。
+- DouYin 接口
 	- ✅ 下载发布作品。
 	- ✅ 下载收藏作品。
 	- ✅ 下载喜欢作品。
@@ -58,69 +59,111 @@
 	- ✅ 下载作品封面。
 	- ✅ 下载作品文案。
 	- ✅ 下载作品原声。
-	- ✅ 提取直播链接。
+	- ✅ 下载直播。
+	- ✅ 下载合集作品。
 	- ⌛  下载关注作品。
 	- ⌛  下载好友作品。
 	- ⌛  下载推荐作品。
-	- ❌ 下载合集作品。
-	- ❌ 提取评论。
+	- ⌛  下载相关推荐作品。
+	- ⌛  提取评论。
+	- ✅ 详细直播间信息。
+	- ⌛ 直播间弹幕发言。
+	- ✅ 详细用户信息。
+
+- TikTok 接口
+	- ✅ 下载发布作品。
+	- ✅ 下载收藏作品。
+	- ✅ 下载喜欢作品。
+	- ✅ 下载图集作品。
+	- ✅ 下载作品封面。
+	- ✅ 下载作品文案。
+	- ✅ 下载作品原声。
+	- ✅ 下载合集作品。
+	- ⌛  下载关注作品。
+	- ⌛  下载好友作品。
+	- ⌛  下载推荐作品。
+	- ⌛  下载相关推荐作品。
+	- ⌛  提取评论。
+	- ⌛ 详细直播间信息。
+	- ⌛ 直播间弹幕发言。
+	- ✅ 详细用户信息。
+
+- 更多接口，请查阅 [「F2开发者接口」](https://johnserf-seed.github.io/f2/guide/apps/douyin/)
 
 - 异步下载
-	- ✅ 同时下载和处理多个作品，提高效率。
-	- ✅ 调节异步线程，减轻系统压力减少接口出错。
-	- ✅ 调节网络并发数，减少被服务器校验
+	- ✅ 同时处理和下载多个作品，提高效率。
+	- ✅ 异步线程，减轻系统压力减少接口出错。
+	- ✅ 网络并发数，减少被服务器校验
+	- ✅ 超时重试设置，降低采集错误率。
 
-- Cookie 管理
-	- ✅ 生成web所需 cookie 值，便于访问需要登录的接口。
-	- ✅ 处理 SetCookie。
+- Cookie
+	- ✅ SSO扫码登录。
+	- ✅ 使用--auto-cookie自动从浏览器获取cookie。
 
-- 配置文件操作
+- 接口数据模型
+	- ✅ 开箱即用的接口参数配置，提供完整参数生成。
+	- 请查阅[「使用接口模型生成XB参数」](https://johnserf-seed.github.io/f2/guide/apps/douyin/#%E4%BD%BF%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90xb%E5%8F%82%E6%95%B0-%F0%9F%9F%A2)
+
+- 接口数据过滤器
+	- ✅ 通过过滤接口数据，提高采集与数据处理效率。
+	- 请查阅[「过滤器采集数据」](https://johnserf-seed.github.io/f2/guide/apps/douyin/#%E4%BD%BF%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90xb%E5%8F%82%E6%95%B0-%F0%9F%9F%A2)
+
+- 更多功能
     - ✅ 长短链解析。
 	- ✅ 自定义保存目录。
 	- ✅ 是否下载原声。
-	- ✅ 是否自动更新。
+	- ✅ 是否下载封面。
+	- ✅ 是否下载文案。
+	- ✅ 单次下载作品数量。
+	- ✅ 单次返回作品数量。
+	- ✅ 自定义文件名模板。
+	- ✅ 代理设置。
 	- ✅ 指定下载时间区间。
-	- ❌ 设定下载作品点赞阈值。
-	- ❌ 设定下载作品播放阈值。
+	- ⌛ 设定下载作品点赞阈值。
+	- ⌛ 设定下载作品播放阈值。
+
+	- 更多配置文件操作，请查阅[「F2配置文件」](https://johnserf-seed.github.io/f2/site-config.html)
+
+- 多用户配置
+	- ✅ 对不同用户建立不同配置与不同的下载模式。
+	- ✅ 灵活的cli模式，方便用户快速切换配置。
+	- ⌛  灵活的webui模式，方便用户快速切换配置。
 
 - 版本更新
-	- ✅ 提供自动检查和下载新版本的功能。
+	- ✅ 全新开发 F2 依赖pip进行升级
 
 - 文件检查
 	- ✅ 下载文件前检查文件是否已经存在，避免重复下载。
+	- ⌛ 添加”黑名单“，不检查这些作品是否存在。
 
 - 命令行交互
-	- ✅ 提供命令行选项和全局 headers，便于用户操作。
+	- ✅ 提供cli模式与开发者模式
 	- ⌛  提供webui模式
 
-- 扫码登录
-	- ✅ 提供扫码登录的功能，无需手动填写 cookie。
-
 - 自动重命名
-	- ✅ 使用昵称映射表确保不重复下载改名作者的作品。
-	- ⌛  使用作品文案映射表确保不重复下载改文案的作品。
+	- ✅ 无需关心用户是否改名，从而造成重复下载。
+	- ⌛  无需关心作品是否改文案，从而造成重复下载。
 
 - 本地加密参数调用
-	- ✅ XBogus
-	- ✅ verifyFp
-	- ✅ s_v_web_id
-	- ✅ ttwid
-	- ✅ x-tt-params
-	- 🔘 msToken
+	- ✅ XBogus(dy、tk)
+	- ✅ verifyFp(dy)
+	- ✅ s_v_web_id(dy)
+	- ✅ ttwid(dy、tk)
+	- ✅ x-tt-params(tk)
+	- ✅ msToken(dy、tk)
+	- ✅ odin_tt(tk)
 
 
 ## 💡 待办/ToDo
 
-- 适配TikTok
 - 创建自动化任务
-- 多用户解析
 - [更多请查看项目板](https://github.com/users/Johnserf-Seed/projects/1/views/1)
 
 
 ## 🖥 支持的操作系统/Supported Operating Systems
 
 <details>
-<summary> 1.4.2.2 支持的操作系统列表 </summary>
+<summary> TikTokDownload 1.5 / F2 0.0.1-pw1 支持的操作系统列表 </summary>
 
 - Windows 11
 - Windows 10 版本 1809（OS 内部版本 17763）或更高版本
@@ -135,6 +178,22 @@
 
 </details>
 
+
+## 📥 安装与运行/Installation and Running
+
+1. **📦 安装/Installation**
+
+请查阅 [「安装」](https://johnserf-seed.github.io/f2/install.html)
+
+2. **▶️ 运行/Running**
+请查阅 [「配置文件」](https://johnserf-seed.github.io/f2/install.html)
+
+3. **🔬 测试/Test**
+
+在 F2 安装目录打开终端运行，如果配置正确那么你不会看见报错。
+```bash
+python -m pytest
+```
 
 ## 📸 运行过程/Running Process
 
@@ -153,41 +212,6 @@ https://user-images.githubusercontent.com/40727745/12c21d55-b629-485a-b904-54d86
  </details>
 
 
-## 📥 安装与运行/Installation and Running
-
-1. **📦 安装/Installation**
-
-
-```bash
-python -m venv venv
-.\venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-2. **▶️ 运行/Running**
-
-
-```python
-import Util
-
-if __name__ == '__main__':
-    # 获取命令行和配置文件
-    cmd = Util.Command()
-    config = cmd.config_dict
-    dyheaders = cmd.dyheaders
-
-    # 异步下载作品
-    Util.asyncio.run(Util.Profile(config, dyheaders).get_Profile())
-    input("[  提示  ]:下载完成，输入任意键退出。")
-```
-
-3. **🔬 测试/Test**
-
-```bash
-python example.py
-```
-
-
 ## 🗂️ 项目结构/Folder
 
 <details>
@@ -200,17 +224,7 @@ python example.py
 │       └── -------.md
 │
 ├─ API
-│   ├── API.js
-│   ├── API参考.md
-│   ├── Server.txt
-│   ├── TikTokAPI.py
-│   ├── TikTokDownloadVersion.txt
-│   ├── TikTokGUIVersion.txt
-│   ├── TikTokLive.txt
-│   ├── TikTokMultiVersion.txt
-│   ├── TikTokPicVersion.txt
 │   ├── TikTokTool.txt
-│   ├── TikTokUpdata.txt
 │   ├── user_base_info.json
 │   ├── user_post_delete.json
 │   ├── user_post_detail.json
@@ -218,15 +232,7 @@ python example.py
 │   ├── user_post_info_video.json
 │   └── user_profile_info.json
 │
-├─ Collection
-│   ├── CopyWritingHomePage_1.json
-│   ├── GirlHomePage_1.json
-│   └── MusicHomePage_1.json
-│
-├─ DB
-│   └── create.sql
-│
-├─ GUI
+├─ GUI(待重构)
 │   ├── Main.ui
 │   ├── preview.png
 │   ├── README-EN.md
@@ -235,25 +241,13 @@ python example.py
 │   ├── resource.py
 │   └── Resource.qrc
 │
-└─ Util
-    ├── Check.py
-    ├── Command.py
-    ├── Config.py
-    ├── Cookies.py
-    ├── Download.py
-    ├── Lives.py
-    ├── Log.py
-    ├── Login.py
-    ├── NickMapper.py
-    ├── Profile.py
-    ├── Resource.py
-    ├── Urls.py
-    ├── XB.py
-    ├── __init__.py
-    ├── __version__.py
+└─ Server
     └─ algorithm
+        ├── build-win.bat
         ├── package.json
+        ├── requirements.txt
         ├── Server.py
+        ├── Server.txt
         ├── s_v_web_id.js
         ├── s_v_web_id.py
         ├── x-bogus.js
@@ -262,22 +256,15 @@ python example.py
 ├─ .gitignore
 ├─ Banner.png
 ├─ build-win.bat
-├─ conf.conf
-├─ conf.ini
 ├─ Dockerfile
-├─ example.py
-├─ info.db
 ├─ LICENSE
-├─ Logo.ico
+├─ f2-logo.ico
 ├─ README-EN.md
 ├─ README.md
 ├─ requirements.txt
-├─ server.bat
-├─ server.sh
-├─ TikTokLive.py
-├─ TikTokMultiGUI.py
+├─ run-server.bat
+├─ run-server.sh
 ├─ TikTokTool.py
-├─ TikTokUpdata.py
 ├─ version
 └─ _config.yml
 
@@ -290,7 +277,7 @@ python example.py
 
 ![赞赏](https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png)
 
-感谢对本项目的支持！如果您觉得这个项目有帮助，欢迎赞助。您可以直接访问我们的 [![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
+感谢对本项目的支持！如果您觉得这个项目有帮助，欢迎赞助。您可以直接访问我们的 [![Patreon](https://img.shields.io/badge/Patreon-F2-red.svg?style=flat&logo=patreon)](https://www.patreon.com/F2_pypi)
 
 
 ## 📧 联系/Contact
@@ -303,15 +290,19 @@ python example.py
 ## 🙏 鸣谢/Acknowledgments
 
 - [Windows Terminal](https://aka.ms/terminal)
-- [aiohttp](https://github.com/aio-libs/aiohttp)
-- [requests](https://github.com/psf/requests)
-- [Pillow (PIL Fork)](https://github.com/python-pillow/Pillow)
-- [lxml](https://github.com/lxml/lxml)
+- [Python](https://www.python.org/)
+- [httpx](https://github.com/encode/httpx)
+- [click](https://github.com/pallets/click)
+- [aiofiles](https://github.com/Tinche/aiofiles)
+- [aiosqlite](https://github.com/omnilib/aiosqlite)
 - [rich](https://github.com/willmcgugan/rich)
 - [qrcode](https://github.com/lincolnloop/python-qrcode)
-- [ConfigObj](https://github.com/DiffSK/configobj)
+- [pyyaml](hhttps://github.com/yaml/pyyaml)
+- [jsonpath-ng](https://github.com/h2non/jsonpath-ng)
+- [m3u8](https://github.com/globocom/m3u8)
+- [pytest](https://github.com/pytest-dev/pytest)
 
-对于他们的贡献和努力，我们表示由衷的感谢。
+对于他们的贡献和努力，表示由衷的感谢。
 
 
 ## ⚖️ 免责声明/Disclaimer
