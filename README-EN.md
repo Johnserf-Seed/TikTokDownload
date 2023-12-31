@@ -114,7 +114,7 @@
 ## 🖥 Supported Operating Systems
 
 <details>
-<summary> List of Operating Systems supported by version 1.4.2.2 </summary>
+<summary> List of Operating Systems supported by version 1.5.0.0 </summary>
 
 - Windows 11
 - Windows 10 Version 1809 (OS Build 17763) or later
