@@ -183,17 +183,18 @@
 
 1. **📦 安装/Installation**
 
-请查阅 [「安装」](https://johnserf-seed.github.io/f2/install.html)
+	请查阅 [「安装」](https://johnserf-seed.github.io/f2/install.html)
 
 2. **▶️ 运行/Running**
-请查阅 [「配置文件」](https://johnserf-seed.github.io/f2/install.html)
+
+	请查阅 [「配置文件」](https://johnserf-seed.github.io/f2/install.html)
 
 3. **🔬 测试/Test**
 
-在 F2 安装目录打开终端运行，如果配置正确那么你不会看见报错。
-```bash
-python -m pytest
-```
+	在 F2 安装目录打开终端运行，如果配置正确那么你不会看见报错。
+	```bash
+	python -m pytest
+	```
 
 ## 📸 运行过程/Running Process
 
@@ -329,4 +330,3 @@ Copyright (c) 2021 JohnserfSeed
 我们欢迎任何形式的贡献，无论是提交错误报告，提出改进意见，或者是提供代码和文档。我们都欣赏你的帮助。
 
 ![Contributors](https://contributors-img.web.app/image?repo=Johnserf-Seed/TikTokDownload)
-
