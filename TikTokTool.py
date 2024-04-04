@@ -4,7 +4,7 @@
 @Description:TikTokTool.py
 @Date       :2022/07/29 23:19:14
 @Author     :JohnserfSeed
-@version    :1.5
+@version    :1.6
 @License    :MIT License
 @Github     :https://github.com/johnserf-seed
 @Mail       :johnserf-seed@foxmail.com
@@ -14,9 +14,11 @@ Change Log  :
 2023/03/10 16:22:19 : gen dyheaders
 2023/08/04 02:09:31 : async download
 2023/12/26 18:01:56 : Switch to f2
+2024/04/05 00:56:22 : Update to 1.6 with f2 0.0.1.5
 -------------------------------------------------
 """
 
+import f2
 import sys
 import time
 from f2.cli.cli_console import RichConsoleManager as RCManager
@@ -29,10 +31,9 @@ if __name__ == "__main__":
         RCManager.rich_console.print(
             "[bold red]请通过命令行启动并提供必要的参数, 输入[bold green] TikTokTool -h [/bold green]查看不同平台帮助。[/bold red]"
         )
-        from f2.utils import __version__
 
         RCManager.rich_console.print(
-            f"[bold white]F2 Version:{__version__._version}[/bold white]"
+            f"[bold white]F2 Version:{f2.__version__}[/bold white]"
         )
         time.sleep(3)
         sys.exit(1)
