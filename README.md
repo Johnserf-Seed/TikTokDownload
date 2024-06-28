@@ -39,7 +39,7 @@
 >
 > Python3.11.1 低于该版本可能会有意外的错误
 >
-> [![GitHub 发行版](https://tvax2.sinaimg.cn/large/006908GAly1hh16psn51aj30a5020gly.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases)
+> [![GitHub 发行版](https://tvax2.sinaimg.cn/large/006908GAly1hh16psn51aj30a5020gly.jpg)](https://github.com/Johnserf-Seed/TikTokDownload/releases/tag/v1.4.2.2))
 >
 > 更新F2前的最后一个发行版下载
 
