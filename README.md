@@ -22,6 +22,7 @@
 [![PyPI version](https://badge.fury.io/py/f2.svg)](https://badge.fury.io/py/f2)
 [![jsDelivr monthly hits](https://data.jsdelivr.com/v1/package/gh/Johnserf-Seed/TikTokDownload/badge)](https://www.jsdelivr.com/package/gh/Johnserf-Seed/TikTokDownload)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJohnserf-Seed%2FTikTokDownload&count_bg=%235FFFFF&title_bg=%23FB1953&icon=tiktok.svg&icon_color=%23250C1F&title=view&edge_flat=false)](https://hits.seeyoufarm.com)
+[![TikHub](https://img.shields.io/badge/%E8%B5%9E%E5%8A%A9%E5%95%86-TikHub-orange?style=flat-square&logo=tiktok)](https://beta-web.tikhub.io/users/signup?referral_code=6hLcGD94)
 [![Discord](https://img.shields.io/discord/1146473603450282004?color=5865F2&logo=discord&logoColor=white?style=for-the-badge)](https://discord.gg/3PhtPmgHf8)
 [![Patreon](https://img.shields.io/badge/Patreon-TikTokDownload-red.svg?style=flat&logo=patreon)](https://www.patreon.com/TikTokDownload713)
 
@@ -51,23 +52,31 @@
 
 ## 🧰 功能/Features
 
-- DouYin 接口
+- DouYin 接口（全新Abogus）
+	- ✅ 用户信息。
+	- ✅ 查询用户信息。
 	- ✅ 下载发布作品。
 	- ✅ 下载收藏作品。
+	- ✅ 下载收藏原声。
 	- ✅ 下载喜欢作品。
 	- ✅ 下载图集作品。
+	- ✅ 下载短剧作品。
 	- ✅ 下载作品封面。
 	- ✅ 下载作品文案。
 	- ✅ 下载作品原声。
 	- ✅ 下载直播。
 	- ✅ 下载合集作品。
 	- ⌛  下载关注作品。
-	- ⌛  下载好友作品。
-	- ⌛  下载推荐作品。
-	- ⌛  下载相关推荐作品。
+	- ✅ 关注用户信息。
+	- ✅ 粉丝用户信息。
+	- ✅ 下载好友作品。
+	- ✅ 下载首页推荐作品。
+	- ✅ 下载相关推荐作品。
 	- ⌛  提取评论。
 	- ✅ 详细直播间信息。
-	- ⌛ 直播间弹幕发言。
+	- ✅ 关注用户开播状态。
+	- ✅ 直播间弹幕负载数据。
+	- ✅ 直播间弹幕采集。
 	- ✅ 详细用户信息。
 
 - TikTok 接口
@@ -78,13 +87,16 @@
 	- ✅ 下载作品封面。
 	- ✅ 下载作品文案。
 	- ✅ 下载作品原声。
+	- ✅ 下载播放列表。
 	- ✅ 下载合集作品。
+	- ✅ 下载搜索作品。
 	- ⌛  下载关注作品。
 	- ⌛  下载好友作品。
 	- ⌛  下载推荐作品。
 	- ⌛  下载相关推荐作品。
 	- ⌛  提取评论。
-	- ⌛ 详细直播间信息。
+	- ✅ 详细直播间信息。
+	- ✅ 直播间开播状态。
 	- ⌛ 直播间弹幕发言。
 	- ✅ 详细用户信息。
 
@@ -97,12 +109,12 @@
 	- ✅ 超时重试设置，降低采集错误率。
 
 - Cookie
-	- ✅ SSO扫码登录。
 	- ✅ 使用--auto-cookie自动从浏览器获取cookie。
 
 - 接口数据模型
 	- ✅ 开箱即用的接口参数配置，提供完整参数生成。
 	- 请查阅[「使用接口模型生成XB参数」](https://johnserf-seed.github.io/f2/guide/apps/douyin/#%E4%BD%BF%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90xb%E5%8F%82%E6%95%B0-%F0%9F%9F%A2)
+	- 请查阅[「使用接口模型生成AB参数」](https://johnserf-seed.github.io/f2/guide/apps/douyin/#%E4%BD%BF%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90ab%E5%8F%82%E6%95%B0-%F0%9F%9F%A2)
 
 - 接口数据过滤器
 	- ✅ 通过过滤接口数据，提高采集与数据处理效率。
@@ -119,6 +131,15 @@
 	- ✅ 自定义文件名模板。
 	- ✅ 代理设置。
 	- ✅ 指定下载时间区间。
+	- ✅ 提取单个用户id。
+	- ✅ 提取列表用户id。
+	- ✅ 提取单个作品id。
+	- ✅ 提取列表作品id。
+	- ✅ 提取单个合集id。
+	- ✅ 提取列表合集id。
+	- ✅ 提取单个直播间rid。
+	- ✅ 提取列表直播间rid。
+	- ✅ 原声json歌词转lrc歌词。
 	- ⌛ 设定下载作品点赞阈值。
 	- ⌛ 设定下载作品播放阈值。
 
@@ -131,6 +152,7 @@
 
 - 版本更新
 	- ✅ 全新开发 F2 依赖pip进行升级
+	- ✅ 自动检查 pypi 上的最新版本
 
 - 文件检查
 	- ✅ 下载文件前检查文件是否已经存在，避免重复下载。
@@ -139,19 +161,24 @@
 - 命令行交互
 	- ✅ 提供cli模式与开发者模式
 	- ⌛  提供webui模式
+	- ⌛  提供本地接口转发，方便部署调用。
 
 - 自动重命名
 	- ✅ 无需关心用户是否改名，从而造成重复下载。
 	- ⌛  无需关心作品是否改文案，从而造成重复下载。
 
 - 本地加密参数调用
+	- ✅ ABogus(dy)
 	- ✅ XBogus(dy、tk)
 	- ✅ verifyFp(dy)
 	- ✅ s_v_web_id(dy)
 	- ✅ ttwid(dy、tk)
+	- ✅ wedid(dy)
+	- ✅ _signature(dy)
 	- ✅ x-tt-params(tk)
 	- ✅ msToken(dy、tk)
 	- ✅ odin_tt(tk)
+	- ✅ device_Id(tk)
 
 
 ## 💡 待办/ToDo
@@ -163,7 +190,7 @@
 ## 🖥 支持的操作系统/Supported Operating Systems
 
 <details>
-<summary> TikTokDownload 1.5 / F2 0.0.1-pw1 支持的操作系统列表 </summary>
+<summary> TikTokDownload 1.6 / F2 0.0.1.6-pw2 支持的操作系统列表 </summary>
 
 - Windows 11
 - Windows 10 版本 1809（OS 内部版本 17763）或更高版本
@@ -211,6 +238,8 @@ https://user-images.githubusercontent.com/40727745/fc1e6c46-d0c3-4f2a-a4a5-ca3d7
 https://user-images.githubusercontent.com/40727745/12c21d55-b629-485a-b904-54d86341c371
 
  </details>
+
+ 更多运行过程请查阅 [「F2 readme」](https://github.com/Johnserf-Seed/f2/blob/main/README.md)
 
 
 ## 🗂️ 项目结构/Folder
@@ -275,6 +304,19 @@ https://user-images.githubusercontent.com/40727745/12c21d55-b629-485a-b904-54d86
 
 
 ## 💖 赞赏/Sponsor
+
+<a href="https://tikhub.io/"><img style="border-radius:20px" src="https://github.com/Johnserf-Seed/f2/assets/40727745/70a67dd1-dccb-44a9-b635-c29a950f1daf"></a>
+
+[TikHub](https://tikhub.io/) 是一家提供优质数据接口服务的供应商。通过每日签到，可以获取免费额度。可以使用我的注册邀请链接：[https://beta-web.tikhub.io/users/signup?referral_code=6hLcGD94](https://beta-web.tikhub.io/users/signup?referral_code=6hLcGD94) 或 邀请码：`6hLcGD94`，注册并充值即可获得`$2`额度。
+
+[TikHub](https://tikhub.io/) 提供以下服务：
+
+- 丰富的数据接口
+- 每日签到免费获取额度
+- 高质量的API服务
+- 官网：https://tikhub.io/
+- 项目地址：https://github.com/TikHubIO/
+
 
 ![赞赏](https://user-images.githubusercontent.com/40727745/217866800-23980dc1-f3ce-4bc7-b192-518651fef8da.png)
 
